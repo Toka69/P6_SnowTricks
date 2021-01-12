@@ -37,5 +37,38 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda commodi cupiditate enim
                                 excepturi harum laboriosam molestias non perferendis perspiciatis vero.</p>
                 </div>
+                <div class="row justify-content-around border rounded ml-3 mr-3">
+                        <p class="badge badge-primary">Group</p>
+                        <p>Autor</p>
+                        <p>Created date</p>
+                        <p>Modified date</p>
+                </div>
+                <hr/>
+                <div class="container col-md-8 mt-5">
+                        <form method="post" action="">
+                                <fieldset>
+                                        <div class="form-group">
+                                                <textarea class="form-control" id="formControlTextareaMessage" name="message" rows="3" placeholder="Leave a comment" required></textarea>
+                                        </div>
+                                        <input type="hidden" name="csrfToken" value="" />
+                                        <button type="submit" class="btn btn-success">Submit</button>
+                                </fieldset>
+                        </form>
+                </div>
+                <hr/>
+                <div class="container col-md-8 mt-5">
+                        <h6>Comments :</h6>
+                        {% for i in 1..5 %}
+                                <div class="card mt-1">
+                                        <div class="card-body">
+                                                <p class="card-text"></p>
+                                        </div>
+                                        <div class="card-footer text-muted text-right">
+                                                <div>Autor : </div>
+                                                <div>Created date : </div>
+                                        </div>
+                                </div>
+                        {% endfor %}
+                </div>
         </div>
 {% endblock %}
