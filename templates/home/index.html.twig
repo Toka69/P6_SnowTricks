@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snow Tricks{% endblock %}
+
+{% block body %}
+        <div class="hero-image">
+                <div class="hero-text">
+                        <h1 style="font-size:80px">Snow Tricks</h1>
+                        <h3>La communauté</h3>
+                </div>
+                <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
+        </div>
+        <div class="container mt-5 mb-5">
+                {% for i in 1..3 %}
+                <div class="row" id="tricks">
+                        {% for i in 1..5 %}
+                        <div class="col-md">
+                                <div class="card mb-2">
+                                        <img src="https://picsum.photos/300/200" class="img-fluid" alt="trick">
+                                        <div class="card-body d-flex justify-content-between">
+                                                <a href="#" class="btn btn-primary btn-sm">Trick Name</a>
+                                                <div>
+                                                <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        {% endfor %}
+                </div>
+                {% endfor %}
+                <div class="row arrow-up">
+                        <a href="#tricks"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
+                </div>
+                <div class="text-center mb-5">
+                        <button class="btn btn-primary">Load More</button>
+                </div>
+        </div>
+{% endblock %}
