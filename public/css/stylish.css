@@ -5,10 +5,18 @@ body, html {
 
 .hero-image {
     background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url("../img/cover.jpg");
-    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    height: 100%;
+}
+
+.hero-trick-image {
+    background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url("../img/cover.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
 }
 
 .hero-text {

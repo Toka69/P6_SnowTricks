@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick details{% endblock %}
+
+{% block body %}
+        <div class="container mt-5 pt-3 border rounded">
+                <div class="hero-trick-image mb-3">
+                        <div class="hero-text">
+                                <h1>Trick Name</h1>
+                        </div>
+                </div>
+                <div class="row">
+                {% for i in 1..5 %}
+                        <div class="col-md">
+                                <div class="card mb-2">
+                                        <img src="https://picsum.photos/300/200" class="img-fluid" alt="trick">
+                                        <div class="card-body d-flex justify-content-end">
+                                                <div>
+                                                        <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                {% endfor %}
+                </div>
+                <div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto cum, error ipsum minus
+                                non nostrum provident ullam. A accusamus adipisci animi assumenda at blanditiis
+                                consequuntur, deleniti dicta dolor dolorum eius labore libero minus modi nam nobis
+                                obcaecati officia optio perferendis rerum sequi ullam ut velit? Adipisci laboriosam
+                                molestiae nostrum rerum. Adipisci consectetur deserunt dicta dolores doloribus earum,
+                                eligendi est et, eum fugit in inventore iure libero numquam officiis rerum sequi sunt
+                                tempora voluptatibus voluptatum! Accusantium ad aliquam at, consectetur, consequuntur
+                                dolores impedit iusto, minima necessitatibus nisi officiis qui quidem sequi soluta sunt?
+                                Atque, commodi fugiat magnam nemo officia praesentium recusandae.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda commodi cupiditate enim
+                                excepturi harum laboriosam molestias non perferendis perspiciatis vero.</p>
+                </div>
+        </div>
+{% endblock %}
