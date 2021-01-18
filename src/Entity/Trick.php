@@ -66,7 +66,7 @@ class Trick
     private $createdDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $modifiedDate;
 
@@ -131,7 +131,7 @@ class Trick
     }
 
     /**
-     * @return Collection|Photo[]
+     * @return Collection
      */
     public function getPhotos(): Collection
     {
@@ -161,7 +161,7 @@ class Trick
     }
 
     /**
-     * @return Collection|Video[]
+     * @return Collection
      */
     public function getVideos(): Collection
     {
@@ -191,7 +191,7 @@ class Trick
     }
 
     /**
-     * @return Collection|Comment[]
+     * @return Collection
      */
     public function getComments(): Collection
     {
