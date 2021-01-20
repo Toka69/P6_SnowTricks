@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Photo;
 use App\Repository\CategoryRepository;
+use App\Repository\PhotoRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class TrickController extends AbstractController
@@ -37,9 +38,10 @@ class TrickController extends AbstractController
      * @Route("/{category_slug}/{slug}",name="trick_show")
      * @param $slug
      * @param TrickRepository $trickRepository
+     * @param PhotoRepository $photoRepository
      * @return Response
      */
-    public function show($slug, TrickRepository $trickRepository): Response
+    public function show($slug, TrickRepository $trickRepository, PhotoRepository $photoRepository): Response
     {
         $trick = $trickRepository->findOneBy([
             'slug' => $slug
@@ -49,8 +51,23 @@ class TrickController extends AbstractController
             throw $this->createNotFoundException("Trick unavailable");
         }
 
+        $cover = $photoRepository->findBy([
+            'trick' => $trick->getId(),
+            'cover' => true
+        ]);
+        if(!$cover){
+            $cover = $photoRepository->findOneBy([
+                'trick' => $trick->getId()
+            ]);
+        }
+        if(!$cover){
+            $cover = new Photo;
+            $cover->setlocation("../img/cover.jpg");
+        }
+
         return $this->render('trick/show.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'cover' => $cover
         ]);
     }
 }

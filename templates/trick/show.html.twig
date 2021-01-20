@@ -4,40 +4,20 @@
 
 {% block body %}
         <div class="container mt-5 pt-3 border rounded">
-                {% set cover = "" %}
-                {% set photoCover = "" %}
-                {% for key, photos in trick.photos.snapshot %}
-                        {% if photos.cover == true %}
-                                {% set cover = "true" %}
-                                {% set photoCover = photos.location %}
-                        {% endif %}
-                {% endfor %}
-                {% if cover != "true" %}
-                        {% set photo = "" %}
-                        {% for key, photos in trick.photos.snapshot %}
-                                {% if key == 0 %}
-                                        {% set photo = "true" %}
-                                        {% set photoCover = photos.location %}
-                                {% endif %}
-                        {% endfor %}
-                        {% if photo != "true" %}
-                                {% set photoCover = "../img/cover.jpg" %}
-                        {% endif %}
-                {% endif %}
-                <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ photoCover }}')">
+                <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ cover.location }}')">
                         <div class="hero-text">
                                 <h1>{{ trick.name|capitalize }}</h1>
                         </div>
                 </div>
                 <div class="row">
-                        {% for photo in trick.photos.snapshot %}
+                        {% for photo in trick.photos %}
                         <div class="col-md">
                                 <div class="card mb-2">
                                         <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
                                 </div>
                         </div>
                         {% endfor %}
-                        {% for video in trick.videos.snapshot %}
+                        {% for video in trick.videos %}
                         <div class="col-md">
                                 <div class="card mb-2">
                                         <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
