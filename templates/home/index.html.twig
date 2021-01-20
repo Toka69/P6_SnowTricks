@@ -18,7 +18,7 @@
                                 <div class="col-md">
                                         <div class="card mb-2">
                                                 {% set cover = "" %}
-                                                {% for key, photos in trick.photos.snapshot %}
+                                                {% for key, photos in trick.photos %}
                                                         {% if photos.cover == true %}
                                                                 <img src="{{ photos.location }}" alt="trick" class="img-fluid" style="height: 150px">
                                                                 {% set cover = "true" %}
@@ -26,7 +26,7 @@
                                                 {% endfor %}
                                                 {% if cover != "true" %}
                                                         {% set photo = "" %}
-                                                        {% for key, photos in trick.photos.snapshot %}
+                                                        {% for key, photos in trick.photos %}
                                                                 {% if key == 0 %}
                                                                     <img src="{{ photos.location }}" alt="trick" class="img-fluid" style="height: 150px">
                                                                     {% set photo = "true" %}
