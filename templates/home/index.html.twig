@@ -37,7 +37,7 @@
                                                         {% endif %}
                                                 {% endif %}
                                                 <div class="card-body d-flex justify-content-between">
-                                                        <a href="#" class="btn btn-primary btn-sm">{{ trick.name }}</a>
+                                                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}/{{ trick.slug }}" class="btn btn-primary btn-sm">{{ trick.name }}</a>
                                                         <div>
                                                                 <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
                                                                 <a href="#"><i class="fas fa-trash-alt"></i></a>

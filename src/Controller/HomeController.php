@@ -12,13 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     /**
-     * @param TrickRepository $trickRepository
-     * @param PhotoRepository $photoRepository
-     * @param VideoRepository $videoRepository
-     * @return Response
      * @Route("/", name="homepage")
+     * @param TrickRepository $trickRepository
+     * @return Response
      */
-    public function index(TrickRepository $trickRepository, PhotoRepository $photoRepository, VideoRepository $videoRepository): Response
+    public function index(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findAll();
 
