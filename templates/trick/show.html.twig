@@ -4,9 +4,29 @@
 
 {% block body %}
         <div class="container mt-5 pt-3 border rounded">
-                <div class="hero-trick-image mb-3">
+                {% set cover = "" %}
+                {% set photoCover = "" %}
+                {% for key, photos in trick.photos.snapshot %}
+                        {% if photos.cover == true %}
+                                {% set cover = "true" %}
+                                {% set photoCover = photos.location %}
+                        {% endif %}
+                {% endfor %}
+                {% if cover != "true" %}
+                        {% set photo = "" %}
+                        {% for key, photos in trick.photos.snapshot %}
+                                {% if key == 0 %}
+                                        {% set photo = "true" %}
+                                        {% set photoCover = photos.location %}
+                                {% endif %}
+                        {% endfor %}
+                        {% if photo != "true" %}
+                                {% set photoCover = "../img/cover.jpg" %}
+                        {% endif %}
+                {% endif %}
+                <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ photoCover }}')">
                         <div class="hero-text">
-                                <h1>{{ trick.name }}</h1>
+                                <h1>{{ trick.name|capitalize }}</h1>
                         </div>
                 </div>
                 <div class="row">
