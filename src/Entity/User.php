@@ -45,11 +45,6 @@ class User
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
-     */
-    private $tricks;
-
-    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
     private $comments;
