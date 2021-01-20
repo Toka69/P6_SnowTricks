@@ -27,6 +27,11 @@ class Photo
      */
     private $trick;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $cover;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class Photo
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function getCover(): ?bool
+    {
+        return $this->cover;
+    }
+
+    public function setCover(?bool $cover): self
+    {
+        $this->cover = $cover;
 
         return $this;
     }
