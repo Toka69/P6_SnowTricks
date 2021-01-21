@@ -255,4 +255,24 @@ class Trick
 
         return $this;
     }
+
+    public function getCover(): Photo
+    {
+        $photos = $this->getPhotos();
+        $cover = new Photo;
+        foreach ($photos as $photo){
+            if ($photo->getCover() === true){
+                $cover = $photo;
+            }
+            if($cover->getId() === null) {
+                $cover = $photo;
+            }
+        }
+        if($cover->getId() === null) {
+            $cover->setlocation("../img/cover.jpg");
+        }
+
+        return $cover;
+    }
 }
+
