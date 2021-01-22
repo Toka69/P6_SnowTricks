@@ -11,33 +11,15 @@
                 <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
         </div>
         <div class="container mt-5 mb-5">
-                {% for trick in tricks %}
+                {%  for trickPhoto in tricksPhotos %}
                         {% if loop.first or loop.index % 6 == 0 %}
                                 <div class="row" id="tricks">
                         {% endif %}
                                 <div class="col-md">
                                         <div class="card mb-2">
-                                                {% set cover = "" %}
-                                                {% for key, photos in trick.photos %}
-                                                        {% if photos.cover == true %}
-                                                                <img src="{{ photos.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                                                {% set cover = "true" %}
-                                                        {% endif %}
-                                                {% endfor %}
-                                                {% if cover != "true" %}
-                                                        {% set photo = "" %}
-                                                        {% for key, photos in trick.photos %}
-                                                                {% if key == 0 %}
-                                                                    <img src="{{ photos.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                                                    {% set photo = "true" %}
-                                                                {% endif %}
-                                                        {% endfor %}
-                                                        {% if photo != "true" %}
-                                                            <img src="../img/cover.jpg" alt="trick" class="img-fluid" style="height: 150px">
-                                                        {% endif %}
-                                                {% endif %}
+                                                <img src="{{ trickPhoto.location }}" alt="trick" class="img-fluid" style="height: 150px">
                                                 <div class="card-body d-flex justify-content-between">
-                                                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}/{{ trick.slug }}" class="btn btn-primary btn-sm">{{ trick.name }}</a>
+                                                        <a href="{{ path('trick_category', {'slug': trickPhoto.trick.category.slug}) }}/{{ trickPhoto.trick.slug }}" class="btn btn-primary btn-sm">{{ trickPhoto.trick.name }}</a>
                                                         <div>
                                                                 <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
                                                                 <a href="#"><i class="fas fa-trash-alt"></i></a>

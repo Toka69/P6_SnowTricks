@@ -269,7 +269,8 @@ class Trick
             }
         }
         if($cover->getId() === null) {
-            $cover->setlocation("../img/cover.jpg");
+            $cover->setlocation("../img/cover.jpg")
+                ->setTrick($this);
         }
 
         return $cover;
