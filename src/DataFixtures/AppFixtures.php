@@ -174,17 +174,17 @@ class AppFixtures extends Fixture
 
         /**** Videos ****/
         $video1 = new Video;
-        $video1->setLocation("https://youtu.be/jm19nEvmZgM")
+        $video1->setLocation("https://www.youtube.com/embed/jm19nEvmZgM")
             ->setTrick($trick1);
         $manager->persist($video1);
 
         $video2 = new Video;
-        $video2->setLocation("https://youtu.be/6yA3XqjTh_w")
+        $video2->setLocation("https://www.youtube.com/embed/6yA3XqjTh_w")
             ->setTrick($trick3);
         $manager->persist($video2);
 
         $video3 = new Video;
-        $video3->setLocation("https://youtu.be/Sh3qT1INT_I")
+        $video3->setLocation("https://www.youtube.com/embed/Sh3qT1INT_I")
             ->setTrick($trick6);
         $manager->persist($video3);
 
