@@ -37,11 +37,14 @@
                         </div>
                         {% endfor %}
                 </div>
-                <div>
-                        {{ trick.description }}
+                <div class="mt-5 mb-5">
+                        <h3>Description :</h3>
+                        <article>
+                                {{ trick.description }}
+                        </article>
                 </div>
-                <div class="row justify-content-around border rounded ml-3 mr-3 mt-3 pt-3">
-                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}" class="badge badge-primary">{{ trick.category.name }}</a>
+                <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
+                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
                         <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
                         <p>Created: {{ trick.createdDate|date }}</p>
                         <p>Modified: {{ trick.modifiedDate|date }}</p>
@@ -61,17 +64,42 @@
                 <hr/>
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>
-                        {% for i in 1..5 %}
-                                <div class="card mt-1">
+                        <ul id="myList">
+                        {% for comment in trick.comments %}
+                                <li class="card mt-1">
                                         <div class="card-body">
-                                                <p class="card-text"></p>
+                                                <p class="card-text">
+                                                        {{ comment.content }}
+                                                </p>
                                         </div>
                                         <div class="card-footer text-muted text-right">
-                                                <div>Autor : </div>
-                                                <div>Created date : </div>
+                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
+                                                <div>Created date : {{ comment.createdDate|date }}</div>
                                         </div>
-                                </div>
+                                </li>
                         {% endfor %}
+                        </ul>
+                        <div class="text-center mb-5">
+                                <button class="btn btn-primary" id="loadMore">Load More</button>
+                        </div>
                 </div>
         </div>
+{% endblock %}
+
+{% block javascripts_custom %}
+        <script type="text/javascript">
+                $(document).ready(function () {
+                        $( document.body ).append( $( "<li>" ) );
+                        var size_li = $( "#myList li" ).length;
+                        x = 10;
+                        $('#myList li:lt('+x+')').show();
+                        $('#loadMore').click(function () {
+                                x= (x+1 <= size_li) ? x+1 : size_li;
+                                $('#myList li:lt('+x+')').show();
+                                if(x === size_li){
+                                        $('#loadMore').hide();
+                                }
+                        });
+                });
+        </script>
 {% endblock %}

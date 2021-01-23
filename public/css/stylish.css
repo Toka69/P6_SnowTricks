@@ -58,3 +58,8 @@ body, html {
     float: left;
     text-align: center;
 }
+
+#myList li{
+    display:none;
+    list-style-type: none;
+}
