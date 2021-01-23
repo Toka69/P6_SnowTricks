@@ -304,7 +304,7 @@ class AppFixtures extends Fixture
         $comment1 = new Comment;
         $comment1->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate(new DateTimeImmutable())
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT4H8M35S')))
             ->setContent("Hi, it's a wonderful trick!")
             ->setModifiedDate($comment1->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
         $manager->persist($comment1);
@@ -312,7 +312,7 @@ class AppFixtures extends Fixture
         $comment2 = new Comment;
         $comment2->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable())
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT6H24M12S')))
             ->setContent("Hello, great!!!");
         $manager->persist($comment2);
 
@@ -400,6 +400,83 @@ class AppFixtures extends Fixture
             ->setContent("Good luck")
             ->setModifiedDate($comment13->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
         $manager->persist($comment13);
+
+        $comment14 = new Comment;
+        $comment14->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P8DT16H8M37S')))
+            ->setContent("Too much.");
+        $manager->persist($comment14);
+
+        $comment15 = new Comment;
+        $comment15->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P3DT15H8M37S')))
+            ->setContent("Enjoy!");
+        $manager->persist($comment15);
+
+        $comment16 = new Comment;
+        $comment16->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT1H8M37S')))
+            ->setContent("Great, great, great!");
+        $manager->persist($comment16);
+
+        $comment17 = new Comment;
+        $comment17->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P9DT6H6M37S')))
+            ->setContent("It's a Holdup!");
+        $manager->persist($comment17);
+
+        $comment18 = new Comment;
+        $comment18->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P12DT6H9M37S')))
+            ->setContent("So good.");
+        $manager->persist($comment18);
+
+        $comment19 = new Comment;
+        $comment19->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P7DT6H8M37S')))
+            ->setContent("Youhou!");
+        $manager->persist($comment19);
+
+        $comment20 = new Comment;
+        $comment20->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P2DT3H8M37S')))
+            ->setContent("It's my favorite.");
+        $manager->persist($comment20);
+
+        $comment21 = new Comment;
+        $comment21->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P4DT6H24M37S')))
+            ->setContent("Like me!");
+        $manager->persist($comment21);
+
+        $comment22 = new Comment;
+        $comment22->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P4DT5H8M37S')))
+            ->setContent("My first choice!");
+        $manager->persist($comment22);
+
+        $comment23 = new Comment;
+        $comment23->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P8DT6H7M37S')))
+            ->setContent("Definitively the better");
+        $manager->persist($comment23);
+
+        $comment24 = new Comment;
+        $comment24->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P3DT6H8M37S')))
+            ->setContent("Incredible.");
+        $manager->persist($comment24);
 
         $manager->flush();
     }

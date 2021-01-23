@@ -89,12 +89,11 @@
 {% block javascripts_custom %}
         <script type="text/javascript">
                 $(document).ready(function () {
-                        $( document.body ).append( $( "<li>" ) );
-                        var size_li = $( "#myList li" ).length;
+                        var size_li = $("#myList li").length;
                         x = 10;
                         $('#myList li:lt('+x+')').show();
-                        $('#loadMore').click(function () {
-                                x= (x+1 <= size_li) ? x+1 : size_li;
+                        $('#loadMore').click(function(){
+                                x = (x+10 <= size_li) ? x+10 : size_li;
                                 $('#myList li:lt('+x+')').show();
                                 if(x === size_li){
                                         $('#loadMore').hide();
