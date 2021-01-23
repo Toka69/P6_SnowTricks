@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\Repository\PhotoRepository;
+use App\Entity\Photo;
 use App\Repository\TrickRepository;
-use App\Repository\VideoRepository;
+use ArrayObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,9 +19,16 @@ class HomeController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findAll();
+        $arrayobj = new ArrayObject;
+
+        foreach ($tricks as $trick){
+            $cover = $trick->getCover();
+            $arrayobj->append($cover);
+        }
+
 
         return $this->render('home/index.html.twig', [
-            'tricks' => $tricks
+            'tricksPhotos' => $arrayobj
         ]);
     }
 }
