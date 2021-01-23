@@ -188,6 +188,11 @@ class AppFixtures extends Fixture
             ->setTrick($trick6);
         $manager->persist($video3);
 
+        $video4 = new Video;
+        $video4->setLocation("https://www.youtube.com/embed/yyN1gQqsMwM")
+            ->setTrick($trick1);
+        $manager->persist($video4);
+
         /**** Photos ****/
         $photo1 = new Photo;
         $photo1->setLocation("https://miro.medium.com/max/700/1*bT_5SfWre2naQMUk8Usa5A.jpeg")
@@ -264,6 +269,36 @@ class AppFixtures extends Fixture
             ->setTrick($trick10)
             ->setCover(true);
         $manager->persist($photo14);
+
+        $photo15 = new Photo;
+        $photo15->setLocation("https://coresites-cdn-adm.imgix.net/whitelines_new/wp-content/uploads/2014/01/Trick-Mute-Grab-620x444.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo15);
+
+        $photo16 = new Photo;
+        $photo16->setLocation("https://c8.alamy.com/compfr/dyxkwd/snowboarder-avec-casque-et-lunettes-effectue-une-ponction-mute-saut-aerien-dyxkwd.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo16);
+
+        $photo17 = new Photo;
+        $photo17->setLocation("https://communaute.ucpa.com/legacyfs/online/uploads/2016/01/grab-simple-snowboard-freestyle-e1453203128225.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo17);
+
+        $photo18 = new Photo;
+        $photo18->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/articles/Basic-Grabs-On-A-Snowboard_720x.jpg?v=1517794316")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo18);
+
+        $photo19 = new Photo;
+        $photo19->setLocation("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT14aDzI9R6TY7ckfhlVIl2SmoCQ22q-PyduA&usqp=CAU")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo19);
 
         /**** Comments ****/
         $comment1 = new Comment;
