@@ -63,3 +63,8 @@ body, html {
     display:none;
     list-style-type: none;
 }
+
+.profile{
+    height: 90px;
+    width: 90px;
+}

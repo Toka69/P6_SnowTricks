@@ -72,9 +72,17 @@
                                                         {{ comment.content }}
                                                 </p>
                                         </div>
-                                        <div class="card-footer text-muted text-right">
-                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
-                                                <div>Created date : {{ comment.createdDate|date }}</div>
+
+                                        <div class="card-footer text-muted">
+                                                <div class="row">
+                                                        <div class="col">
+                                                                <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
+                                                        </div>
+                                                        <div class="col">
+                                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
+                                                                <div>Created date : {{ comment.createdDate|date }}</div>
+                                                        </div>
+                                                </div>
                                         </div>
                                 </li>
                         {% endfor %}

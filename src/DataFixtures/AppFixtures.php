@@ -29,7 +29,7 @@ class AppFixtures extends Fixture
         $user1 = new User;
         $user1->setFirstName("Eric")
             ->setLastName("Dupont")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/men/7.jpg")
             ->setEmail("edupont@gmial.com")
             ->setPassword("1234");
         $manager->persist($user1);
@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
         $user2 = new User;
         $user2->setFirstName("Elodie")
             ->setLastName("Durand")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/women/45.jpg")
             ->setEmail("edurand@gmial.com")
             ->setPassword("1234");
         $manager->persist($user2);
@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
         $user3 = new User;
         $user3->setFirstName("Jean")
             ->setLastName("Goldman")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/men/10.jpg")
             ->setEmail("jgoldman@gmial.com")
             ->setPassword("1234");
         $manager->persist($user3);
@@ -404,49 +404,49 @@ class AppFixtures extends Fixture
         $comment14 = new Comment;
         $comment14->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P8DT16H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT8H16M37S')))
             ->setContent("Too much.");
         $manager->persist($comment14);
 
         $comment15 = new Comment;
         $comment15->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P3DT15H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT12H12M37S')))
             ->setContent("Enjoy!");
         $manager->persist($comment15);
 
         $comment16 = new Comment;
         $comment16->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT1H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT23H12M37S')))
             ->setContent("Great, great, great!");
         $manager->persist($comment16);
 
         $comment17 = new Comment;
         $comment17->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P9DT6H6M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H6M37S')))
             ->setContent("It's a Holdup!");
         $manager->persist($comment17);
 
         $comment18 = new Comment;
         $comment18->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P12DT6H9M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H9M37S')))
             ->setContent("So good.");
         $manager->persist($comment18);
 
         $comment19 = new Comment;
         $comment19->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P7DT6H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT10H8M37S')))
             ->setContent("Youhou!");
         $manager->persist($comment19);
 
         $comment20 = new Comment;
         $comment20->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P2DT3H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P2DT3H16M37S')))
             ->setContent("It's my favorite.");
         $manager->persist($comment20);
 
@@ -460,21 +460,21 @@ class AppFixtures extends Fixture
         $comment22 = new Comment;
         $comment22->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P4DT5H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P7DT5H8M37S')))
             ->setContent("My first choice!");
         $manager->persist($comment22);
 
         $comment23 = new Comment;
         $comment23->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P8DT6H7M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P9DT18H7M37S')))
             ->setContent("Definitively the better");
         $manager->persist($comment23);
 
         $comment24 = new Comment;
         $comment24->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P3DT6H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P12DT9H8M37S')))
             ->setContent("Incredible.");
         $manager->persist($comment24);
 
