@@ -12,6 +12,7 @@ use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
@@ -19,36 +20,51 @@ class AppFixtures extends Fixture
 
     protected SluggerInterface $slugger;
 
-    public function __construct(SluggerInterface $slugger){
+    protected UserPasswordEncoderInterface $encoder;
+
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder){
         $this->slugger = $slugger;
+        $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager)
     {
         /**** Users ****/
         $user1 = new User;
+        $hash = $this->encoder->encodePassword($user1, "1234");
         $user1->setFirstName("Eric")
             ->setLastName("Dupont")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/men/7.jpg")
             ->setEmail("edupont@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user1);
 
         $user2 = new User;
+        $hash = $this->encoder->encodePassword($user2, "1234");
         $user2->setFirstName("Elodie")
             ->setLastName("Durand")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/women/45.jpg")
             ->setEmail("edurand@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user2);
 
         $user3 = new User;
+        $hash = $this->encoder->encodePassword($user3, "1234");
         $user3->setFirstName("Jean")
             ->setLastName("Goldman")
-            ->setPhoto("https://i.pravatar.cc/300")
+            ->setPhoto("https://randomuser.me/api/portraits/men/10.jpg")
             ->setEmail("jgoldman@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user3);
+
+        $user4 = new User;
+        $hash = $this->encoder->encodePassword($user4, "admin");
+        $user4->setFirstName("Admin")
+            ->setLastName("Admin")
+            ->setEmail("admin@gmail.com")
+            ->setPassword($hash)
+            ->setRoles(["ROLE_ADMIN"]);
+        $manager->persist($user4);
 
         /**** Categories ****/
         $category1 = new Category;
@@ -304,7 +320,7 @@ class AppFixtures extends Fixture
         $comment1 = new Comment;
         $comment1->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate(new DateTimeImmutable())
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT4H8M35S')))
             ->setContent("Hi, it's a wonderful trick!")
             ->setModifiedDate($comment1->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
         $manager->persist($comment1);
@@ -312,7 +328,7 @@ class AppFixtures extends Fixture
         $comment2 = new Comment;
         $comment2->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable())
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT6H24M12S')))
             ->setContent("Hello, great!!!");
         $manager->persist($comment2);
 
@@ -400,6 +416,83 @@ class AppFixtures extends Fixture
             ->setContent("Good luck")
             ->setModifiedDate($comment13->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
         $manager->persist($comment13);
+
+        $comment14 = new Comment;
+        $comment14->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT8H16M37S')))
+            ->setContent("Too much.");
+        $manager->persist($comment14);
+
+        $comment15 = new Comment;
+        $comment15->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT12H12M37S')))
+            ->setContent("Enjoy!");
+        $manager->persist($comment15);
+
+        $comment16 = new Comment;
+        $comment16->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT23H12M37S')))
+            ->setContent("Great, great, great!");
+        $manager->persist($comment16);
+
+        $comment17 = new Comment;
+        $comment17->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H6M37S')))
+            ->setContent("It's a Holdup!");
+        $manager->persist($comment17);
+
+        $comment18 = new Comment;
+        $comment18->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H9M37S')))
+            ->setContent("So good.");
+        $manager->persist($comment18);
+
+        $comment19 = new Comment;
+        $comment19->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT10H8M37S')))
+            ->setContent("Youhou!");
+        $manager->persist($comment19);
+
+        $comment20 = new Comment;
+        $comment20->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P2DT3H16M37S')))
+            ->setContent("It's my favorite.");
+        $manager->persist($comment20);
+
+        $comment21 = new Comment;
+        $comment21->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P4DT6H24M37S')))
+            ->setContent("Like me!");
+        $manager->persist($comment21);
+
+        $comment22 = new Comment;
+        $comment22->setTrick($trick1)
+            ->setUser($user2)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P7DT5H8M37S')))
+            ->setContent("My first choice!");
+        $manager->persist($comment22);
+
+        $comment23 = new Comment;
+        $comment23->setTrick($trick1)
+            ->setUser($user3)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P9DT18H7M37S')))
+            ->setContent("Definitively the better");
+        $manager->persist($comment23);
+
+        $comment24 = new Comment;
+        $comment24->setTrick($trick1)
+            ->setUser($user1)
+            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P12DT9H8M37S')))
+            ->setContent("Incredible.");
+        $manager->persist($comment24);
 
         $manager->flush();
     }
