@@ -15,12 +15,12 @@ class Photo
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $location;
+    private string $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="photos")
@@ -30,7 +30,7 @@ class Photo
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $cover;
+    private ?bool $cover;
 
     public function getId(): ?int
     {
