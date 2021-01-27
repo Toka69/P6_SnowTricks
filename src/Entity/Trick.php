@@ -18,57 +18,57 @@ class Trick
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=4000)
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug;
+    private string $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
      */
-    private $category;
+    private ?Category $category;
 
     /**
      * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick")
      */
-    private $photos;
+    private Collection $photos;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
      */
-    private $videos;
+    private Collection $videos;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
      */
-    private $comments;
+    private Collection $comments;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
      */
-    private $user;
+    private ?User $user;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdDate;
+    private ?DateTimeInterface $createdDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $modifiedDate;
+    private ?DateTimeInterface $modifiedDate;
 
     public function __construct()
     {
@@ -255,4 +255,25 @@ class Trick
 
         return $this;
     }
+
+    public function getCover(): Photo
+    {
+        $photos = $this->getPhotos();
+        $cover = new Photo;
+        foreach ($photos as $photo){
+            if ($photo->getCover() === true){
+                $cover = $photo;
+            }
+            if($cover->getId() === null) {
+                $cover = $photo;
+            }
+        }
+        if($cover->getId() === null) {
+            $cover->setlocation("../img/cover.jpg")
+                ->setTrick($this);
+        }
+
+        return $cover;
+    }
 }
+

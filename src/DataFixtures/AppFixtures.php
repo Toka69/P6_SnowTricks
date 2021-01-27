@@ -174,19 +174,24 @@ class AppFixtures extends Fixture
 
         /**** Videos ****/
         $video1 = new Video;
-        $video1->setLocation("https://youtu.be/jm19nEvmZgM")
+        $video1->setLocation("https://www.youtube.com/embed/jm19nEvmZgM")
             ->setTrick($trick1);
         $manager->persist($video1);
 
         $video2 = new Video;
-        $video2->setLocation("https://youtu.be/6yA3XqjTh_w")
+        $video2->setLocation("https://www.youtube.com/embed/6yA3XqjTh_w")
             ->setTrick($trick3);
         $manager->persist($video2);
 
         $video3 = new Video;
-        $video3->setLocation("https://youtu.be/Sh3qT1INT_I")
+        $video3->setLocation("https://www.youtube.com/embed/Sh3qT1INT_I")
             ->setTrick($trick6);
         $manager->persist($video3);
+
+        $video4 = new Video;
+        $video4->setLocation("https://www.youtube.com/embed/yyN1gQqsMwM")
+            ->setTrick($trick1);
+        $manager->persist($video4);
 
         /**** Photos ****/
         $photo1 = new Photo;
@@ -196,7 +201,8 @@ class AppFixtures extends Fixture
 
         $photo2 = new Photo;
         $photo2->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/files/5_b564c467-2f8e-48f4-91d6-445d58c79a85_large.jpg?v=1517787201")
-            ->setTrick($trick4);
+            ->setTrick($trick4)
+            ->setCover(true);
         $manager->persist($photo2);
 
         $photo3 = new Photo;
@@ -206,7 +212,8 @@ class AppFixtures extends Fixture
 
         $photo4 = new Photo;
         $photo4->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/files/4_07454a10-ad61-4d79-bcf2-991ef1b616bc_large.jpg?v=1517787145")
-            ->setTrick($trick1);
+            ->setTrick($trick1)
+            ->setCover(true);
         $manager->persist($photo4);
 
         $photo5 = new Photo;
@@ -216,7 +223,8 @@ class AppFixtures extends Fixture
 
         $photo6 = new Photo;
         $photo6->setLocation("https://i.ytimg.com/vi/_rS2i4-yb6E/maxresdefault.jpg")
-            ->setTrick($trick6);
+            ->setTrick($trick6)
+            ->setCover(true);
         $manager->persist($photo6);
 
         $photo7 = new Photo;
@@ -231,7 +239,8 @@ class AppFixtures extends Fixture
 
         $photo9 = new Photo;
         $photo9->setLocation("https://i.ytimg.com/vi/_hJX9HrdkeA/maxresdefault.jpg")
-            ->setTrick($trick7);
+            ->setTrick($trick7)
+            ->setCover(true);
         $manager->persist($photo9);
 
         $photo10 = new Photo;
@@ -241,7 +250,8 @@ class AppFixtures extends Fixture
 
         $photo11 = new Photo;
         $photo11->setLocation("https://coresites-cdn-adm.imgix.net/whitelines_new/wp-content/uploads/2012/12/frontflipknuckle.jpg?fit=crop")
-            ->setTrick($trick9);
+            ->setTrick($trick9)
+            ->setCover(true);
         $manager->persist($photo11);
 
         $photo12 = new Photo;
@@ -256,8 +266,39 @@ class AppFixtures extends Fixture
 
         $photo14 = new Photo;
         $photo14->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/articles/Snowboard_Trick_Terminology_1024x1024.jpg?v=1556396922")
-            ->setTrick($trick10);
+            ->setTrick($trick10)
+            ->setCover(true);
         $manager->persist($photo14);
+
+        $photo15 = new Photo;
+        $photo15->setLocation("https://coresites-cdn-adm.imgix.net/whitelines_new/wp-content/uploads/2014/01/Trick-Mute-Grab-620x444.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo15);
+
+        $photo16 = new Photo;
+        $photo16->setLocation("https://c8.alamy.com/compfr/dyxkwd/snowboarder-avec-casque-et-lunettes-effectue-une-ponction-mute-saut-aerien-dyxkwd.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo16);
+
+        $photo17 = new Photo;
+        $photo17->setLocation("https://communaute.ucpa.com/legacyfs/online/uploads/2016/01/grab-simple-snowboard-freestyle-e1453203128225.jpg")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo17);
+
+        $photo18 = new Photo;
+        $photo18->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/articles/Basic-Grabs-On-A-Snowboard_720x.jpg?v=1517794316")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo18);
+
+        $photo19 = new Photo;
+        $photo19->setLocation("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT14aDzI9R6TY7ckfhlVIl2SmoCQ22q-PyduA&usqp=CAU")
+            ->setTrick($trick1)
+            ->setCover(true);
+        $manager->persist($photo19);
 
         /**** Comments ****/
         $comment1 = new Comment;
