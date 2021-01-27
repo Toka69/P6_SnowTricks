@@ -2,30 +2,26 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Entity\Trick;
 use App\Repository\CategoryRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class TrickController extends AbstractController
 {
     /**
      * @Route("/{slug}", name="trick_category")
      * @param $slug
-     * @param CategoryRepository $categoryRepository
+     * @param Category $category
+     * @paramConverter("category")
      * @return Response
      */
-    public function category($slug, CategoryRepository $categoryRepository): Response
+    public function category($slug, Category $category): Response
     {
-        $category = $categoryRepository->findOneBy([
-            'slug' => $slug
-        ]);
-
-        if(!$category){
-            throw $this->createNotFoundException("Category unavailable");
-        }
-
         return $this->render('trick/category.html.twig', [
             'slug' => $slug,
             'category' => $category
@@ -35,24 +31,15 @@ class TrickController extends AbstractController
     /**
      * @Route("/{category_slug}/{slug}",name="trick_show")
      * @param $slug
-     * @param TrickRepository $trickRepository
+     * @param Trick $trick
+     * @paramConverter("trick")
      * @return Response
      */
-    public function show($slug, TrickRepository $trickRepository): Response
+    public function show(Trick $trick): Response
     {
-        $trick = $trickRepository->findOneBy([
-            'slug' => $slug
-        ]);
-
-        if(!$trick){
-            throw $this->createNotFoundException("Trick unavailable");
-        }
-
-        $cover = $trick->getCover();
-
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'cover' => $cover
+            'cover' => $trick->getCover()
         ]);
     }
 }
