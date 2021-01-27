@@ -16,17 +16,17 @@ class Comment
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdDate;
+    private DateTimeInterface $createdDate;
 
     /**
      * @ORM\Column(type="string", length=4000)
      */
-    private $content;
+    private string $content;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
@@ -34,14 +34,14 @@ class Comment
     private $trick;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?DateTimeInterface $modifiedDate;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      */
     private $user;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $modifiedDate;
 
     public function getId(): ?int
     {
@@ -84,18 +84,6 @@ class Comment
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getModifiedDate(): ?DateTimeInterface
     {
         return $this->modifiedDate;
@@ -104,6 +92,18 @@ class Comment
     public function setModifiedDate(?DateTimeInterface $modifiedDate): self
     {
         $this->modifiedDate = $modifiedDate;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

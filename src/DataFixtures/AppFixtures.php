@@ -12,6 +12,7 @@ use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
@@ -19,36 +20,51 @@ class AppFixtures extends Fixture
 
     protected SluggerInterface $slugger;
 
-    public function __construct(SluggerInterface $slugger){
+    protected UserPasswordEncoderInterface $encoder;
+
+    public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder){
         $this->slugger = $slugger;
+        $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager)
     {
         /**** Users ****/
         $user1 = new User;
+        $hash = $this->encoder->encodePassword($user1, "1234");
         $user1->setFirstName("Eric")
             ->setLastName("Dupont")
             ->setPhoto("https://randomuser.me/api/portraits/men/7.jpg")
             ->setEmail("edupont@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user1);
 
         $user2 = new User;
+        $hash = $this->encoder->encodePassword($user2, "1234");
         $user2->setFirstName("Elodie")
             ->setLastName("Durand")
             ->setPhoto("https://randomuser.me/api/portraits/women/45.jpg")
             ->setEmail("edurand@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user2);
 
         $user3 = new User;
+        $hash = $this->encoder->encodePassword($user3, "1234");
         $user3->setFirstName("Jean")
             ->setLastName("Goldman")
             ->setPhoto("https://randomuser.me/api/portraits/men/10.jpg")
             ->setEmail("jgoldman@gmial.com")
-            ->setPassword("1234");
+            ->setPassword($hash);
         $manager->persist($user3);
+
+        $user4 = new User;
+        $hash = $this->encoder->encodePassword($user4, "admin");
+        $user4->setFirstName("Admin")
+            ->setLastName("Admin")
+            ->setEmail("admin@gmail.com")
+            ->setPassword($hash)
+            ->setRoles(["ROLE_ADMIN"]);
+        $manager->persist($user4);
 
         /**** Categories ****/
         $category1 = new Category;

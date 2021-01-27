@@ -55,10 +55,6 @@ class Trick
      */
     private Collection $comments;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
-     */
-    private ?User $user;
 
     /**
      * @ORM\Column(type="datetime")
@@ -69,6 +65,11 @@ class Trick
      * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $modifiedDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tricks")
+     */
+    private ?User $user;
 
     public function __construct()
     {
@@ -220,18 +221,6 @@ class Trick
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getCreatedDate(): ?DateTimeInterface
     {
         return $this->createdDate;
@@ -274,6 +263,18 @@ class Trick
         }
 
         return $cover;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
 
