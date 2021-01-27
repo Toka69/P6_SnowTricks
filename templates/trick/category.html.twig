@@ -5,8 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Catégorie: {{ category.name }}</h1>
-    {% for trick in category.tricks %}
-        <p>{{ trick.name }}</p>
-    {% endfor %}
+    <div class="container">
+        <h1>Catégorie: {{ category.name }}</h1>
+        {% for trick in category.tricks %}
+            <p>{{ trick.name }}</p>
+        {% endfor %}
+    </div>
 {% endblock %}
