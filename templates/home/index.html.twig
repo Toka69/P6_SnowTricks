@@ -27,6 +27,9 @@
                         </li>
                 {% endfor %}
                 </ul>
+                <div id="message">
+
+                </div>
                 <div class="row arrow-up">
                         <a href="#tricks"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
                 </div>
@@ -36,19 +39,25 @@
         </div>
 {% endblock %}
 
-{% block javascripts_custom %}
-    <script type="text/javascript">
-            $(document).ready(function(){
-                    var size_li = $("#myList li").length;
-                    x = 8;
-                    $('#myList li:lt('+x+')').show();
-                    $('#loadMore').click(function(){
-                            x = (x+8 <= size_li) ? x+8 : size_li;
-                            $('#myList li:lt('+x+')').show();
-                            if(x === size_li){
-                                    $('#loadMore').hide();
-                            }
-                    });
-            });
-    </script>
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+                $(document).ready(function(){
+                        $('#loadMore').click(function(){
+                                $.get(
+                                        '{{ path('home_loadMore') }}',
+                                        {
+
+                                        },
+
+                                        function(response){
+                                                console.log(response);
+                                                $("#message").append(response.id);
+                                        },
+
+                                        'text'
+                                );
+                        });
+                });
+        </script>
 {% endblock %}
