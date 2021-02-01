@@ -24,15 +24,9 @@ class HomeController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         $tricks = $trickRepository->findAll();
-        $arrayobj = new ArrayObject;
-
-        foreach ($tricks as $trick){
-            $cover = $trick->getCover();
-            $arrayobj->append($cover);
-        }
 
         return $this->render('home/index.html.twig', [
-            'tricksPhotos' => $arrayobj
+            'tricks' => $tricks
         ]);
     }
 
