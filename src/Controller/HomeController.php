@@ -23,7 +23,7 @@ class HomeController extends AbstractController
      */
     public function index(TrickRepository $trickRepository): Response
     {
-        $tricks = $trickRepository->findAll();
+        $tricks = $trickRepository->findBy([],[], 8, 0);
 
         return $this->render('home/index.html.twig', [
             'tricks' => $tricks
@@ -45,7 +45,8 @@ class HomeController extends AbstractController
         foreach ($tricks as $trick){
             $arrayTrick = [
                 'id' => $trick->getId(),
-                'name' => $trick->getName()
+                'name' => $trick->getName(),
+                'cover' => $trick->getCover()->getLocation()
             ];
             array_push($arrayJson, $arrayTrick);
         }

@@ -11,7 +11,7 @@
                 <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
         </div>
         <div class="container mt-5 mb-5">
-                <ul id="myList" class="row" id="tricks">
+                <ul id="myList" class="row">
                 {%  for trick in tricks %}
                         <li class="col-md-3">
                                 <div class="card mb-2">
@@ -27,8 +27,7 @@
                         </li>
                 {% endfor %}
                 </ul>
-                <div id="message">
-
+                <div id="message" class="container mt-5 mb-5">
                 </div>
                 <div class="row arrow-up">
                         <a href="#tricks"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
@@ -44,6 +43,7 @@
         <script type="text/javascript">
                 $(document).ready(function(){
                         $('#loadMore').click(function(){
+                                event.preventDefault();
                                 $.get(
                                         '{{ path('home_loadMore') }}',
                                         {
@@ -51,8 +51,42 @@
                                         },
 
                                         function(response){
-                                                console.log(response);
-                                                $("#message").append(response.id);
+
+                                                var $ul = $(`<ul id="myList" class="row"></ul>`);
+                                                $.each(JSON.parse(response), function(i, item){
+                                                        $ul.append('<li class="col-md-3"><div class="card mb-2">');
+                                                        for (const field in item) {
+                                                                $ul.append(`${field}: ${item[field]}`);
+                                                        }
+                                                        // $ul.append('</div></li>');
+                                                        $('#message').append($ul);
+                                                });
+
+                                                // response.forEach(function(item) {
+                                                //         var $ul = $('<ul></ul>');
+                                                //         for (var field in item) {
+                                                //                 $ul.append(`<li>${field}: ${item[field]}</li>`);
+                                                //         }
+                                                //         $data.append($ul);
+                                                // });
+
+
+
+
+                                                // $.each(JSON.parse(response), function(test, test1) {
+                                                //         $.each(test1, function(index, element){
+                                                //                 $("#id").append(element.id);
+                                                //                 $("#name").append(element.name);
+                                                //                 $("#cover").append(element.cover);
+                                                //         });
+                                                // });
+                                                // response = JSON.parse(response);
+                                                // for (const element of response){
+                                                //         for (const test of element)
+                                                //         $("#id").append(test.id);
+                                                //         $("#name").append(test.name);
+                                                //         $("#cover").append(test.cover);
+                                                // }
                                         },
 
                                         'text'
