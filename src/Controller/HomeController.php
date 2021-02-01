@@ -46,7 +46,9 @@ class HomeController extends AbstractController
             $arrayTrick = [
                 'id' => $trick->getId(),
                 'name' => $trick->getName(),
-                'cover' => $trick->getCover()->getLocation()
+                'cover' => $trick->getCover()->getLocation(),
+                'slug' => $trick->getSlug(),
+                'categorySlug' => $trick->getCategory()->getSlug()
             ];
             array_push($arrayJson, $arrayTrick);
         }

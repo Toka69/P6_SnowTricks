@@ -59,7 +59,7 @@ body, html {
     text-align: center;
 }
 
-#myList li{
+.myList li{
     /*display:none;*/
     list-style-type: none;
 }
