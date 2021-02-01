@@ -38,8 +38,7 @@ class TrickController extends AbstractController
     public function show(Trick $trick): Response
     {
         return $this->render('trick/show.html.twig', [
-            'trick' => $trick,
-            'cover' => $trick->getCover()
+            'trick' => $trick
         ]);
     }
 }
