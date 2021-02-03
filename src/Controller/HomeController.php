@@ -18,6 +18,7 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
+     * @param Request $request
      * @param TrickRepository $trickRepository
      * @return Response
      */
@@ -40,20 +41,28 @@ class HomeController extends AbstractController
     {
         $arrayJson = [];
         $currentTrick = $request->getSession()->get('currentTrick', 0 );
-        $currentTrick = $currentTrick + 8;
-        $tricks = $trickRepository->findBy([],[], 8, $currentTrick);
+        $numberTricks = 8;
+        $currentTrick = $currentTrick + $numberTricks;
+        $tricks = $trickRepository->findBy([],[], $numberTricks, $currentTrick);
+
         foreach ($tricks as $trick){
             $arrayTrick = [
                 'id' => $trick->getId(),
                 'name' => $trick->getName(),
                 'cover' => $trick->getCover()->getLocation(),
                 'slug' => $trick->getSlug(),
-                'categorySlug' => $trick->getCategory()->getSlug()
+                'categorySlug' => $trick->getCategory()->getSlug(),
+                'end' => 0
             ];
             array_push($arrayJson, $arrayTrick);
         }
 
-        //$request->getSession()->set('currentTrick', $currentTrick);
+        $request->getSession()->set('currentTrick', $currentTrick);
+
+        if ($currentTrick + $numberTricks >= $trickRepository->count([])){
+            array_push($arrayJson, ['end' => 1]);
+            $request->getSession()->remove('currentTrick');
+        }
 
         return $this->json($arrayJson);
     }
