@@ -46,10 +46,8 @@
                 $(document).ready(function(){
                         $('#loadMore').click(function(){
                                 event.preventDefault();
-                                $.get('{{ path('home_loadMore') }}',
+                                $.getJSON('{{ path('home_loadMore') }}',
                                         function(response){
-                                                response = JSON.parse(response);
-
                                                 $.each(response, function (index, trick) {
                                                         if (trick.end == 0) {
                                                                 var $html = $('<li class="col-md-3">');
@@ -64,7 +62,6 @@
                                                         }
                                                 });
                                         },
-                                        'text'
                                 );
                         });
                 });
