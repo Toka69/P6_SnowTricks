@@ -65,7 +65,9 @@
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>
                         <ul id="myList">
+                        {% set numberCommentInit = "" %}
                         {% for comment in trick.comments %}
+                                {% if loop.index <= 10 %}
                                 <li class="card mt-1">
                                         <div class="card-body">
                                                 <p class="card-text">
@@ -85,27 +87,55 @@
                                                 </div>
                                         </div>
                                 </li>
+                                {% endif %}
+                                {% set numberCommentInit = loop.index %}
                         {% endfor %}
                         </ul>
+                        <ul id="myListMore">
+                        </ul>
+                        {% if numberCommentInit > 10 %}
                         <div class="text-center mb-5">
                                 <button class="btn btn-primary" id="loadMore">Load More</button>
                         </div>
+                        {% endif %}
                 </div>
         </div>
 {% endblock %}
 
-{% block javascripts_custom %}
+{% block javascripts %}
+        {{ parent() }}
         <script type="text/javascript">
-                $(document).ready(function () {
-                        var size_li = $("#myList li").length;
-                        x = 10;
-                        $('#myList li:lt('+x+')').show();
+                $(document).ready(function(){
                         $('#loadMore').click(function(){
-                                x = (x+10 <= size_li) ? x+10 : size_li;
-                                $('#myList li:lt('+x+')').show();
-                                if(x === size_li){
-                                        $('#loadMore').hide();
-                                }
+                                event.preventDefault();
+                                $.getJSON('{{ path('trick_loadMore', {category_slug: trick.category.slug, slug: trick.slug, id: trick.id}) }}',
+                                        function(response){
+                                                console.log(response);
+                                                $.each(response, function (index, comment){
+                                                        if (comment.end == 0) {
+                                                                var $html = $('<li class="card mt-1">');
+                                                                $html.append(   '<div class="card-body">' +
+                                                                                        '<p class="card-text">' + comment.content + '</p>' +
+                                                                                '</div>' +
+                                                                                '<div class="card-footer text-muted">' +
+                                                                                        '<div class="row">' +
+                                                                                                '<div class="col">' +
+                                                                                                        '<img class="rounded-circle profile" src="' + comment.photo + '" alt="photo"/>' +
+                                                                                                '</div>' +
+                                                                                                '<div class="col">' +
+                                                                                                        '<div>Author : ' + comment.firstName + ' ' + comment.lastName + '</div>' +
+                                                                                                        '<div>Created date :' + comment.createdDate + '</div>'+
+                                                                                                '</div>' +
+                                                                                        '</div>' +
+                                                                                '</div>'
+                                                                );
+                                                                $('#myListMore').append($html);
+                                                        } else {
+                                                                $('#loadMore').hide();
+                                                        }
+                                                });
+                                        },
+                                );
                         });
                 });
         </script>

@@ -60,7 +60,6 @@ body, html {
 }
 
 #myList li{
-    display:none;
     list-style-type: none;
 }
 
