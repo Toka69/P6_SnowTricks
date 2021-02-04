@@ -8,18 +8,28 @@
                         <div class="hero-text">
                                 <h1>{{ trick.name|capitalize }}</h1>
                         </div>
+                        {%  if app.user %}
+                                <div class="d-flex flex-row-reverse mr-4">
+                                        <div class="mt-3 p-3 rounded bg-light">
+                                                <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                        </div>
+                                </div>
+                        {% endif %}
                 </div>
                 <div class="row">
                         {% for photo in trick.photos %}
                         <div class="col-md-3">
                                 <div class="card mb-2">
                                         <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                        <div class="card-body d-flex justify-content-end">
-                                                <div>
-                                                        <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                        {%  if app.user %}
+                                                <div class="card-body d-flex justify-content-end">
+                                                        <div>
+                                                                <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                                <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                                        </div>
                                                 </div>
-                                        </div>
+                                        {%  endif %}
                                 </div>
                         </div>
                         {% endfor %}
@@ -27,22 +37,47 @@
                         <div class="col-md-3">
                                 <div class="card mb-2">
                                         <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                        <div class="card-body d-flex justify-content-end">
-                                                <div>
-                                                        <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                                                        <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                        {%  if app.user %}
+                                                <div class="card-body d-flex justify-content-end">
+                                                        <div>
+                                                                <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                                <a href="#"><i class="fas fa-trash-alt"></i></a>
+                                                        </div>
                                                 </div>
-                                        </div>
+                                        {%  endif %}
                                 </div>
                         </div>
                         {% endfor %}
                 </div>
-                <div class="mt-5 mb-5">
-                        <h3>Description :</h3>
-                        <article>
-                                {{ trick.description }}
-                        </article>
-                </div>
+                {% if app.user %}
+                        <div class="container col-md-8 mt-5 mb-5">
+                                <form method="post" action="">
+                                        <fieldset class="mb-4">
+                                                <div class="form-group"><label for="inputTitle">Title</label>
+                                                        <input class="form-control" id="inputTitle" name="title" type="text" value="">
+                                                </div>
+                                                <div class="form-group"><label for="formControlTextareaContent">Description</label>
+                                                        <textarea class="form-control" id="formControlTextareaContent" name="content"></textarea>
+                                                </div>
+                                                <label for="formControlSelectCategory">Category</label>
+                                                <select class="form-control" id="formControlSelectCategory" name="">
+                                                </select>
+                                                <input type="hidden" name="csrfToken" value="" />
+                                        </fieldset>
+                                        <fieldset class="d-flex flex-row-reverse">
+                                                <button type="submit" class="btn btn-success">Save</button>
+                                                <button type="submit" class="btn btn-danger mr-2">Delete</button>
+                                        </fieldset>
+                                </form>
+                        </div>
+                {% else %}
+                        <div class="mt-5 mb-5">
+                                <h3>Description :</h3>
+                                <article>
+                                        {{ trick.description }}
+                                </article>
+                        </div>
+                {% endif %}
                 <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
                         <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
                         <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
@@ -50,18 +85,20 @@
                         <p>Modified: {{ trick.modifiedDate|date }}</p>
                 </div>
                 <hr/>
-                <div class="container col-md-8 mt-5">
-                        <form method="post" action="">
-                                <fieldset>
-                                        <div class="form-group">
-                                                <textarea class="form-control" id="formControlTextareaMessage" name="message" rows="3" placeholder="Leave a comment" required></textarea>
-                                        </div>
-                                        <input type="hidden" name="csrfToken" value="" />
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                </fieldset>
-                        </form>
-                </div>
-                <hr/>
+                {% if app.user %}
+                        <div class="container col-md-8 mt-5">
+                                <form method="post" action="">
+                                        <fieldset>
+                                                <div class="form-group">
+                                                        <textarea class="form-control" id="formControlTextareaMessage" name="message" rows="3" placeholder="Leave a comment" required></textarea>
+                                                </div>
+                                                <input type="hidden" name="csrfToken" value="" />
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                        </fieldset>
+                                </form>
+                        </div>
+                        <hr/>
+                {% endif %}
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>
                         <ul id="myListMore">
