@@ -11,9 +11,9 @@
                 <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
         </div>
         <div class="container mt-5 mb-5">
-                <div class="row" id="tricks">
+                <ul class="row myList">
                 {%  for trick in tricks %}
-                        <div class="col-md-3">
+                        <li class="col-md-3">
                                 <div class="card mb-2">
                                         <img src="{{ trick.getCover.location }}" alt="trick" class="img-fluid" style="height: 150px">
                                         <div class="card-body d-flex justify-content-between">
@@ -24,14 +24,46 @@
                                                 </div>
                                         </div>
                                 </div>
-                        </div>
+                        </li>
                 {% endfor %}
+                </ul>
+                <div>
+                        <ul id="myListMore" class="row myList">
+                        </ul>
                 </div>
                 <div class="row arrow-up">
                         <a href="#tricks"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
                 </div>
                 <div class="text-center mb-5">
-                        <button class="btn btn-primary">Load More</button>
+                        <button class="btn btn-primary" id="loadMore">Load More</button>
                 </div>
         </div>
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+                $(document).ready(function(){
+                        $('#loadMore').click(function(){
+                                event.preventDefault();
+                                $.getJSON('{{ path('home_loadMore') }}',
+                                        function(response){
+                                                $.each(response, function (index, trick) {
+                                                        if (trick.end == 0) {
+                                                                var $html = $('<li class="col-md-3">');
+                                                                $html.append('<div class="card mb-2">' +
+                                                                        '<img src="' + trick.cover + '" alt="trick" class="img-fluid" style="height: 150px">' +
+                                                                        '<div class="card-body d-flex justify-content-between">' +
+                                                                        '<a href="' + trick.categorySlug + '/' + trick.slug + '" class="btn btn-primary btn-sm">' + trick.slug + '</a>'
+                                                                );
+                                                                $('#myListMore').append($html);
+                                                        } else {
+                                                                $('#loadMore').hide();
+                                                        }
+                                                });
+                                        },
+                                );
+                        });
+                });
+        </script>
 {% endblock %}
