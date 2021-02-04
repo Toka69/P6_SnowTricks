@@ -77,4 +77,17 @@ class TrickController extends AbstractController
 
         return $this->json($arrayJson);
     }
+
+    /**
+     * @Route("/{category_slug}/{slug}/edit", name="trick_edit")
+     * @param Trick $trick
+     * @return Response
+     */
+    public function edit(Trick $trick){
+
+        return $this->render('trick/edit.html.twig', [
+            'trick' => $trick
+            ]
+        );
+    }
 }
