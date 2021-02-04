@@ -81,8 +81,8 @@
                 <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
                         <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
                         <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
-                        <p>Created: {{ trick.createdDate|date }}</p>
-                        <p>Modified: {{ trick.modifiedDate|date }}</p>
+                        <p>Created: {{ trick.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
+                        <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                 </div>
                 <hr/>
                 {% if app.user %}
@@ -119,7 +119,7 @@
                                                         </div>
                                                         <div class="col">
                                                                 <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
-                                                                <div>Created date : {{ comment.createdDate|date }}</div>
+                                                                <div>Created date : {{ comment.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</div>
                                                         </div>
                                                 </div>
                                         </div>
@@ -150,6 +150,7 @@
                                                 console.log(response);
                                                 $.each(response, function (index, comment){
                                                         if (comment.end == 0) {
+                                                                var createdDate = new Intl.DateTimeFormat('en-EN', { hour12: false, year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(comment.createdDate));
                                                                 var $html = $('<li class="card mt-1">');
                                                                 $html.append(   '<div class="card-body">' +
                                                                                         '<p class="card-text">' + comment.content + '</p>' +
@@ -161,7 +162,7 @@
                                                                                                 '</div>' +
                                                                                                 '<div class="col">' +
                                                                                                         '<div>Author : ' + comment.firstName + ' ' + comment.lastName + '</div>' +
-                                                                                                        '<div>Created date :' + comment.createdDate + '</div>'+
+                                                                                                        '<div>Created date : ' + createdDate + '</div>'+
                                                                                                 '</div>' +
                                                                                         '</div>' +
                                                                                 '</div>'
