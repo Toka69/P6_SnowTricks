@@ -64,7 +64,7 @@
                 <hr/>
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>
-                        <ul id="myList">
+                        <ul id="myListMore">
                         {% set numberCommentInit = "" %}
                         {% for comment in trick.comments %}
                                 {% if loop.index <= 10 %}
@@ -91,7 +91,7 @@
                                 {% set numberCommentInit = loop.index %}
                         {% endfor %}
                         </ul>
-                        <ul id="myListMore">
+                        <ul id="myListMore" class="myList">
                         </ul>
                         {% if numberCommentInit > 10 %}
                         <div class="text-center mb-5">
