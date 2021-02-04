@@ -59,6 +59,11 @@ body, html {
     text-align: center;
 }
 
-.myList li{
+#myList li{
     list-style-type: none;
+}
+
+.profile{
+    height: 90px;
+    width: 90px;
 }

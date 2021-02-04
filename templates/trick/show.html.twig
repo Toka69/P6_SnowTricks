@@ -37,11 +37,14 @@
                         </div>
                         {% endfor %}
                 </div>
-                <div>
-                        {{ trick.description }}
+                <div class="mt-5 mb-5">
+                        <h3>Description :</h3>
+                        <article>
+                                {{ trick.description }}
+                        </article>
                 </div>
-                <div class="row justify-content-around border rounded ml-3 mr-3 mt-3 pt-3">
-                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}" class="badge badge-primary">{{ trick.category.name }}</a>
+                <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
+                        <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
                         <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
                         <p>Created: {{ trick.createdDate|date }}</p>
                         <p>Modified: {{ trick.modifiedDate|date }}</p>
@@ -61,17 +64,79 @@
                 <hr/>
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>
-                        {% for i in 1..5 %}
-                                <div class="card mt-1">
+                        <ul id="myList">
+                        {% set numberCommentInit = "" %}
+                        {% for comment in trick.comments %}
+                                {% if loop.index <= 10 %}
+                                <li class="card mt-1">
                                         <div class="card-body">
-                                                <p class="card-text"></p>
+                                                <p class="card-text">
+                                                        {{ comment.content }}
+                                                </p>
                                         </div>
-                                        <div class="card-footer text-muted text-right">
-                                                <div>Autor : </div>
-                                                <div>Created date : </div>
+
+                                        <div class="card-footer text-muted">
+                                                <div class="row">
+                                                        <div class="col">
+                                                                <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
+                                                        </div>
+                                                        <div class="col">
+                                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
+                                                                <div>Created date : {{ comment.createdDate|date }}</div>
+                                                        </div>
+                                                </div>
                                         </div>
-                                </div>
+                                </li>
+                                {% endif %}
+                                {% set numberCommentInit = loop.index %}
                         {% endfor %}
+                        </ul>
+                        <ul id="myListMore">
+                        </ul>
+                        {% if numberCommentInit > 10 %}
+                        <div class="text-center mb-5">
+                                <button class="btn btn-primary" id="loadMore">Load More</button>
+                        </div>
+                        {% endif %}
                 </div>
         </div>
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+                $(document).ready(function(){
+                        $('#loadMore').click(function(){
+                                event.preventDefault();
+                                $.getJSON('{{ path('trick_loadMore', {category_slug: trick.category.slug, slug: trick.slug, id: trick.id}) }}',
+                                        function(response){
+                                                console.log(response);
+                                                $.each(response, function (index, comment){
+                                                        if (comment.end == 0) {
+                                                                var $html = $('<li class="card mt-1">');
+                                                                $html.append(   '<div class="card-body">' +
+                                                                                        '<p class="card-text">' + comment.content + '</p>' +
+                                                                                '</div>' +
+                                                                                '<div class="card-footer text-muted">' +
+                                                                                        '<div class="row">' +
+                                                                                                '<div class="col">' +
+                                                                                                        '<img class="rounded-circle profile" src="' + comment.photo + '" alt="photo"/>' +
+                                                                                                '</div>' +
+                                                                                                '<div class="col">' +
+                                                                                                        '<div>Author : ' + comment.firstName + ' ' + comment.lastName + '</div>' +
+                                                                                                        '<div>Created date :' + comment.createdDate + '</div>'+
+                                                                                                '</div>' +
+                                                                                        '</div>' +
+                                                                                '</div>'
+                                                                );
+                                                                $('#myListMore').append($html);
+                                                        } else {
+                                                                $('#loadMore').hide();
+                                                        }
+                                                });
+                                        },
+                                );
+                        });
+                });
+        </script>
 {% endblock %}
