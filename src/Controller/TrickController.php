@@ -10,15 +10,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class TrickController extends AbstractController
 {
     /**
+     * @Route("/trick/add", name="trick_add")
+     * @return Response
+     */
+    public function add(){
+        return $this->render('trick/add.html.twig');
+    }
+
+    /**
      * @Route("/{slug}", name="trick_category")
      * @param $slug
      * @param Category $category
-     * @paramConverter("category")
      * @return Response
      */
     public function category($slug, Category $category): Response
@@ -33,7 +39,6 @@ class TrickController extends AbstractController
      * @Route("/{category_slug}/{slug}",name="trick_show")
      * @param Trick $trick
      * @return Response
-     * @paramConverter("trick")
      */
     public function show(Trick $trick): Response
     {
