@@ -59,6 +59,10 @@ body, html {
     text-align: center;
 }
 
+.myList{
+    padding-left: 0;
+}
+
 .myList li{
     list-style-type: none;
 }

@@ -10,6 +10,11 @@
                 </div>
                 <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
         </div>
+        {%  if app.user %}
+                <div class="container mt-5 d-flex justify-content-center">
+                        <a href="{{ path('trick_add') }}" class="btn btn-primary">Add a trick</a>
+                </div>
+        {% endif %}
         <div class="container mt-5 mb-5" id="tricks">
                 <ul class="row myList">
                 {%  for trick in tricks %}
