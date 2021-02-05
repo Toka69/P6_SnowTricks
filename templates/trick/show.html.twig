@@ -17,21 +17,28 @@
                                 </div>
                         {% endif %}
                 </div>
-                <div class="row">
-                        {% for photo in trick.photos %}
-                        <div class="col-md-3">
-                                <div class="card mb-2">
-                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                <p class="d-flex justify-content-center d-sm-none">
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMedia" aria-expanded="false" aria-controls="collapseMedia">
+                                Medias
+                        </button>
+                </p>
+                <div class="collapse d-lg-block" id="collapseMedia">
+                        <div class="row">
+                                {% for photo in trick.photos %}
+                                <div class="col-md-3">
+                                        <div class="card mb-2">
+                                                <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                        </div>
                                 </div>
-                        </div>
-                        {% endfor %}
-                        {% for video in trick.videos %}
-                        <div class="col-md-3">
-                                <div class="card mb-2">
-                                        <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                {% endfor %}
+                                {% for video in trick.videos %}
+                                <div class="col-md-3">
+                                        <div class="card mb-2">
+                                                <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
                                 </div>
+                                {% endfor %}
                         </div>
-                        {% endfor %}
                 </div>
                 <div class="mt-5 mb-5">
                         <h3>Description :</h3>
