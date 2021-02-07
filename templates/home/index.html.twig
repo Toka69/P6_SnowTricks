@@ -25,7 +25,7 @@
                                                 <a href="{{ path('trick_show', {'category_slug': trick.category.slug, 'slug': trick.slug})}}" class="btn btn-primary btn-sm">{{ trick.name }}</a>
                                                 {% if app.user %}
                                                 <div>
-                                                        <a href="{{ path('trick_show', {'category_slug': trick.category.slug, 'slug': trick.slug})}}/edit" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                        <a href="{{ path('trick_edit', {'id': trick.id})}}" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
                                                         <a href="{{ path('trick_show', {'category_slug': trick.category.slug, 'slug': trick.slug})}}/delete"><i class="fas fa-trash-alt"></i></a>
                                                 </div>
                                                 {% endif %}
