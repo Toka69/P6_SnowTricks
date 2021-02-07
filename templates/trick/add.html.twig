@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick add{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>New trick</h1>
+
+        {{ form_start(formView) }}
+
+        {{ form_errors(formView) }}
+
+        <div class="form-group">
+            {{ form_row(formView.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(formView.name) }}
+            {{ form_row(formView.description, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(formView.category, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            Save
+        </button>
+
+        {{ form_end(formView) }}
+    </div>
+{% endblock %}

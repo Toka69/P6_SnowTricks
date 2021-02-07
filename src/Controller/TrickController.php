@@ -4,8 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Repository\CategoryRepository;
 use App\Repository\CommentRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +21,30 @@ class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
+     * @param FormFactoryInterface $factory
+     * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    public function add(){
-        return $this->render('trick/add.html.twig');
+    public function add(FormFactoryInterface $factory, CategoryRepository $categoryRepository){
+        $builder = $factory->createBuilder();
+
+        $builder->add('name', TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('category', EntityType::class, [
+                'placeholder' => 'Select a category',
+                'class' => Category::class,
+                'choice_label' => function(Category $category){
+                    return strtoupper($category->getName());
+                }
+            ]);
+
+        $form = $builder->getForm();
+
+        $formView = $form->createView();
+
+        return $this->render('trick/add.html.twig', [
+            'formView' => $formView
+        ]);
     }
 
     /**
