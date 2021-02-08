@@ -49,13 +49,19 @@ class TrickController extends AbstractController
     /**
      * @Route("/{id}/edit", name="trick_edit")
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function edit(Trick $trick){
+    public function edit(Trick $trick, Request $request, EntityManagerInterface $em){
 
-        $form = $this->createForm(TrickType::class);
+        $form = $this->createForm(TrickType::class, $trick);
 
-        $form->setData($trick);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()){
+            $em->flush();
+        }
 
         $formView = $form->createView();
 

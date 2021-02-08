@@ -49,35 +49,48 @@
                 </div>
             {% endfor %}
         </div>
-        {% if app.user %}
-            <div class="container col-md-8 mt-5 mb-5">
-                <form method="post" action="">
-                    <fieldset class="mb-4">
-                        <div class="form-group"><label for="inputTitle">Title</label>
-                            <input class="form-control" id="inputTitle" name="title" type="text" value="">
-                        </div>
-                        <div class="form-group"><label for="formControlTextareaContent">Description</label>
-                            <textarea class="form-control" id="formControlTextareaContent" name="content"></textarea>
-                        </div>
-                        <label for="formControlSelectCategory">Category</label>
-                        <select class="form-control" id="formControlSelectCategory" name="">
-                        </select>
-                        <input type="hidden" name="csrfToken" value="" />
-                    </fieldset>
-                    <fieldset class="d-flex flex-row-reverse">
-                        <button type="submit" class="btn btn-success">Save</button>
-                        <button type="submit" class="btn btn-danger mr-2">Delete</button>
-                    </fieldset>
-                </form>
-            </div>
-        {% else %}
-            <div class="mt-5 mb-5">
-                <h3>Description :</h3>
-                <article>
-                    {{ trick.description }}
-                </article>
-            </div>
-        {% endif %}
+{#        {% if app.user %}#}
+{#            <div class="container col-md-8 mt-5 mb-5">#}
+{#                <form method="post" action="">#}
+{#                    <fieldset class="mb-4">#}
+{#                        <div class="form-group"><label for="inputTitle">Title</label>#}
+{#                            <input class="form-control" id="inputTitle" name="title" type="text" value="">#}
+{#                        </div>#}
+{#                        <div class="form-group"><label for="formControlTextareaContent">Description</label>#}
+{#                            <textarea class="form-control" id="formControlTextareaContent" name="content"></textarea>#}
+{#                        </div>#}
+{#                        <label for="formControlSelectCategory">Category</label>#}
+{#                        <select class="form-control" id="formControlSelectCategory" name="">#}
+{#                        </select>#}
+{#                        <input type="hidden" name="csrfToken" value="" />#}
+{#                    </fieldset>#}
+{#                    <fieldset class="d-flex flex-row-reverse">#}
+{#                        <button type="submit" class="btn btn-success">Save</button>#}
+{#                        <button type="submit" class="btn btn-danger mr-2">Delete</button>#}
+{#                    </fieldset>#}
+{#                </form>#}
+{#            </div>#}
+        <div class="container col-md-8 mt-5 mb-5">
+            {{ form_start(formView) }}
+            <fieldset class="mb-4">
+                {{ form_errors(formView) }}
+
+                <div class="form-group">
+                    {{ form_row(formView.name, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(formView.name) }}
+                    {{ form_row(formView.description, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_row(formView.category, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </fieldset>
+            <fieldset>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Save
+                </button>
+            </fieldset>
+
+            {{ form_end(formView) }}
+        </div>
         <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3 mb-3">
             <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
             <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
