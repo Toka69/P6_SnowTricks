@@ -38,7 +38,7 @@ body, html {
     right: 16px;
 }
 
-.storefront-handheld-footer-bar {
+.handheld-footer-bar {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -49,11 +49,11 @@ body, html {
     background-color: #ffffff;
 }
 
-.storefront-handheld-footer-bar ul {
+.handheld-footer-bar ul {
     margin: 0;
 }
 
-.storefront-handheld-footer-bar ul li {
+.handheld-footer-bar ul li {
     display: inline-block;
     float: left;
     text-align: center;
