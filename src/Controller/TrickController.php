@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickController extends AbstractController
@@ -22,21 +23,28 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
+     * @param UserInterface $user
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
-        $form = $this->createForm(TrickType::class);
+    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserInterface $user){
+        $trick = new Trick;
+
+        $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted()){
-            $trick = $form->getData();
-            //$trick->setUserId();
+            $trick->setUser($user);
             $trick->setSlug(strtolower($slugger->slug($trick->getName())));
             $trick->setCreatedDate(new DateTimeImmutable());
 
             $em->persist($trick);
             $em->flush();
+
+            return $this->redirectToRoute('trick_show', [
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         $formView = $form->createView();
@@ -61,6 +69,11 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted()){
             $em->flush();
+
+            return $this->redirectToRoute('trick_show', [
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         $formView = $form->createView();
