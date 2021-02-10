@@ -6,9 +6,11 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
+use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,20 +22,25 @@ class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
+     * @param TrickRepository $trickRepository
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @param UserInterface $user
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserInterface $user){
+    public function add(TrickRepository $trickRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserInterface $user){
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted()){
+        if($form->isSubmitted() && $form->isValid()){
+
+            if (!is_null($trickRepository->findOneBy(['slug' => strtolower($slugger->slug($trick->getName()))]))){
+                $form['name']->addError(new FormError('Name exist. Please choose another.'));
+            }
             $trick->setUser($user);
             $trick->setSlug(strtolower($slugger->slug($trick->getName())));
             $trick->setCreatedDate(new DateTimeImmutable());
