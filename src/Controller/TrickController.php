@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use function Symfony\Component\String\u;
 
 class TrickController extends AbstractController
 {
@@ -42,7 +43,7 @@ class TrickController extends AbstractController
                 $form['name']->addError(new FormError('Name exist. Please choose another.'));
             }
             $trick->setUser($user);
-            $trick->setSlug(strtolower($slugger->slug($trick->getName())));
+            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setCreatedDate(new DateTimeImmutable());
 
             $em->persist($trick);
@@ -76,7 +77,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted()){
-            $trick->setSlug(strtolower($slugger->slug($trick->getName())));
+            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();
 
