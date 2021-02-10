@@ -49,27 +49,6 @@
                 </div>
             {% endfor %}
         </div>
-{#        {% if app.user %}#}
-{#            <div class="container col-md-8 mt-5 mb-5">#}
-{#                <form method="post" action="">#}
-{#                    <fieldset class="mb-4">#}
-{#                        <div class="form-group"><label for="inputTitle">Title</label>#}
-{#                            <input class="form-control" id="inputTitle" name="title" type="text" value="">#}
-{#                        </div>#}
-{#                        <div class="form-group"><label for="formControlTextareaContent">Description</label>#}
-{#                            <textarea class="form-control" id="formControlTextareaContent" name="content"></textarea>#}
-{#                        </div>#}
-{#                        <label for="formControlSelectCategory">Category</label>#}
-{#                        <select class="form-control" id="formControlSelectCategory" name="">#}
-{#                        </select>#}
-{#                        <input type="hidden" name="csrfToken" value="" />#}
-{#                    </fieldset>#}
-{#                    <fieldset class="d-flex flex-row-reverse">#}
-{#                        <button type="submit" class="btn btn-success">Save</button>#}
-{#                        <button type="submit" class="btn btn-danger mr-2">Delete</button>#}
-{#                    </fieldset>#}
-{#                </form>#}
-{#            </div>#}
         <div class="container col-md-8 mt-5 mb-5">
             {{ form_start(formView) }}
             <fieldset class="mb-4">
@@ -83,6 +62,10 @@
                 </div>
             </fieldset>
             <fieldset>
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i>
+                    Delete
+                </button>
                 <button type="submit" class="btn btn-primary">
                     <i class="fas fa-save"></i>
                     Save
