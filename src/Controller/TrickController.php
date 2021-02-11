@@ -6,28 +6,32 @@ use App\Entity\Category;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
+use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function Symfony\Component\String\u;
 
 class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
+     * @param TrickRepository $trickRepository
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @param Security $security
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
+    public function add(TrickRepository $trickRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick);
@@ -36,17 +40,24 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $slug = u($slugger->slug($trick->getName())->lower());
-            $trick->setSlug($slug);
-            $trick->setUser($security->getUser());
-            $trick->setCreatedDate(new DateTimeImmutable());
 
-            $em->persist($trick);
-            $em->flush();
+            if (!is_null($trickRepository->findOneBy(['slug' => $slug]))){
+                $form['name']->addError(new FormError('Name exist. Please choose another.'));
+            }
 
-            return $this->redirectToRoute('trick_show', [
-                'category_slug' => $trick->getCategory()->getSlug(),
-                'slug' => $trick->getSlug()
-            ]);
+            if ($form->getErrors(true)->count() === 0){
+                $trick->setSlug($slug);
+                $trick->setUser($security->getUser());
+                $trick->setCreatedDate(new DateTimeImmutable());
+
+                $em->persist($trick);
+                $em->flush();
+
+                return $this->redirectToRoute('trick_show', [
+                    'category_slug' => $trick->getCategory()->getSlug(),
+                    'slug' => $trick->getSlug()
+                ]);
+            }
         }
 
         return $this->render('trick/add.html.twig', [
@@ -56,26 +67,36 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="trick_edit")
+     * @param TrickRepository $trickRepository
      * @param Trick $trick
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function edit(Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
+    public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
-            $trick->setModifiedDate(new DateTimeImmutable());
-            $em->flush();
+            $slug = u($slugger->slug($trick->getName())->lower());
 
-            return $this->redirectToRoute('trick_show', [
-                'category_slug' => $trick->getCategory()->getSlug(),
-                'slug' => $trick->getSlug()
-            ]);
+            // $slug is the new slug and $trick->getSlug() is the previous.
+            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $trick->getSlug()){
+                $form['name']->addError(new FormError('An other trick with this name already exist. Please choose another !'));
+            }
+
+            if ($form->getErrors(true)->count() === 0) {
+                $trick->setSlug($slug);
+                $trick->setModifiedDate(new DateTimeImmutable());
+                $em->flush();
+
+                return $this->redirectToRoute('trick_show', [
+                    'category_slug' => $trick->getCategory()->getSlug(),
+                    'slug' => $trick->getSlug()
+                ]);
+            }
         }
 
         return $this->render('trick/edit.html.twig', [
