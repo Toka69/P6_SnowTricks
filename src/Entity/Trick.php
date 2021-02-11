@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -22,11 +23,15 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="The trick name is required !")
+     * @Assert\Length(min=3, max=255, minMessage="Trick name must be at least three characters long !")
      */
     private string $name;
 
     /**
      * @ORM\Column(type="string", length=4000)
+     * @Assert\NotBlank(message="The trick description is required !")
+     * @Assert\Length(min=3, minMessage="Trick description must be at least three characters long !")
      */
     private string $description;
 
