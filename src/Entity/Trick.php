@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as CustomAssert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -25,6 +26,7 @@ class Trick
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The trick name is required !")
      * @Assert\Length(min=3, max=255, minMessage="Trick name must be at least three characters long !")
+     * @CustomAssert\checkNameBySlug()
      */
     private string $name;
 

@@ -53,13 +53,9 @@
             {{ form_start(formView) }}
             <fieldset class="mb-4">
                 {{ form_errors(formView) }}
-
-                <div class="form-group">
-                    {{ form_row(formView.name, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(formView.name) }}
-                    {{ form_row(formView.description, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(formView.category, {'attr': {'class': 'form-control'}}) }}
-                </div>
+                {{ form_row(formView.name) }}
+                {{ form_row(formView.description) }}
+                {{ form_row(formView.category) }}
             </fieldset>
             <fieldset>
                 <button type="button" class="btn btn-danger">
@@ -71,7 +67,6 @@
                     Save
                 </button>
             </fieldset>
-
             {{ form_end(formView) }}
         </div>
         <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3 mb-3">
