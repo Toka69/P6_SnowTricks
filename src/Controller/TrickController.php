@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use function Symfony\Component\String\u;
 
 class TrickController extends AbstractController
@@ -81,10 +80,10 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $slug = u($slugger->slug($trick->getName())->lower());
-
             // $slug is the new slug and $trick->getSlug() is the previous.
-            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $trick->getSlug()){
+            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $request->getSession()->get('trickName')){
                 $form['name']->addError(new FormError('An other trick with this name already exist. Please choose another !'));
+                $trick->setName($request->getSession()->get('trickName'));
             }
 
             if ($form->getErrors(true)->count() === 0) {
@@ -92,12 +91,16 @@ class TrickController extends AbstractController
                 $trick->setModifiedDate(new DateTimeImmutable());
                 $em->flush();
 
+                $request->getSession()->remove('name');
+
                 return $this->redirectToRoute('trick_show', [
                     'category_slug' => $trick->getCategory()->getSlug(),
                     'slug' => $trick->getSlug()
                 ]);
             }
         }
+
+        $request->getSession()->set('trickName', $trick->getName());
 
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,
