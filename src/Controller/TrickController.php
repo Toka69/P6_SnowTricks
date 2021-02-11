@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
 
@@ -27,10 +27,10 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param UserInterface $user
+     * @param Security $security
      * @return Response
      */
-    public function add(TrickRepository $trickRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, UserInterface $user){
+    public function add(TrickRepository $trickRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick);
@@ -38,21 +38,25 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $slug = u($slugger->slug($trick->getName())->lower());
 
-            if (!is_null($trickRepository->findOneBy(['slug' => strtolower($slugger->slug($trick->getName()))]))){
+            if (!is_null($trickRepository->findOneBy(['slug' => $slug]))){
                 $form['name']->addError(new FormError('Name exist. Please choose another.'));
             }
-            $trick->setUser($user);
-            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
-            $trick->setCreatedDate(new DateTimeImmutable());
 
-            $em->persist($trick);
-            $em->flush();
+            if ($form->getErrors(true)->count() === 0){
+                $trick->setSlug($slug);
+                $trick->setUser($security->getUser());
+                $trick->setCreatedDate(new DateTimeImmutable());
 
-            return $this->redirectToRoute('trick_show', [
-                'category_slug' => $trick->getCategory()->getSlug(),
-                'slug' => $trick->getSlug()
-            ]);
+                $em->persist($trick);
+                $em->flush();
+
+                return $this->redirectToRoute('trick_show', [
+                    'category_slug' => $trick->getCategory()->getSlug(),
+                    'slug' => $trick->getSlug()
+                ]);
+            }
         }
 
         $formView = $form->createView();
@@ -71,7 +75,6 @@ class TrickController extends AbstractController
      * @return Response
      */
     public function edit(Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
-
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
