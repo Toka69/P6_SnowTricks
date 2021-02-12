@@ -54,18 +54,17 @@
                 </div>
                 <hr/>
                 {% if is_granted("ROLE_USER") %}
-                        <div class="container col-md-8 mt-5">
-                                <form method="post" action="">
-                                        <fieldset>
-                                                <div class="form-group">
-                                                        <textarea class="form-control" id="formControlTextareaMessage" name="message" rows="3" placeholder="Leave a comment" required></textarea>
-                                                </div>
-                                                <input type="hidden" name="csrfToken" value="" />
-                                                <button type="submit" class="btn btn-success">Submit</button>
-                                        </fieldset>
-                                </form>
-                        </div>
-                        <hr/>
+                <div class="container col-md-8 mt-5">
+                        {{ form_start(formView) }}
+                        <fieldset>
+                                {{ form_errors(formView) }}
+                                {{ form_row(formView.content) }}
+                                <input type="hidden" name="csrfToken" value="" />
+                                <button type="submit" class="btn btn-success">Submit</button>
+                        </fieldset>
+                        {{ form_end(formView) }}
+                </div>
+                <hr/>
                 {% endif %}
                 <div class="container col-md-8 mt-5">
                         <h6>Comments :</h6>

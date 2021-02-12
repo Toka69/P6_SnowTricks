@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
@@ -133,12 +135,35 @@ class TrickController extends AbstractController
     /**
      * @Route("/{category_slug}/{slug}",name="trick_show")
      * @param Trick $trick
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @param Security $security
      * @return Response
      */
-    public function show(Trick $trick): Response
+    public function show(Trick $trick, Request $request, EntityManagerInterface $em, Security $security): Response
     {
+        $comment = New Comment;
+
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setCreatedDate(new DateTimeImmutable());
+            $comment->setUser($security->getUser());
+            $comment->setTrick($trick);
+            $em->persist($comment);
+            $em->flush();
+
+            return $this->redirectToRoute('trick_show', [
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
+        }
+
         return $this->render('trick/show.html.twig', [
-            'trick' => $trick
+            'trick' => $trick,
+            'formView' => $form->createView()
         ]);
     }
 
