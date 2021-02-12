@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use function Symfony\Component\String\u;
 
 class TrickType extends AbstractType
 {
@@ -21,9 +22,7 @@ class TrickType extends AbstractType
             ->add('category', EntityType::class, [
                 'placeholder' => 'Select a category',
                 'class' => Category::class,
-                'choice_label' => function(Category $category){
-                    return strtoupper($category->getName());
-                }
+                'choice_label' => fn(Category $category) => u($category->getName())->upper()
             ]);
     }
 
