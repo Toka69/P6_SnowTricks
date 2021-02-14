@@ -54,10 +54,9 @@ class TrickController extends AbstractController
                 $em->persist($trick);
                 $em->flush();
 
-                return $this->redirectToRoute('trick_show', [
-                    'category_slug' => $trick->getCategory()->getSlug(),
-                    'slug' => $trick->getSlug()
-                ]);
+                $this->addFlash('success', 'Your trick has been created !');
+
+                return $this->redirectToRoute('homepage');
             }
         }
 
@@ -83,7 +82,7 @@ class TrickController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $slug = u($slugger->slug($trick->getName())->lower());
             // $slug is the new slug and $trick->getSlug() is the previous.
-            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $request->getSession()->get('trickName')){
+            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $request->getSession()->get('slugTrickNameBeforeChanged')){
                 $form['name']->addError(new FormError('An other trick with this name already exist. Please choose another !'));
                 $trick->setName($request->getSession()->get('trickName'));
             }
@@ -93,7 +92,9 @@ class TrickController extends AbstractController
                 $trick->setModifiedDate(new DateTimeImmutable());
                 $em->flush();
 
-                $request->getSession()->remove('name');
+                $request->getSession()->remove('slugTrickNameBeforeChanged');
+
+                $this->addFlash('success', 'Your trick has been changed');
 
                 return $this->redirectToRoute('trick_show', [
                     'category_slug' => $trick->getCategory()->getSlug(),
@@ -102,7 +103,7 @@ class TrickController extends AbstractController
             }
         }
 
-        $request->getSession()->set('trickName', $trick->getName());
+        $request->getSession()->set('slugTrickNameBeforeChanged', u($slugger->slug($trick->getName()))->lower());
 
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,
