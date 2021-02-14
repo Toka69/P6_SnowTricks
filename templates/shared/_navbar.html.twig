@@ -1,10 +1,14 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">SnowTricks</a>
-    <div class="navbar-toggler storefront-handheld-footer-bar">
+    <div class="navbar-toggler handheld-footer-bar">
         <ul class="col d-flex justify-content-between">
             <li><a href="{{ path('homepage') }}"><i class="fas fa-home fa-3x"></i></a></li>
             <li><a href="{{ path('homepage') }}#tricks"><i class="fas fa-bookmark fa-3x"></i></a></li>
-            <li><a href=""><i class="fas fa-sign-in-alt fa-3x"></i></a></li>
+            {% if is_granted("ROLE_USER") %}
+            <li><a href="{{ path('security_logout') }}"><i class="fas fa-sign-out-alt fa-3x"></i></a></li>
+            {% else %}
+            <li><a href="{{ path('security_login') }}"><i class="fas fa-sign-in-alt fa-3x"></i></a></li>
+            {% endif %}
         </ul>
     </div>
 
@@ -18,8 +22,8 @@
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            {% if app.user %}
-                <li><a href="{{ path('security_logout') }}"><i class="fas fa-sign-in-alt ml-2 mr-2"></i>Sign Out</a></li>
+            {% if is_granted("ROLE_USER") %}
+                <li><a href="{{ path('security_logout') }}"><i class="fas fa-sign-out-alt ml-2 mr-2"></i>Sign Out</a></li>
             {% else %}
                 <li><a href="{{ path('security_login') }}"><i class="fas fa-sign-in-alt ml-2 mr-2"></i>Sign In</a></li>
                 <li><a href="#"><i class="fas fa-user-plus ml-2 mr-2"></i>Sign Up</a></li>
