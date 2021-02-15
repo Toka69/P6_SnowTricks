@@ -105,6 +105,7 @@ class TrickController extends AbstractController
 
         $request->getSession()->set('slugTrickNameBeforeChanged', u($slugger->slug($trick->getName()))->lower());
 
+//        dd($form->createView());
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,
                 'formView' => $form->createView()

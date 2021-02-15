@@ -17,40 +17,31 @@
                 </div>
             {% endif %}
         </div>
+            <div class="col-md-3">
+                <div class="card mb-2">
+                        <label for="file-input">
+                            <img src="https://icon-library.com/images/upload-icon-image/upload-icon-image-12.jpg" class='img-fluid' style="width: 100px; height: 100px;"/>
+                        </label>
+
+                        <input id="file-input" type="file"/>
+
+                        <div>
+                            <a href="#"><i class="fas fa-trash-alt"></i></a>
+                        </div>
+                </div>
+            </div>
+            {{ form_start(formView) }}
         <div class="row">
-            {% for photo in trick.photos %}
-                <div class="col-md-3">
-                    <div class="card mb-2">
-                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                        {% if is_granted("ROLE_USER") %}
-                            <div class="card-body d-flex justify-content-end">
-                                <div>
-                                    <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="fas fa-trash-alt"></i></a>
-                                </div>
-                            </div>
-                        {%  endif %}
-                    </div>
+            {% for photo in formView.photos %}
+            <div class="col-md-3">
+                <div class="card mb-2">
+                    {{ form_label(photo.location, "<img src='#{photo.vars.value.location}' alt='trick' class='img-fluid' style='height: 150px'") }}
+                    {{ form_widget(photo.location) }}
                 </div>
-            {% endfor %}
-            {% for video in trick.videos %}
-                <div class="col-md-3">
-                    <div class="card mb-2">
-                        <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        {% if is_granted("ROLE_USER") %}
-                            <div class="card-body d-flex justify-content-end">
-                                <div>
-                                    <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                                    <a href="#"><i class="fas fa-trash-alt"></i></a>
-                                </div>
-                            </div>
-                        {%  endif %}
-                    </div>
-                </div>
+            </div>
             {% endfor %}
         </div>
         <div class="container col-md-8 mt-5 mb-5">
-            {{ form_start(formView) }}
             <fieldset class="mb-4">
                 {{ form_errors(formView) }}
                 {{ form_row(formView.name) }}
