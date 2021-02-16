@@ -21,7 +21,9 @@ class TrickType extends AbstractType
     {
         $builder
             ->add('photos', CollectionType::class, [
-                'entry_type' => PhotoType::class
+                'entry_type' => PhotoType::class,
+                'allow_add' => true,
+                'allow_delete' => true
             ])
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)

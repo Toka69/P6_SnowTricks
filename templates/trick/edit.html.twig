@@ -17,29 +17,19 @@
                 </div>
             {% endif %}
         </div>
-            <div class="col-md-3">
-                <div class="card mb-2">
-                        <label for="file-input">
-                            <img src="https://icon-library.com/images/upload-icon-image/upload-icon-image-12.jpg" class='img-fluid' style="width: 100px; height: 100px;"/>
-                        </label>
-
-                        <input id="file-input" type="file"/>
-
-                        <div>
-                            <a href="#"><i class="fas fa-trash-alt"></i></a>
-                        </div>
-                </div>
-            </div>
             {{ form_start(formView) }}
         <div class="row">
             {% for photo in formView.photos %}
             <div class="col-md-3">
                 <div class="card mb-2">
-                    {{ form_label(photo.location, "<img src='#{photo.vars.value.location}' alt='trick' class='img-fluid' style='height: 150px'") }}
-                    {{ form_widget(photo.location) }}
+                    <img src='{{ photo.vars.value.location }}' alt='trick' class='img-fluid' style='height: 150px'>
+                    {{ form_widget(photo) }}
                 </div>
             </div>
             {% endfor %}
+        </div>
+        <div>
+            <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
         </div>
         <div class="container col-md-8 mt-5 mb-5">
             <fieldset class="mb-4">
@@ -67,4 +57,65 @@
             <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        // setup an "add a photo" link
+        var $addphotoLink = $('<a href="#" class="btn btn-primary">Add a Photo</a>');
+        var $newLinkLi = $('<li></li>').append($addphotoLink);
+
+        jQuery(document).ready(function() {
+            // Get the ul that holds the collection of photos
+            var $collectionHolder = $('ul.photos');
+
+            // add the "add a photo" anchor and li to the photos ul
+            $collectionHolder.append($newLinkLi);
+
+            // count the current form inputs we have (e.g. 2), use that as the new
+            // index when inserting a new item (e.g. 2)
+            $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+            $addphotoLink.on('click', function(e) {
+                // prevent the link from creating a "#" on the URL
+                e.preventDefault();
+
+                // add a new photo form (see code block below)
+                addphotoForm($collectionHolder, $newLinkLi);
+            });
+        });
+
+        function addphotoForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '$$name$$' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a photo" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+
+            // also add a remove button, just for this example
+            $newFormLi.append('<a href="#" class="remove-photo btn btn-danger">Delete</a>');
+
+            $newLinkLi.before($newFormLi);
+
+            // handle the removal, just for this example
+            $('.remove-photo').click(function(e) {
+                e.preventDefault();
+
+                $(this).parent().remove();
+
+                return false;
+            });
+        }
+    </script>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
@@ -31,6 +32,20 @@ class Photo
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $cover;
+
+    private $file;
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        //return $this;
+    }
 
     public function getId(): ?int
     {
