@@ -14,10 +14,11 @@ class PhotoType extends AbstractType
     {
         $builder
             ->add('file', FileType::class, [
-                'label_html' => true
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false
             ])
-//            ->add('cover')
-//            ->add('trick')
         ;
     }
 

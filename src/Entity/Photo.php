@@ -32,7 +32,9 @@ class Photo
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $cover;
-
+    /**
+     * @var UploadedFile
+     */
     private $file;
 
     public function getFile()
@@ -44,7 +46,7 @@ class Photo
     {
         $this->file = $file;
 
-        //return $this;
+        return $this;
     }
 
     public function getId(): ?int
