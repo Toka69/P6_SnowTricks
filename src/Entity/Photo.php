@@ -32,6 +32,7 @@ class Photo
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $cover;
+
     /**
      * @var UploadedFile
      */
