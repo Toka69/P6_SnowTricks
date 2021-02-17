@@ -46,7 +46,7 @@ class Trick
     private ?Category $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick", cascade={"persist"})
      */
     private Collection $photos;
 

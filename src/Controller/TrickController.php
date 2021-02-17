@@ -13,6 +13,8 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,6 +74,7 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
+     * @param UploadedFile $file
      * @return Response
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
@@ -80,8 +83,32 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            $photos = $form['photos']->getData();
+            foreach ($photos as $photo){
+                $photoFile=$photo->getFile();
+                if($photoFile) {
+                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
+
+                    try {
+                        $photoFile->move(
+                            $this->getParameter('photos_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $photo->setLocation($newFilename);
+                    if(is_null($photo->getTrick())){
+                        $photo->setTrick($trick);
+                    }
+                }
+            }
+
             $slug = u($slugger->slug($trick->getName())->lower());
-            // $slug is the new slug and $trick->getSlug() is the previous.
             if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $request->getSession()->get('slugTrickNameBeforeChanged')){
                 $form['name']->addError(new FormError('An other trick with this name already exist. Please choose another !'));
                 $trick->setName($request->getSession()->get('trickName'));
