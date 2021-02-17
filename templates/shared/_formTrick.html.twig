@@ -1,0 +1,33 @@
+{{ form_start(formView) }}
+
+<div
+    id="{{ formView.photos.vars.id }}"
+    class="row"
+    >
+        {% for photo in formView.photos %}
+            {{ include("/shared/_formPhoto.html.twig", {form: photo}) }}
+        {% endfor %}
+</div>
+<div class="card-footer d-flex justify-content-between">
+    <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
+</div>
+
+<div class="container col-md-8 mt-5 mb-5">
+    <fieldset class="mb-4">
+        {{ form_errors(formView) }}
+        {{ form_row(formView.name) }}
+        {{ form_row(formView.description) }}
+        {{ form_row(formView.category) }}
+    </fieldset>
+    <fieldset>
+        <button type="button" class="btn btn-danger">
+            <i class="fas fa-trash"></i>
+            Delete
+        </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            Save
+        </button>
+    </fieldset>
+</div>
+{{ form_end(formView) }}

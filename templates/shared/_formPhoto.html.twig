@@ -1,0 +1,10 @@
+<div id="collection-photo {{ form.vars.id }}" class="col-md-3">
+    <div id="photoCard" class="card mb-2">
+        {% if form.vars.data is not null %}
+            <img src='{{ form.vars.value.location }}' alt='trick' class='img-fluid' style='height: 150px'>
+        {% endif %}
+        {{ form_widget(form) }}
+{#        <button type="button" class="btn btn-danger collection-item-delete"><i class="fas fa-trash"></i></button>#}
+        <a href="#"><i class="fas fa-trash-alt"></i></a>
+    </div>
+</div>
