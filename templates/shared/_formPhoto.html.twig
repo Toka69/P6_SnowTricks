@@ -7,8 +7,14 @@
                 <img src='{{ asset('/uploads/') }}{{ form.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
             {% endif %}
         {% endif %}
-        {{ form_widget(form) }}
+        <div class="d-flex flex-row-reverse mr-1">
+            <div class="m-1 p-1 rounded bg-light">
+                {{ form_label(form.file) }}
+                {{ form_widget(form.file) }}
+                {{ form_widget(form.delete) }}
 {#        <button type="button" class="btn btn-danger collection-item-delete"><i class="fas fa-trash"></i></button>#}
-        <a href="#"><i class="fas fa-trash-alt"></i></a>
+{#                <a href="#"><i class="fas fa-trash-alt"></i></a>#}
+            </div>
+        </div>
     </div>
 </div>

@@ -71,3 +71,16 @@ body, html {
     height: 90px;
     width: 90px;
 }
+
+.custom-file-input ~ .custom-file-label::after {
+    display: none;
+}
+
+.fas{
+    cursor: pointer;
+    color: #158cba;
+}
+
+.custom-file {
+    display:none;
+}

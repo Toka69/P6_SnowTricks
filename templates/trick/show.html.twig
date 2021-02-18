@@ -4,7 +4,12 @@
 
 {% block body %}
         <div class="container mt-5 pt-3 border rounded">
-                <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+
+                {% if 'https://' in trick.getCover.location %}
+                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+                {% else %}
+                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
+                {% endif %}
                         <div class="hero-text">
                                 <h1>{{ trick.name|capitalize }}</h1>
                         </div>
@@ -27,7 +32,11 @@
                                 {% for photo in trick.photos %}
                                 <div class="col-md-3">
                                         <div class="card mb-2">
-                                                <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                {% if 'https://' in photo.location %}
+                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                {% else %}
+                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                {% endif %}
                                         </div>
                                 </div>
                                 {% endfor %}
