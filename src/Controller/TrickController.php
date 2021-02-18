@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -74,10 +75,11 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param UploadedFile $file
+     * @param FileUploader $fileUploader
      * @return Response
      */
-    public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
+    public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
+                         EntityManagerInterface $em, FileUploader $fileUploader){
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
@@ -88,20 +90,8 @@ class TrickController extends AbstractController
             foreach ($photos as $photo){
                 $photoFile=$photo->getFile();
                 if($photoFile) {
-                    $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $photoFile->guessExtension();
-
-                    try {
-                        $photoFile->move(
-                            $this->getParameter('photos_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $photo->setLocation($newFilename);
+                    $photoFilename = $fileUploader->upload($photoFile);
+                    $photo->setLocation($photoFilename);
                     if(is_null($photo->getTrick())){
                         $photo->setTrick($trick);
                     }
