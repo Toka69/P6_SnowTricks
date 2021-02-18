@@ -142,9 +142,16 @@ class TrickController extends AbstractController
 
     /**
      * @Route("{id}/delete", name="trick_delete")
+     * @param Photo $photo
+     * @param Request $request
      */
-    public function delete(){
-
+    public function delete(Photo $photo, Request $request, EntityManagerInterface $em){
+//        $name = $photo->getLocation();
+//        unlink($this->getParameter('photos_directory').'/'.$name);
+//        $em->remove($photo);
+//        $em->flush();
+//
+//        return $this->redirectToRoute('homepage');
     }
 
     /**

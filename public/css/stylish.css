@@ -76,7 +76,7 @@ body, html {
     display: none;
 }
 
-.fas{
+#trick_photos .fas, .card-footer .fas{
     cursor: pointer;
     color: #158cba;
 }

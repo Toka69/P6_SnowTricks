@@ -99,6 +99,18 @@
                 var file = e.target.files[0].name;
                 alert('Le fichier "' + file + '" a été sélectionné.');
             });
+
+            // $('button[class="delete btn"]').click(function () {
+            //     $('div[id="photoCard"]').hide();
+            // });
+
+            // $('#conteneur-parent > button').click(function(){
+            $('button[class="delete btn"]').click(function(){
+                var x = $(this).attr('id');
+                x = x.replace("_delete", "");
+                var test = 'div[id="collection photo '+ x +'"]';
+                $('div[id="collection-photo '+ x +'"]').hide();
+            });
         });
     </script>
 {% endblock %}
