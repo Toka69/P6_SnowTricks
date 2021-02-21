@@ -9,13 +9,10 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
-use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,7 +77,9 @@ class TrickController extends AbstractController
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
                          EntityManagerInterface $em, FileUploader $fileUploader){
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickType::class, $trick, [
+            "validation_groups" => "editTrick"
+        ]);
 
         $form->handleRequest($request);
 
@@ -98,31 +97,23 @@ class TrickController extends AbstractController
                 }
             }
 
-            $slug = u($slugger->slug($trick->getName())->lower());
-            if(!is_null($trickRepository->findOneBy(['slug' => $slug])) && $slug != $request->getSession()->get('slugTrickNameBeforeChanged')){
-                $form['name']->addError(new FormError('An other trick with this name already exist. Please choose another !'));
-                $trick->setName($request->getSession()->get('trickName'));
-            }
+            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
+            $trick->setModifiedDate(new DateTimeImmutable());
+            $em->flush();
 
-            if ($form->getErrors(true)->count() === 0) {
-                $trick->setSlug($slug);
-                $trick->setModifiedDate(new DateTimeImmutable());
-                $em->flush();
+            $request->getSession()->remove('slugTrickNameBeforeChanged');
 
-                $request->getSession()->remove('slugTrickNameBeforeChanged');
+            $this->addFlash('success', 'Your trick has been changed');
 
-                $this->addFlash('success', 'Your trick has been changed');
-
-                return $this->redirectToRoute('trick_show', [
-                    'category_slug' => $trick->getCategory()->getSlug(),
-                    'slug' => $trick->getSlug()
-                ]);
-            }
+            return $this->redirectToRoute('trick_show', [
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
-        $request->getSession()->set('slugTrickNameBeforeChanged', u($slugger->slug($trick->getName()))->lower());
+        $trickUnchanged = $trickRepository->findOneBy(['id' => $trick->getId()]);
+        $request->getSession()->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
 
-//        dd($form->createView());
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,
                 'formView' => $form->createView()
@@ -132,17 +123,9 @@ class TrickController extends AbstractController
 
     /**
      * @Route("{id}/delete", name="trick_delete")
-     * @param Photo $photo
-     * @param Request $request
-     * @param EntityManagerInterface $em
      */
-    public function delete(Photo $photo, Request $request, EntityManagerInterface $em){
-//        $name = $photo->getLocation();
-//        unlink($this->getParameter('photos_directory').'/'.$name);
-//        $em->remove($photo);
-//        $em->flush();
-//
-//        return $this->redirectToRoute('homepage');
+    public function delete(){
+
     }
 
     /**
