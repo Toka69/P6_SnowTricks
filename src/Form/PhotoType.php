@@ -6,6 +6,7 @@ use App\Entity\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -20,7 +21,9 @@ class PhotoType extends AbstractType
                 'label' => '<i class="fas fa-pencil-alt"></i>',
                 'label_html' => true,
                 'required' => false
-            ]);
+            ])
+            ->add('id', HiddenType::class)
+            ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();

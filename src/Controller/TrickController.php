@@ -8,6 +8,7 @@ use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
+use App\Repository\PhotoRepository;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use DateTimeImmutable;
@@ -80,6 +81,7 @@ class TrickController extends AbstractController
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
                          EntityManagerInterface $em, FileUploader $fileUploader, SessionInterface $session){
+
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => "editTrick"
         ]);
@@ -97,6 +99,16 @@ class TrickController extends AbstractController
                     if(is_null($photo->getTrick())){
                         $photo->setTrick($trick);
                     }
+                }
+            }
+
+            $photoToDelete = $session->get('arrayPhotoToDelete');
+            if($photoToDelete['trickId'] === $trick->getId()){
+                for ($i = 0; $i < (count($photoToDelete)-1); $i++){
+//                    $photoToDelete[$i]
+//
+//                    $em->remove();
+//                    $em->flush();
                 }
             }
 
@@ -214,5 +226,38 @@ class TrickController extends AbstractController
         }
 
         return $this->json($arrayJson);
+    }
+
+    /**
+     * @Route("/trick/{trickId}/photo/{photoId}/delete", name="trick_photo_delete")
+     * @param PhotoRepository $photoRepository
+     * @param $trickId
+     * @param $photoId
+     * @param SessionInterface $session
+     * @param Request $request
+     * @return Response
+     */
+    public function preparePhotoDelete(PhotoRepository $photoRepository, int $trickId, int $photoId, SessionInterface $session, Request $request){
+        if($request->isMethod('DELETE')){
+            if(is_null($session->get('arrayPhotoToDelete'))){
+                $photoToDelete = ['trickId' => $trickId];
+            }
+            else {
+                $photoToDelete = $session->get('arrayPhotoToDelete');
+            }
+
+            if($photoRepository->findOneBy(['id' => $photoId])->getTrick()->getId() !== $photoToDelete['trickId']){
+                $photoToDelete = ['trickId' => $trickId];
+            }
+
+                array_push($photoToDelete, $photoId);
+                $session->set('arrayPhotoToDelete', $photoToDelete);
+
+                return new Response(null, 204);
+        }
+
+        $session->remove('arrayPhotoToDelete');
+
+        return new Response(null, 401);
     }
 }
