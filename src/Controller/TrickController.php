@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -73,10 +75,11 @@ class TrickController extends AbstractController
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @param FileUploader $fileUploader
+     * @param SessionInterface $session
      * @return Response
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
-                         EntityManagerInterface $em, FileUploader $fileUploader){
+                         EntityManagerInterface $em, FileUploader $fileUploader, SessionInterface $session){
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => "editTrick"
         ]);
@@ -101,7 +104,7 @@ class TrickController extends AbstractController
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();
 
-            $request->getSession()->remove('slugTrickNameBeforeChanged');
+            $session->remove('slugTrickNameBeforeChanged');
 
             $this->addFlash('success', 'Your trick has been changed');
 
@@ -112,7 +115,7 @@ class TrickController extends AbstractController
         }
 
         $trickUnchanged = $trickRepository->findOneBy(['id' => $trick->getId()]);
-        $request->getSession()->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
+        $session->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
 
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,

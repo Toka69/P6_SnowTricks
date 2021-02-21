@@ -11,7 +11,7 @@
             <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
         {% endif %}
             <div class="hero-text">
-                <h1>{{ trick.name|capitalize }}</h1>
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
             </div>
             {% if is_granted("ROLE_USER") %}
                 <div class="d-flex flex-row-reverse mr-4">
