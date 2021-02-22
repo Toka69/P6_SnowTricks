@@ -55,13 +55,6 @@ class Photo
         return $this->id;
     }
 
-    public function setId(int $id): self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
     public function getLocation(): ?string
     {
         return $this->location;

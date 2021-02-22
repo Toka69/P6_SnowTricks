@@ -22,7 +22,6 @@ class PhotoType extends AbstractType
                 'label_html' => true,
                 'required' => false
             ])
-            ->add('id', HiddenType::class)
             ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
