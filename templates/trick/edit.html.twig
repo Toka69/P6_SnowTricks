@@ -39,53 +39,30 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        // setup an "add a photo" link
         var $addphotoLink = $('<a href="#" class="btn btn-primary">Add a Photo</a>');
         var $newLinkLi = $('<li></li>').append($addphotoLink);
 
         jQuery(document).ready(function() {
-            // Get the ul that holds the collection of photos
             var $collectionHolder = $('ul.photos');
             var $nbPhoto = $("[id=photoCard]").length;
-            // add the "add a photo" anchor and li to the photos ul
             $collectionHolder.append($newLinkLi);
-
-            // count the current form inputs we have (e.g. 2), use that as the new
-            // index when inserting a new item (e.g. 2)
             $collectionHolder.data('index', $nbPhoto);
 
             $addphotoLink.on('click', function(e) {
-                // prevent the link from creating a "#" on the URL
                 e.preventDefault();
-
-                // add a new photo form (see code block below)
                 addphotoForm($collectionHolder, $newLinkLi);
             });
         });
 
         function addphotoForm($collectionHolder, $newLinkLi) {
-            // Get the data-prototype explained earlier
             var prototype = $collectionHolder.data('prototype');
-
-            // get the new index
             var index = $collectionHolder.data('index');
-
-            // Replace '$$name$$' in the prototype's HTML to
-            // instead be a number based on how many items we have
             var newForm = prototype.replace(/__name__/g, index);
-
-            // increase the index with one for the next item
             $collectionHolder.data('index', index + 1);
-
-            // Display the form in the page in an li, before the "Add a photo" link li
             var $newFormLi = $('<li></li>').append(newForm);
-
-            // also add a remove button, just for this example
             $newFormLi.append('<a href="#" class="remove-photo btn btn-danger">Delete</a>');
-
             $newLinkLi.before($newFormLi);
 
-            // handle the removal, just for this example
             $('.remove-photo').click(function(e) {
                 e.preventDefault();
 
