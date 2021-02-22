@@ -103,17 +103,7 @@
             });
 
             $('button[class="delete btn"]').click(function(){
-                var x = $(this).attr('id');
-                x = x.replace("_delete", "");
-                $('div[id="collection-photo '+ x +'"]').hide();
-
-                var y = x + '_id';
-                var photoId = $('input[id="'+ x +'_id"]').attr('value');
-
-                $.ajax({
-                    url: '/trick/' + {{ trick.id }} + '/photo/'+ photoId + '/delete',
-                    method: 'DELETE'
-                })
+                $(this).closest("div.col-md-3").remove();
             });
         });
     </script>
