@@ -3,7 +3,6 @@
 {% block title %}Trick edit{% endblock %}
 
 {% block body %}
-    {{ dump(app.session.get('arrayPhotoToDelete')) }}
     <div class="container mt-5 pt-3 border rounded">
 
         {% if 'https://' in trick.getCover.location %}
@@ -39,7 +38,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript">
-        var $addphotoLink = $('<a href="#" class="btn btn-primary">Add a Photo</a>');
+        var $addphotoLink = $('<a href="#" class="btn btn-primary mt-1">Add a Photo</a>');
         var $newLinkLi = $('<li></li>').append($addphotoLink);
 
         jQuery(document).ready(function() {
@@ -51,6 +50,7 @@
             $addphotoLink.on('click', function(e) {
                 e.preventDefault();
                 addphotoForm($collectionHolder, $newLinkLi);
+                bsCustomFileInput.init();
             });
         });
 
@@ -59,13 +59,12 @@
             var index = $collectionHolder.data('index');
             var newForm = prototype.replace(/__name__/g, index);
             $collectionHolder.data('index', index + 1);
-            var $newFormLi = $('<li></li>').append(newForm);
-            $newFormLi.append('<a href="#" class="remove-photo btn btn-danger">Delete</a>');
+            var $newFormLi = $('<li class="card mb-1"></li>').append(newForm);
+            $newFormLi.append('<a href="#" class="remove-photo mb-1 btn btn-danger">Delete</a>');
             $newLinkLi.before($newFormLi);
 
             $('.remove-photo').click(function(e) {
                 e.preventDefault();
-
                 $(this).parent().remove();
 
                 return false;
@@ -73,14 +72,15 @@
         }
 
         $(document).ready(function() {
-            $('input[type="file"]').change(function(e) {
-                var file = e.target.files[0].name;
-                alert('Le fichier "' + file + '" a été sélectionné.');
-            });
-
             $('button[class="delete btn"]').click(function(){
                 $(this).closest("div.photo").remove();
             });
         });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            bsCustomFileInput.init()
+        })
     </script>
 {% endblock %}

@@ -8,7 +8,7 @@
             {{ include("/shared/_formPhoto.html.twig", {form: photo}) }}
         {% endfor %}
 </div>
-<div class="card-footer d-flex justify-content-between">
+<div class="card-footer d-flex justify-content-center">
     <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
 </div>
 
