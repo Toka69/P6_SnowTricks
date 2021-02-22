@@ -23,7 +23,8 @@ class TrickType extends AbstractType
             ->add('photos', CollectionType::class, [
                 'entry_type' => PhotoType::class,
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             ->add('name', TextType::class)
             ->add('description', TextareaType::class)
