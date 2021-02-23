@@ -27,39 +27,32 @@ class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
-     * @param TrickRepository $trickRepository
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @param Security $security
      * @return Response
      */
-    public function add(TrickRepository $trickRepository, Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
+    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
         $trick = new Trick;
 
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickType::class, $trick, [
+            "validation_groups" => "addTrick"
+        ]);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $slug = u($slugger->slug($trick->getName())->lower());
+            $trick->setSlug($slugger->slug($trick->getName())->lower());
+            $trick->setUser($security->getUser());
+            $trick->setCreatedDate(new DateTimeImmutable());
 
-            if (!is_null($trickRepository->findOneBy(['slug' => $slug]))){
-                $form['name']->addError(new FormError('Name exist. Please choose another.'));
-            }
+            $em->persist($trick);
+            $em->flush();
 
-            if ($form->getErrors(true)->count() === 0){
-                $trick->setSlug($slug);
-                $trick->setUser($security->getUser());
-                $trick->setCreatedDate(new DateTimeImmutable());
+            $this->addFlash('success', 'Your trick has been created !');
 
-                $em->persist($trick);
-                $em->flush();
-
-                $this->addFlash('success', 'Your trick has been created !');
-
-                return $this->redirectToRoute('homepage');
-            }
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('trick/add.html.twig', [
