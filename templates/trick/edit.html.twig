@@ -5,24 +5,6 @@
 {% block body %}
     <div class="container mt-5 pt-3 border rounded">
 
-        {% if 'https://' in trick.getCover.location %}
-            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
-        {% else %}
-            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
-        {% endif %}
-            <div class="hero-text">
-                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
-            </div>
-            {% if is_granted("ROLE_USER") %}
-                <div class="d-flex flex-row-reverse mr-4">
-                    <div class="mt-3 p-3 rounded bg-light">
-                        <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                        <a href="#"><i class="fas fa-trash-alt"></i></a>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-
         {% include '/shared/_formTrick.html.twig' %}
 
         <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3 mb-3">

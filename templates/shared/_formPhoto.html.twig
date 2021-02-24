@@ -1,18 +1,87 @@
-<div id="collection-photo {{ form.vars.id }}" class="col-md-3 photo">
-    <div id="photoCard" class="card mb-2">
-        {% if form.vars.data is not null %}
-            {% if 'https://' in form.vars.value.location %}
-                <img src='{{ form.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
-            {% else %}
-                <img src='{{ asset('/uploads/') }}{{ form.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
-            {% endif %}
+{% set foo = false %}
+{% for photo in form %}
+    {%  if photo.vars.value.cover == true %}
+        {% if 'https://' in trick.getCover.location %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+        {% else %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
         {% endif %}
-        <div class="d-flex flex-row-reverse mr-1">
-            <div class="m-1 p-1 rounded bg-light d-flex flex-row">
-                {{ form_widget(form.file) }}
-                {{ form_label(form.file) }}
-                {{ form_widget(form.delete) }}
-            </div>
+        <div class="hero-text">
+            <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
         </div>
-    </div>
+        {% if is_granted("ROLE_USER") %}
+            <div class="d-flex flex-row-reverse mr-4">
+                <div class="mt-3 p-3 rounded bg-light">
+                    {{ form_widget(photo.file) }}
+                    {{ form_label(photo.file) }}
+                    {{ form_widget(photo.delete) }}
+                </div>
+            </div>
+        {% endif %}
+            </div>
+        {% set foo = true %}
+    {% endif %}
+{% endfor %}
+{% if foo == false %}
+        {% if 'https://' in trick.getCover.location %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+        {% else %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
+        {% endif %}
+                <div class="hero-text">
+                    <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+                </div>
+            </div>
+                {% if is_granted("ROLE_USER") %}
+                    <div class="d-flex flex-row-reverse mr-4">
+                        <div class="mt-3 p-3 rounded bg-light">
+
+                        </div>
+                    </div>
+                {% endif %}
+{% endif %}
+
+<div id="{{ form.vars.id }}" class="row">
+{% for photo in form %}
+        {%  if photo.vars.value.cover == false %}
+            <div id="collection-photo {{ photo.vars.id }}" class="col-md-3 photo">
+                <div id="photoCard" class="card mb-2">
+                    {% if photo.vars.data is not null %}
+                        {% if 'https://' in photo.vars.value.location %}
+                            <img src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                        {% else %}
+                            <img src='{{ asset('/uploads/') }}{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                        {% endif %}
+                    {% endif %}
+                    <div class="d-flex flex-row-reverse mr-1">
+                        <div class="m-1 p-1 rounded bg-light d-flex flex-row">
+                            {{ form_widget(photo.file) }}
+                            {{ form_label(photo.file) }}
+                            {{ form_widget(photo.delete) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    {% endif %}
+{% endfor %}
+
 </div>
+{#        {% if 'https://' in trick.getCover.location %}#}
+{#            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">#}
+{#        {% else %}#}
+{#            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">#}
+{#        {% endif %}#}
+{#        <div class="hero-text">#}
+{#            <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>#}
+{#        </div>#}
+{#        #}{#            {% if is_granted("ROLE_USER") %}#}
+{#        #}{#                <div class="d-flex flex-row-reverse mr-4">#}
+{#        #}{#                    <div class="mt-3 p-3 rounded bg-light">#}
+{#        #}{#                        <a href="#" class="mr-3"><i class="fas fa-pencil-alt"></i></a>#}
+{#        #}{#                        <a href="#"><i class="fas fa-trash-alt"></i></a>#}
+{#        #}{#                    </div>#}
+{#        #}{#                </div>#}
+{#        #}{#            {% endif %}#}
+{#        </div>#}
+
