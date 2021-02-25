@@ -1,5 +1,47 @@
 {{ form_start(formView) }}
+{% set foo = false %}
+{% for photo in formView.photos %}
+    {%  if photo.vars.value.cover == true %}
+        {% if 'https://' in trick.getCover.location %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+        {% else %}
+            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
+        {% endif %}
+        <div class="hero-text">
+            <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+        </div>
+        {% if is_granted("ROLE_USER") %}
+            <div class="d-flex flex-row-reverse mr-4">
+                <div class="mt-3 p-3 rounded bg-light">
+                    {{ form_widget(photo.file) }}
+                    {{ form_label(photo.file) }}
+                    {{ form_widget(photo.delete) }}
+                </div>
+            </div>
+        {% endif %}
+        </div>
+        {% set foo = true %}
+    {% endif %}
+{% endfor %}
 
+    {% if foo == false %}
+    {% if 'https://' in trick.getCover.location %}
+        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+    {% else %}
+        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
+    {% endif %}
+            <div class="hero-text">
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+            </div>
+        {% if is_granted("ROLE_USER") %}
+            <div class="d-flex flex-row-reverse mr-4">
+                <div class="mt-3 p-3 rounded bg-light">
+                    {{ form_widget(formView.fileCover) }}
+                </div>
+            </div>
+        {% endif %}
+        {% endif %}
+        </div>
 {{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
 
 <div class="card-footer d-flex justify-content-center">

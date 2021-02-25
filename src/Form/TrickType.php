@@ -32,7 +32,9 @@ class TrickType extends AbstractType
                 'placeholder' => 'Select a category',
                 'class' => Category::class,
                 'choice_label' => fn(Category $category) => u($category->getName())->upper()
-            ]);
+            ])
+            ->add('fileCover', FileType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
