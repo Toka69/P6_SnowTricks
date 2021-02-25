@@ -33,7 +33,11 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => fn(Category $category) => u($category->getName())->upper()
             ])
-            ->add('fileCover', FileType::class)
+            ->add('fileCover', FileType::class, [
+                'label' => '<i class="fas fa-pencil-alt"></i>',
+                'label_html' => true,
+                'required' => false
+            ])
         ;
     }
 

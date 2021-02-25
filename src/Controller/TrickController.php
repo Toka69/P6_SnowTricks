@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Photo;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
@@ -82,6 +83,16 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
+            $cover = $form->getData()->getFileCover();
+            if($cover) {
+                $coverFilename = $fileUploader->upload($cover);
+                $photo = new Photo;
+                $photo->setLocation($coverFilename)
+                    ->setTrick($trick)
+                    ->setCover(true);
+                $em->persist($photo);
+            }
+
             $photos = $form['photos']->getData();
             foreach ($photos as $photo){
                 $photoFile=$photo->getFile();
@@ -93,6 +104,7 @@ class TrickController extends AbstractController
                     }
                 }
             }
+
             $trickPhotos = $trick->getPhotos();
             foreach ($trickPhotos as $trickPhoto){
                 if(is_null($trickPhoto->getLocation())){
