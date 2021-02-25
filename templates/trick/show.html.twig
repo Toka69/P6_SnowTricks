@@ -30,22 +30,24 @@
                 <div class="collapse d-lg-block" id="collapseMedia">
                         <div class="row">
                                 {% for photo in trick.photos %}
-                                <div class="col-md-3">
-                                        <div class="card mb-2">
-                                                {% if 'https://' in photo.location %}
-                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                                {% else %}
-                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                                {% endif %}
-                                        </div>
-                                </div>
+                                        {%  if photo.cover == false %}
+                                                <div class="col-md-3">
+                                                        <div class="card mb-2">
+                                                                {% if 'https://' in photo.location %}
+                                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                {% else %}
+                                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                {% endif %}
+                                                        </div>
+                                                </div>
+                                        {% endif %}
                                 {% endfor %}
                                 {% for video in trick.videos %}
-                                <div class="col-md-3">
-                                        <div class="card mb-2">
-                                                <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <div class="col-md-3">
+                                                <div class="card mb-2">
+                                                        <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </div>
                                         </div>
-                                </div>
                                 {% endfor %}
                         </div>
                 </div>

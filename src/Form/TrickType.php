@@ -4,19 +4,27 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\Trick;
+use App\Repository\PhotoRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use function Symfony\Component\String\u;
 
 class TrickType extends AbstractType
 {
+    private $photoRepository;
+
+    public function __construct(PhotoRepository $photoRepository){
+        $this->photoRepository = $photoRepository;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -33,12 +41,19 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => fn(Category $category) => u($category->getName())->upper()
             ])
-            ->add('fileCover', FileType::class, [
-                'label' => '<i class="fas fa-pencil-alt"></i>',
-                'label_html' => true,
-                'required' => false
-            ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
+            $form = $event->getForm();
+            $trick = $event->getData();
+            if(!$this->photoRepository->findBy(['trick' => $trick->getId(), 'cover' => true])) {
+                $form->add('fileCover', FileType::class, [
+                    'label' => '<i class="fas fa-pencil-alt"></i>',
+                    'label_html' => true,
+                    'required' => false
+                ]);
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver)
