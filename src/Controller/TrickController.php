@@ -105,13 +105,7 @@ class TrickController extends AbstractController
                 }
             }
 
-            $trickPhotos = $trick->getPhotos();
-            foreach ($trickPhotos as $trickPhoto){
-                if(is_null($trickPhoto->getLocation())){
-                    $trickPhotos->removeElement($trickPhoto);
-                    $em->remove($trickPhoto);
-                }
-            }
+            $trick->removeEmptyPhotoField($trick->getPhotos());
 
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());

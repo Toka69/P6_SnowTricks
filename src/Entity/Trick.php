@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -94,11 +95,14 @@ class Trick
      */
     private ?User $user;
 
-    public function __construct()
+    private EntityManagerInterface $em;
+
+    public function __construct(EntityManagerInterface $em)
     {
         $this->photos = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->em = $em;
     }
 
     public function getId(): ?int
@@ -286,6 +290,18 @@ class Trick
         }
 
         return $cover;
+    }
+
+    public function removeEmptyPhotoField($trickPhotos)
+    {
+        foreach ($trickPhotos as $trickPhoto){
+            if(is_null($trickPhoto->getLocation())){
+                $trickPhotos->removeElement($trickPhoto);
+                $this->em->remove($trickPhoto);
+            }
+        }
+
+        return $trickPhotos;
     }
 
     public function getUser(): ?User
