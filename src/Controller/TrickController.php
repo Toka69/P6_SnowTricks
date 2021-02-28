@@ -83,16 +83,6 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $cover = $form->getData()->getFileCover();
-            if($cover) {
-                $coverFilename = $fileUploader->upload($cover);
-                $photo = new Photo;
-                $photo->setLocation($coverFilename)
-                    ->setTrick($trick)
-                    ->setCover(true);
-                $em->persist($photo);
-            }
-
             $photos = $form['photos']->getData();
             foreach ($photos as $photo){
                 $photoFile=$photo->getFile();
@@ -103,6 +93,16 @@ class TrickController extends AbstractController
                         $photo->setTrick($trick);
                     }
                 }
+            }
+
+            $cover = $form->getData()->getFileCover();
+            if($cover) {
+                $coverFilename = $fileUploader->upload($cover);
+                $photo = new Photo;
+                $photo->setLocation($coverFilename)
+                    ->setTrick($trick)
+                    ->setCover(true);
+                $em->persist($photo);
             }
 
             $trick->removeEmptyPhotoField($trick->getPhotos());

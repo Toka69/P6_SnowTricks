@@ -27,7 +27,7 @@
             var $collectionHolder = $('ul.photos');
             var $nbPhoto = $("[id=photoCard]").length;
             $collectionHolder.append($newLinkLi);
-            $collectionHolder.data('index', $nbPhoto);
+            $collectionHolder.data('index', $nbPhoto+1);
 
             $addphotoLink.on('click', function(e) {
                 e.preventDefault();

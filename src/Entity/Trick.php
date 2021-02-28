@@ -95,14 +95,11 @@ class Trick
      */
     private ?User $user;
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct()
     {
         $this->photos = new ArrayCollection();
         $this->videos = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->em = $em;
     }
 
     public function getId(): ?int
@@ -297,7 +294,6 @@ class Trick
         foreach ($trickPhotos as $trickPhoto){
             if(is_null($trickPhoto->getLocation())){
                 $trickPhotos->removeElement($trickPhoto);
-                $this->em->remove($trickPhoto);
             }
         }
 
