@@ -18,3 +18,7 @@ services:
     App\Service\FileUploader:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/uploads'
+
+    App\EntityListener\PhotoListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, lazy: true}

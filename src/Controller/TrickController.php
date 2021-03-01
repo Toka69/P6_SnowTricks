@@ -83,30 +83,26 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $photos = $form['photos']->getData();
-            foreach ($photos as $photo){
-                $photoFile=$photo->getFile();
-                if($photoFile) {
-                    $photoFilename = $fileUploader->upload($photoFile);
-                    $photo->setLocation($photoFilename);
-                    if(is_null($photo->getTrick())){
-                        $photo->setTrick($trick);
-                    }
-                }
-            }
-
-            $cover = $form->getData()->getFileCover();
-            if($cover) {
-                $coverFilename = $fileUploader->upload($cover);
-                $photo = new Photo;
-                $photo->setLocation($coverFilename)
-                    ->setTrick($trick)
-                    ->setCover(true);
-                $em->persist($photo);
-            }
-
+//            $photos = $form['photos']->getData();
+//            foreach ($photos as $photo){
+//                if($photo->getFile()) {
+//                    if(is_null($photo->getTrick())){
+//                        $photo->setTrick($trick);
+//                    }
+//                }
+//            }
+//
+//            $cover = $form->getData()->getFileCover();
+//            if($cover) {
+//                $coverFilename = $fileUploader->upload($cover);
+//                $photo = new Photo;
+//                $photo->setLocation($coverFilename)
+//                    ->setTrick($trick)
+//                    ->setCover(true);
+//                $em->persist($photo);
+//            }
+//
             $trick->removeEmptyPhotoField($trick->getPhotos());
-
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();

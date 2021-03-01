@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
+ * @ORM\EntityListeners({"App\EntityListener\PhotoListener"})
  */
 class Photo
 {
