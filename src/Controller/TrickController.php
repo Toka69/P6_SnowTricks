@@ -102,6 +102,21 @@ class TrickController extends AbstractController
 //                $em->persist($photo);
 //            }
 //
+
+            //When adding one or more new photos
+            foreach ($form['photos']->getData() as $photo){
+                if($photo->getFile() && is_null($photo->getId())) {$em->persist($photo);}
+            }
+
+            //When adding a cover photo
+//            $cover = $form->getData()->getFileCover();
+//            if($cover) {
+//                $photo = new Photo;
+//                $photo->setCover(true)
+//                    ->setFile($cover);
+//                $em->persist($photo);
+//            }
+
             $trick->removeEmptyPhotoField($trick->getPhotos());
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
