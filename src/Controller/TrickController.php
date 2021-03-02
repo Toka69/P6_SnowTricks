@@ -10,11 +10,9 @@ use App\Form\CommentType;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
-use App\Service\FileUploader;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,12 +66,11 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param FileUploader $fileUploader
      * @param SessionInterface $session
      * @return Response
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
-                         EntityManagerInterface $em, FileUploader $fileUploader, SessionInterface $session){
+                         EntityManagerInterface $em, SessionInterface $session){
 
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => "editTrick"
@@ -83,39 +80,18 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-//            $photos = $form['photos']->getData();
-//            foreach ($photos as $photo){
-//                if($photo->getFile()) {
-//                    if(is_null($photo->getTrick())){
-//                        $photo->setTrick($trick);
-//                    }
-//                }
-//            }
-//
-//            $cover = $form->getData()->getFileCover();
-//            if($cover) {
-//                $coverFilename = $fileUploader->upload($cover);
-//                $photo = new Photo;
-//                $photo->setLocation($coverFilename)
-//                    ->setTrick($trick)
-//                    ->setCover(true);
-//                $em->persist($photo);
-//            }
-//
-
             //When adding one or more new photos
             foreach ($form['photos']->getData() as $photo){
                 if($photo->getFile() && is_null($photo->getId())) {$em->persist($photo);}
             }
 
-            //When adding a cover photo
-//            $cover = $form->getData()->getFileCover();
-//            if($cover) {
-//                $photo = new Photo;
-//                $photo->setCover(true)
-//                    ->setFile($cover);
-//                $em->persist($photo);
-//            }
+            //When adding a cover
+            if ($form->getData()->getFileCover()){
+                $em->persist((new Photo)
+                ->setTrick($trick)
+                ->setCover(true)
+                ->setFile($form->getData()->getFileCover()));
+            }
 
             $trick->removeEmptyPhotoField($trick->getPhotos());
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());

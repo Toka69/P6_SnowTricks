@@ -26,10 +26,6 @@ class PhotoListener
         $this->upload($photo);
     }
 
-//    public function preUpdate(Photo $photo){
-//        $this->upload($photo);
-//    }
-
     //when update photo collection
     public function preFlush(Photo $photo){
         if (!is_null($photo->getId())) {
