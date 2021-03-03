@@ -38,13 +38,14 @@
         </div>
     </div>
 {% endif %}
-
-{{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
-
-{{ include("/shared/_formVideo.html.twig", {form: formView.videos}) }}
+<div class="row">
+    {{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
+    {{ include("/shared/_formVideo.html.twig", {form: formView.videos}) }}
+</div>
 
 <div class="card-footer d-flex justify-content-center">
     <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
+{#    <ul class="videos" data-prototype="{{ form_widget(formView.videos.vars.prototype)|e('html_attr') }}"></ul>#}
 </div>
 
 <div class="container col-md-8 mt-5 mb-5">

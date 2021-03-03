@@ -1,7 +1,6 @@
-<div id="{{ form.vars.id }}" class="row">
 {% for photo in form %}
         {%  if photo.vars.value.cover == false %}
-            <div id="collection-photo {{ photo.vars.id }}" class="col-md-3 photo">
+            <div id="collection-photo {{ photo.vars.id }}" class="col-md-3 media">
                 <div id="photoCard" class="card mb-2">
                     {% if photo.vars.data is not null %}
                         {% if 'https://' in photo.vars.value.location %}
@@ -21,4 +20,3 @@
             </div>
     {% endif %}
 {% endfor %}
-</div>
