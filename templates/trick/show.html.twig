@@ -4,7 +4,12 @@
 
 {% block body %}
         <div class="container mt-5 pt-3 border rounded">
-                <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+
+                {% if 'https://' in trick.getCover.location %}
+                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
+                {% else %}
+                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') ~ trick.cover.location }}')">
+                {% endif %}
                         <div class="hero-text">
                                 <h1>{{ trick.name|capitalize }}</h1>
                         </div>
@@ -25,18 +30,24 @@
                 <div class="collapse d-lg-block" id="collapseMedia">
                         <div class="row">
                                 {% for photo in trick.photos %}
-                                <div class="col-md-3">
-                                        <div class="card mb-2">
-                                                <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
-                                        </div>
-                                </div>
+                                        {%  if photo.cover == false %}
+                                                <div class="col-md-3">
+                                                        <div class="card mb-2">
+                                                                {% if 'https://' in photo.location %}
+                                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                {% else %}
+                                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                {% endif %}
+                                                        </div>
+                                                </div>
+                                        {% endif %}
                                 {% endfor %}
                                 {% for video in trick.videos %}
-                                <div class="col-md-3">
-                                        <div class="card mb-2">
-                                                <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <div class="col-md-3">
+                                                <div class="card mb-2">
+                                                        <iframe  src={{ video.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                </div>
                                         </div>
-                                </div>
                                 {% endfor %}
                         </div>
                 </div>
@@ -48,7 +59,7 @@
                 </div>
                 <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
                         <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
-                        <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
+                        <p>Author: {{ trick.user.firstName ~ trick.user.lastName }}</p>
                         <p>Created: {{ trick.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                         <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                 </div>
@@ -85,7 +96,7 @@
                                                                 <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
                                                         </div>
                                                         <div class="col">
-                                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
+                                                                <div>Author : {{ comment.user.firstName ~ comment.user.lastName }}</div>
                                                                 <div>Created date : {{ comment.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</div>
                                                         </div>
                                                 </div>

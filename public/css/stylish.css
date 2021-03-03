@@ -71,3 +71,21 @@ body, html {
     height: 90px;
     width: 90px;
 }
+
+.custom-file-input ~ .custom-file-label::after {
+    display: none;
+}
+
+#trick_photos .fas, .card-footer .fas{
+    cursor: pointer;
+    color: #158cba;
+}
+
+.photos, .videos{
+    list-style: none;
+}
+
+form .fa-pencil-alt{
+    margin-top: 50%;
+    margin-left: 2px;
+}

@@ -15,17 +15,17 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $location;
+    private ?string $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
      */
-    private $trick;
+    private ?Trick $trick;
 
     public function getId(): ?int
     {
@@ -54,5 +54,9 @@ class Video
         $this->trick = $trick;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->getLocation();
     }
 }

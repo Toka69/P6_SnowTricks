@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
+ * @ORM\EntityListeners({"App\EntityListener\PhotoListener"})
  */
 class Photo
 {
@@ -25,12 +27,26 @@ class Photo
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="photos")
      */
-    private $trick;
+    private ?Trick $trick;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $cover;
+    private ?bool $cover;
+
+    private $file;
+
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file = null)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {

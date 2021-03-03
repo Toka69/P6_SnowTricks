@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Comment;
+use App\Entity\Photo;
 use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\TrickType;
@@ -15,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -34,7 +36,7 @@ class TrickController extends AbstractController
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick, [
-            "validation_groups" => "addTrick"
+            "validation_groups" => ["Default", "addTrick"]
         ]);
 
         $form->handleRequest($request);
@@ -64,21 +66,39 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
+     * @param SessionInterface $session
      * @return Response
      */
-    public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
+    public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
+                         EntityManagerInterface $em, SessionInterface $session){
+
         $form = $this->createForm(TrickType::class, $trick, [
-            "validation_groups" => "editTrick"
+            "validation_groups" => ["Default", "editTrick"]
         ]);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+
+            //When adding one or more new photos
+            foreach ($form['photos']->getData() as $photo){
+                if($photo->getFile() && is_null($photo->getId())) {$em->persist($photo);}
+            }
+
+            //When adding a cover
+            if ($form->getData()->getFileCover()){
+                $em->persist((new Photo)
+                ->setTrick($trick)
+                ->setCover(true)
+                ->setFile($form->getData()->getFileCover()));
+            }
+
+            $trick->removeEmptyPhotoField($trick->getPhotos());
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();
 
-            $request->getSession()->remove('slugTrickNameBeforeChanged');
+            $session->remove('slugTrickNameBeforeChanged');
 
             $this->addFlash('success', 'Your trick has been changed');
 
@@ -89,7 +109,7 @@ class TrickController extends AbstractController
         }
 
         $trickUnchanged = $trickRepository->findOneBy(['id' => $trick->getId()]);
-        $request->getSession()->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
+        $session->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
 
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,

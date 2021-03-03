@@ -1,0 +1,14 @@
+{% for video in form %}
+        <div id="collection-video {{ video.vars.id }}" class="col-md-3 media">
+            <div id="videoCard" class="card mb-2">
+                <iframe  src={{ video.vars.value.location }} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="d-flex flex-row-reverse mr-1">
+                    <div class="m-1 p-1 rounded bg-light d-flex flex-row">
+                        {{ form_widget(video.location) }}
+                        {{ form_label(video.location) }}
+                        {{ form_widget(video.delete) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endfor %}

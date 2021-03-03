@@ -7,6 +7,7 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as CustomAssert;
 
@@ -43,18 +44,32 @@ class Trick
      */
     private string $slug;
 
+    private $fileCover;
+
+    public function getFileCover()
+    {
+        return $this->fileCover;
+    }
+
+    public function setFileCover(UploadedFile $file = null)
+    {
+        $this->fileCover = $file;
+
+        return $this;
+    }
+
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
      */
     private ?Category $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick", cascade={"persist"})
      */
     private Collection $photos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
      */
     private Collection $videos;
 
@@ -62,7 +77,6 @@ class Trick
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
      */
     private Collection $comments;
-
 
     /**
      * @ORM\Column(type="datetime")
@@ -271,6 +285,17 @@ class Trick
         }
 
         return $cover;
+    }
+
+    public function removeEmptyPhotoField($trickPhotos)
+    {
+        foreach ($trickPhotos as $trickPhoto){
+            if(is_null($trickPhoto->getLocation())){
+                $trickPhotos->removeElement($trickPhoto);
+            }
+        }
+
+        return $trickPhotos;
     }
 
     public function getUser(): ?User

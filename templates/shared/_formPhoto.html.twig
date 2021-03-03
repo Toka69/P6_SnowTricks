@@ -1,0 +1,22 @@
+{% for photo in form %}
+        {%  if photo.vars.value.cover == false %}
+            <div id="collection-photo {{ photo.vars.id }}" class="col-md-3 media">
+                <div id="photoCard" class="card mb-2">
+                    {% if photo.vars.data is not null %}
+                        {% if 'https://' in photo.vars.value.location %}
+                            <img src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                        {% else %}
+                            <img src='{{ asset('/uploads/') }}{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                        {% endif %}
+                    {% endif %}
+                    <div class="d-flex flex-row-reverse mr-1">
+                        <div class="m-1 p-1 rounded bg-light d-flex flex-row">
+                            {{ form_widget(photo.file) }}
+                            {{ form_label(photo.file) }}
+                            {{ form_widget(photo.delete) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endif %}
+{% endfor %}
