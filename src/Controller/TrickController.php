@@ -36,7 +36,7 @@ class TrickController extends AbstractController
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick, [
-            "validation_groups" => "addTrick"
+            "validation_groups" => ["Default", "addTrick"]
         ]);
 
         $form->handleRequest($request);
@@ -73,7 +73,7 @@ class TrickController extends AbstractController
                          EntityManagerInterface $em, SessionInterface $session){
 
         $form = $this->createForm(TrickType::class, $trick, [
-            "validation_groups" => "editTrick"
+            "validation_groups" => ["Default", "editTrick"]
         ]);
 
         $form->handleRequest($request);
