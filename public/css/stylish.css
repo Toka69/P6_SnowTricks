@@ -81,7 +81,7 @@ body, html {
     color: #158cba;
 }
 
-.photos{
+.photos, .videos{
     list-style: none;
 }
 
