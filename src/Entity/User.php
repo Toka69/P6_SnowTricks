@@ -54,12 +54,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
      */
-    private $tricks;
+    private Collection $tricks;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
-    private $comments;
+    private Collection $comments;
 
     public function __construct()
     {

@@ -6,7 +6,6 @@ use App\Repository\TrickRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -78,7 +77,6 @@ class Trick
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
      */
     private Collection $comments;
-
 
     /**
      * @ORM\Column(type="datetime")

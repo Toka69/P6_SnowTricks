@@ -17,9 +17,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use function Symfony\Component\String\u;
 
+/**
+ * Class TrickType
+ * @package App\Form
+ */
 class TrickType extends AbstractType
 {
-    private $photoRepository;
+    private PhotoRepository $photoRepository;
 
     public function __construct(PhotoRepository $photoRepository){
         $this->photoRepository = $photoRepository;
@@ -69,3 +73,4 @@ class TrickType extends AbstractType
         ]);
     }
 }
+

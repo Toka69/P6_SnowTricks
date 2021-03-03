@@ -1,5 +1,6 @@
 {{ form_start(formView) }}
-{% set foo = false %}
+{% set coverExist = false %}
+
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
         {% if 'https://' in trick.getCover.location %}
@@ -20,11 +21,11 @@
             </div>
         {% endif %}
         </div>
-        {% set foo = true %}
+        {% set coverExist = true %}
     {% endif %}
 {% endfor %}
 
-{% if foo == false %}
+{% if coverExist == false %}
     <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
         <div class="hero-text">
             <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>

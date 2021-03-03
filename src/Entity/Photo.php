@@ -22,21 +22,18 @@ class Photo
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $location;
+    private string $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="photos")
      */
-    private $trick;
+    private ?Trick $trick;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $cover;
+    private ?bool $cover;
 
-    /**
-     * @var UploadedFile
-     */
     private $file;
 
     public function getFile()
@@ -91,8 +88,4 @@ class Photo
 
         return $this;
     }
-
-//    public function __toString() {
-//        return $this->getLocation();
-//    }
 }

@@ -11,6 +11,10 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class VideoType
+ * @package App\Form
+ */
 class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -45,3 +49,4 @@ class VideoType extends AbstractType
         ]);
     }
 }
+

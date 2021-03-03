@@ -10,6 +10,10 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use function Symfony\Component\String\u;
 
+/**
+ * Class CheckNameBySlugEditValidator
+ * @package App\Validator\Constraints
+ */
 class CheckNameBySlugEditValidator extends ConstraintValidator
 {
     private TrickRepository $trickRepository;

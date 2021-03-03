@@ -33,6 +33,9 @@ class PhotoListener
         }
     }
 
+    /**
+     * @param Photo $photo
+     */
     public function upload(Photo $photo){
         if($photo->getFile() instanceof UploadedFile){
             $photoFilename = $this->fileUploader->upload($photo->getFile());
