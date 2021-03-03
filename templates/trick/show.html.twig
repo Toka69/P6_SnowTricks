@@ -8,7 +8,7 @@
                 {% if 'https://' in trick.getCover.location %}
                         <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
                 {% else %}
-                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
+                        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') ~ trick.cover.location }}')">
                 {% endif %}
                         <div class="hero-text">
                                 <h1>{{ trick.name|capitalize }}</h1>
@@ -59,7 +59,7 @@
                 </div>
                 <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
                         <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
-                        <p>Author: {{ trick.user.firstName }} {{ trick.user.lastName }}</p>
+                        <p>Author: {{ trick.user.firstName ~ trick.user.lastName }}</p>
                         <p>Created: {{ trick.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                         <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                 </div>
@@ -96,7 +96,7 @@
                                                                 <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
                                                         </div>
                                                         <div class="col">
-                                                                <div>Author : {{ comment.user.firstName }} {{ comment.user.lastName }}</div>
+                                                                <div>Author : {{ comment.user.firstName ~ comment.user.lastName }}</div>
                                                                 <div>Created date : {{ comment.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</div>
                                                         </div>
                                                 </div>
