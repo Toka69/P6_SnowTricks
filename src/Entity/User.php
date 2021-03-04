@@ -70,7 +70,7 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
-    private ?UploadedFile $file;
+    private $file;
 
     public function __construct()
     {
@@ -78,7 +78,7 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
     }
 
-    public function getFile(): ?UploadedFile
+    public function getFile()
     {
         return $this->file;
     }
