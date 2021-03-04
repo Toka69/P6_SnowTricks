@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit profile{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {{ form_start(formView) }}
+
+            {{ form_row(formView.firstName) }}
+            {{ form_row(formView.lastName) }}
+            {{ form_row(formView.file) }}
+
+        {{ form_end(formView) }}
+    </div>
+{% endblock %}
