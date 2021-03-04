@@ -30,7 +30,6 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
-
             $this->addFlash('success', 'Your profile has been changed');
         }
 
