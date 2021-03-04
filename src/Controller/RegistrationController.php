@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
             );
             $user->setRoles(["ROLE_USER"])
                 ->setIsVerified(false)
-                ->setPhoto($fileUploader->upload($form->get('photo')->getdata()))
+//                ->setPhoto($fileUploader->upload($form->get('photo')->getdata()))
             ;
 
             $entityManager = $this->getDoctrine()->getManager();

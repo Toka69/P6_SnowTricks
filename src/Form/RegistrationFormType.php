@@ -46,7 +46,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-            ->add('photo', FileType::class)
+            ->add('file', FileType::class)
         ;
     }
 
