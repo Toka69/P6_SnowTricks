@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -26,6 +27,7 @@ class RegistrationController extends AbstractController
      * @param MailerInterface $mailer
      * @return RedirectResponse|Response
      * @Route("register", name="register", priority=10)
+     * @throws TransportExceptionInterface
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, MailerInterface $mailer){
         $user = new User();
@@ -38,13 +40,11 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            //email
             $email = new Email();
             $email->from(new Address('dev.tokashi@gail.com', 'Snowtricks'))
                 ->to($user->getEmail())
                 ->text('Click on the link below to valid your account :')
                 ->subject('Valid your account');
-
             $mailer->send($email);
 
             $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
