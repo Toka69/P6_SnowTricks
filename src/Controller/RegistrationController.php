@@ -17,6 +17,7 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class RegistrationController extends AbstractController
 {
@@ -37,14 +38,20 @@ class RegistrationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $em->persist($user);
-            $em->flush();
+//            $em->persist($user);
+//            $em->flush();
 
-            $email = new Email();
+            $email = new TemplatedEmail();
             $email->from(new Address('dev.tokashi@gail.com', 'Snowtricks'))
                 ->to($user->getEmail())
                 ->text('Click on the link below to valid your account :')
-                ->subject('Valid your account');
+                ->subject('Valid your account')
+                ->htmlTemplate('emails/signup.html.twig')
+                ->context([
+                    'expiration_date' => new \DateTime('+7 days'),
+                    'username' => $user->getFirstName()
+                ])
+            ;
             $mailer->send($email);
 
             $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
