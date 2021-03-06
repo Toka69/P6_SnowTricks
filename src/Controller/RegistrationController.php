@@ -8,7 +8,12 @@ use App\Form\UserType;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,10 +23,11 @@ class RegistrationController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @param MailerInterface $mailer
+     * @return RedirectResponse|Response
      * @Route("register", name="register", priority=10)
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em){
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, MailerInterface $mailer){
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -29,9 +35,19 @@ class RegistrationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-            $user->setRoles(["ROLE_USER"]);
             $em->persist($user);
             $em->flush();
+
+            //email
+            $email = new Email();
+            $email->from(new Address('dev.tokashi@gail.com', 'Snowtricks'))
+                ->to($user->getEmail())
+                ->text('Click on the link below to valid your account :')
+                ->subject('Valid your account');
+
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
 
             return $this->redirectToRoute('homepage');
         }
