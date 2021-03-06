@@ -18,19 +18,21 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
 class RegistrationController extends AbstractController
 {
     /**
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param LoginLinkHandlerInterface $loginLinkHandler
      * @param EntityManagerInterface $em
      * @param MailerInterface $mailer
      * @return RedirectResponse|Response
-     * @Route("register", name="register", priority=10)
      * @throws TransportExceptionInterface
+     * @Route("register", name="register", priority=10)
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, MailerInterface $mailer){
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginLinkHandlerInterface $loginLinkHandler, EntityManagerInterface $em, MailerInterface $mailer){
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -38,8 +40,11 @@ class RegistrationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-//            $em->persist($user);
-//            $em->flush();
+            $em->persist($user);
+            $em->flush();
+
+            $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
+            $loginLink = $loginLinkDetails->getUrl();
 
             $email = new TemplatedEmail();
             $email->from(new Address('dev.tokashi@gail.com', 'Snowtricks'))
@@ -48,6 +53,7 @@ class RegistrationController extends AbstractController
                 ->subject('Valid your account')
                 ->htmlTemplate('emails/signup.html.twig')
                 ->context([
+                    'link' => $loginLink,
                     'expiration_date' => new \DateTime('+7 days'),
                     'username' => $user->getFirstName()
                 ])
