@@ -6,14 +6,17 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  * @ORM\EntityListeners({"App\EntityListener\UserListener"})
  */
-class User implements UserInterface
+class User implements UserInterface, Serializable
 {
     /**
      * @ORM\Id
@@ -288,5 +291,29 @@ class User implements UserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    public function serialize(){
+        return serialize(array(
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password,
+            $this->roles,
+            $this->photo
+        ));
+    }
+
+    public function unserialize($serialized){
+        list (
+            $this->id,
+            $this->firstName,
+            $this->lastName,
+            $this->email,
+            $this->password,
+            $this->roles,
+            $this->photo
+            ) = unserialize($serialized);
     }
 }

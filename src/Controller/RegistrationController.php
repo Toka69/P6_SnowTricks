@@ -30,7 +30,7 @@ class RegistrationController extends AbstractController
      * @param MailerInterface $mailer
      * @return RedirectResponse|Response
      * @throws TransportExceptionInterface
-     * @Route("register", name="register", priority=10)
+     * @Route("register", name="register", priority=1)
      */
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginLinkHandlerInterface $loginLinkHandler, EntityManagerInterface $em, MailerInterface $mailer){
         $user = new User();

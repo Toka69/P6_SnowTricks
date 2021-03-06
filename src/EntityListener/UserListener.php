@@ -19,6 +19,12 @@ class UserListener
         $this->upload($user);
     }
 
+    public function preFlush(User $user){
+        if (!is_null($user->getFile())) {
+            $this->upload($user);
+        }
+    }
+
     public function upload(User $user){
         if($user->getFile() instanceof UploadedFile){
             $photoFilename = $this->fileUploader->upload($user->getFile());
