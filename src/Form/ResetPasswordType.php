@@ -20,11 +20,4 @@ class ResetPasswordType extends AbstractType
             ->add('submit', SubmitType::class)
         ;
     }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            // Configure your form options here
-        ]);
-    }
 }

@@ -64,6 +64,11 @@ class User implements UserInterface, Serializable
      */
     private ?string $photo;
 
+    /**
+     * @ORM\Column(type="string", length=1000, nullable=true)
+     */
+    private string $token;
+
     private $file;
 
     /**
@@ -317,5 +322,21 @@ class User implements UserInterface, Serializable
             $this->roles,
             $this->photo
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param string $token
+     */
+    public function setToken(string $token): void
+    {
+        $this->token = $token;
     }
 }
