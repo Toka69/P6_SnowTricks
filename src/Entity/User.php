@@ -43,6 +43,7 @@ class User implements UserInterface, Serializable
 
     /**
      * @Assert\NotBlank()
+     * @Assert\Blank(groups="profile")
      * @Assert\Length(max=4096)
      */
     private $plainPassword;

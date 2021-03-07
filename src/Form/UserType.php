@@ -41,11 +41,6 @@ class UserType extends AbstractType
                     'label' => 'Photo',
                     'required' => false
                 ])
-                    ->add('plainPassword', RepeatedType::class, array(
-                        'type' => PasswordType::class,
-                        'first_options'  => array('label' => 'Password', 'required' => false),
-                        'second_options' => array('label' => 'Repeat Password', 'required' => false)
-                    ))
                 ;
             }
             else{
