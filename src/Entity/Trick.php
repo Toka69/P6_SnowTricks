@@ -288,7 +288,7 @@ class Trick
             return $cover;
         }
 
-        return 'uploads/'.$cover;
+        return '/uploads/'.$cover;
     }
 
     public function removeEmptyPhotoField($trickPhotos)
