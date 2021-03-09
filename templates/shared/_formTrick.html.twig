@@ -3,11 +3,7 @@
 
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
-        {% if 'https://' in trick.getCover.location %}
-            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover.location }}')">
-        {% else %}
-            <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ asset('/uploads/') }}{{ trick.getCover.location }}')">
-        {% endif %}
+        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.getCover }}')">
         <div class="hero-text">
             <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
         </div>

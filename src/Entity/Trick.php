@@ -267,7 +267,7 @@ class Trick
         return $this;
     }
 
-    public function getCover(): Photo
+    public function getCover(): string
     {
         $photos = $this->getPhotos();
         $cover = new Photo;
@@ -280,11 +280,15 @@ class Trick
             }
         }
         if($cover->getId() === null) {
-            $cover->setlocation("../img/cover.jpg")
-                ->setTrick($this);
+            $cover->setlocation("../img/cover.jpg");
+        }
+        $cover = $cover->getLocation();
+
+        if(str_contains($cover, 'https://') OR str_contains($cover, 'cover.jpg')){
+            return $cover;
         }
 
-        return $cover;
+        return 'uploads/'.$cover;
     }
 
     public function removeEmptyPhotoField($trickPhotos)

@@ -43,7 +43,7 @@ class HomeController extends AbstractController
             $arrayTrick = [
                 'id' => $trick->getId(),
                 'name' => $trick->getName(),
-                'cover' => $trick->getCover()->getLocation(),
+                'cover' => $trick->getCover(),
                 'slug' => $trick->getSlug(),
                 'categorySlug' => $trick->getCategory()->getSlug(),
                 'end' => 0
