@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
 
@@ -29,10 +28,9 @@ class TrickController extends AbstractController
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
-     * @param Security $security
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em, Security $security){
+    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick, [
@@ -43,7 +41,7 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $trick->setSlug($slugger->slug($trick->getName())->lower());
-            $trick->setUser($security->getUser());
+            $trick->setUser($this->getUser());
             $trick->setCreatedDate(new DateTimeImmutable());
 
             $em->persist($trick);
@@ -144,10 +142,9 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param EntityManagerInterface $em
-     * @param Security $security
      * @return Response
      */
-    public function show(Trick $trick, Request $request, EntityManagerInterface $em, Security $security): Response
+    public function show(Trick $trick, Request $request, EntityManagerInterface $em): Response
     {
         $comment = New Comment;
 
@@ -157,7 +154,7 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $comment->setCreatedDate(new DateTimeImmutable());
-            $comment->setUser($security->getUser());
+            $comment->setUser($this->getUser());
             $comment->setTrick($trick);
             $em->persist($comment);
             $em->flush();
