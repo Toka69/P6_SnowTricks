@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use function Symfony\Component\String\u;
 
 /**
- * Class CheckNameBySlugValidatorAdd
+ * Class CheckNameBySlugAddValidator
  * @package App\Validator\Constraints
  */
 class CheckNameBySlugAddValidator extends ConstraintValidator
