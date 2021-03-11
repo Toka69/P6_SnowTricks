@@ -288,32 +288,27 @@ class AppFixtures extends Fixture
 
         $photo15 = new Photo;
         $photo15->setLocation("https://coresites-cdn-adm.imgix.net/whitelines_new/wp-content/uploads/2014/01/Trick-Mute-Grab-620x444.jpg")
-            ->setTrick($trick1)
-            ->setCover(true);
+            ->setTrick($trick1);
         $manager->persist($photo15);
 
         $photo16 = new Photo;
         $photo16->setLocation("https://c8.alamy.com/compfr/dyxkwd/snowboarder-avec-casque-et-lunettes-effectue-une-ponction-mute-saut-aerien-dyxkwd.jpg")
-            ->setTrick($trick1)
-            ->setCover(true);
+            ->setTrick($trick1);
         $manager->persist($photo16);
 
         $photo17 = new Photo;
         $photo17->setLocation("https://communaute.ucpa.com/legacyfs/online/uploads/2016/01/grab-simple-snowboard-freestyle-e1453203128225.jpg")
-            ->setTrick($trick1)
-            ->setCover(true);
+            ->setTrick($trick1);
         $manager->persist($photo17);
 
         $photo18 = new Photo;
         $photo18->setLocation("https://cdn.shopify.com/s/files/1/0230/2239/articles/Basic-Grabs-On-A-Snowboard_720x.jpg?v=1517794316")
-            ->setTrick($trick1)
-            ->setCover(true);
+            ->setTrick($trick1);
         $manager->persist($photo18);
 
         $photo19 = new Photo;
         $photo19->setLocation("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT14aDzI9R6TY7ckfhlVIl2SmoCQ22q-PyduA&usqp=CAU")
-            ->setTrick($trick1)
-            ->setCover(true);
+            ->setTrick($trick1);
         $manager->persist($photo19);
 
         /**** Comments ****/
