@@ -14,6 +14,7 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -30,7 +31,8 @@ class TrickController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
+    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em): Response
+    {
         $trick = new Trick;
 
         $this->denyAccessUnlessGranted('MANAGE', $trick);
@@ -70,7 +72,8 @@ class TrickController extends AbstractController
      * @return Response
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
-                         EntityManagerInterface $em, SessionInterface $session){
+                         EntityManagerInterface $em, SessionInterface $session): Response
+    {
 
         $this->denyAccessUnlessGranted('MANAGE', $trick);
 
@@ -121,10 +124,21 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("{id}/delete", name="trick_delete")
+     * @param Trick $trick
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
-    public function delete(){
+    public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
+    {
 
+        $this->denyAccessUnlessGranted('MANAGE', $trick);
+
+        $em->remove($trick);
+        $em->flush();
+
+        $this->addFlash('success', 'The trick has been deleted');
+
+        return $this->redirectToRoute('homepage');
     }
 
     /**
