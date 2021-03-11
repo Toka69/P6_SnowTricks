@@ -33,6 +33,8 @@ class TrickController extends AbstractController
     public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
         $trick = new Trick;
 
+        $this->denyAccessUnlessGranted('MANAGE', $trick);
+
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "addTrick"]
         ]);
@@ -69,6 +71,8 @@ class TrickController extends AbstractController
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
                          EntityManagerInterface $em, SessionInterface $session){
+
+        $this->denyAccessUnlessGranted('MANAGE', $trick);
 
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "editTrick"]

@@ -21,6 +21,9 @@ class UserController extends AbstractController
      * @Route("/profile/{id}", name="profile", priority=10)
      */
     public function profile(EntityManagerInterface $em, Request $request, User $user){
+
+        $this->denyAccessUnlessGranted('USER_PROFILE', $user);
+
         $form=$this->createForm(UserType::class, $user, [
             "validation_groups" => "profile"
         ]);
