@@ -124,6 +124,7 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @Route("{id}/delete", name="trick_delete")
      * @param Trick $trick
      * @param EntityManagerInterface $em
      * @return RedirectResponse
