@@ -89,3 +89,10 @@ form .fa-pencil-alt{
     margin-top: 50%;
     margin-left: 2px;
 }
+
+.button-trash{
+    color: #158cba;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+}
