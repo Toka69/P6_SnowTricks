@@ -1,3 +1,4 @@
+    //Manage Add a photo
     var $addphotoLink = $('<a href="#" class="btn btn-primary mt-1"><i class="far fa-file-image"></i> Add a Photo</a>');
     var $newLinkLi = $('<li></li>').append($addphotoLink);
 
@@ -31,12 +32,7 @@
         });
     }
 
-    $(document).ready(function() {
-        $('button[class="delete btn"]').click(function(){
-            $(this).closest("div.media").remove();
-        });
-    });
-
+    //Manage Add a video
     var $addVideoLink = $('<a href="#" class="btn btn-primary mt-1"><i class="far fa-file-video"></i> Add a Video</a>');
     var $newVideoLinkLi = $('<li></li>').append($addVideoLink);
 
@@ -68,4 +64,27 @@
 
             return false;
         });
+    }
+
+    //Manage delete a media
+    $(document).ready(function() {
+        $('button[class="delete btn"]').click(function(){
+            console.log($(this).closest("div.media").remove());
+        });
+    });
+
+    //PreviewFile
+    function previewFile(input){
+        var file = input.files[0];
+        // console.log(file);
+
+        if(file){
+            var reader = new FileReader();
+            reader.onload = function(){
+                $("#previewImg").attr("src", reader.result);
+            }
+
+            reader.readAsDataURL(file);
+            console.log(reader);
+        }
     }

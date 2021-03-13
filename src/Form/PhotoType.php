@@ -23,7 +23,8 @@ class PhotoType extends AbstractType
             ->add('file', FileType::class, [
                 'label' => '<i class="fas fa-pencil-alt"></i>',
                 'label_html' => true,
-                'required' => false
+                'required' => false,
+                'attr' => ['onchange' => 'previewFile(this)']
             ])
             ;
 
