@@ -97,3 +97,7 @@ form .fa-pencil-alt{
     background-color: transparent;
     border: none;
 }
+
+.hidden{
+    display: none;
+}

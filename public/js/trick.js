@@ -88,3 +88,10 @@
             console.log(reader);
         }
     }
+
+    //Show input file video
+    $(document).ready(function() {
+        $('.editVideo').click(function () {
+            console.log($(this).parent().find("div.videoInput").show());
+        });
+    });
