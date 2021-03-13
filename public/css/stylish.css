@@ -88,6 +88,7 @@ body, html {
 form .fa-pencil-alt{
     margin-top: 50%;
     margin-left: 2px;
+    cursor: pointer;
 }
 
 .button-trash{
