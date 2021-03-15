@@ -69,7 +69,7 @@
     //Manage delete a media
     $(document).ready(function() {
         $('button[class="delete btn"]').click(function(){
-            console.log($(this).closest("div.media").remove());
+            console.log($(this).closest("div.trick-media").remove());
         });
     });
 

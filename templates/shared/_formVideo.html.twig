@@ -1,7 +1,7 @@
 {% for video in form %}
-        <div id="collection-video {{ video.vars.id }}" class="col-md-3 media">
+        <div id="collection-video {{ video.vars.id }}" class="col-md-3 trick-media">
             <div id="videoCard" class="card mb-2">
-                {{ video.vars.value.location }}
+                {{ video.vars.value.location|raw }}
                 <div class="d-flex flex-row-reverse mr-1">
                     <div class="m-1 p-1 rounded bg-light d-flex flex-row">
                         <div class="videoInput hidden">
