@@ -76,16 +76,14 @@
     //PreviewFile
     function previewFile(input){
         var file = input.files[0];
-        // console.log(file);
 
         if(file){
             var reader = new FileReader();
             reader.onload = function(){
-                $("#previewImg").attr("src", reader.result);
+                $("#previewImg-" + input.id.replace("_file", "")).attr("src", reader.result);
             }
 
             reader.readAsDataURL(file);
-            console.log(reader);
         }
     }
 
