@@ -29,14 +29,15 @@
                                                 <div class="col-md-3">
                                                         <div class="card mb-2">
                                                                 {% if 'https://' in photo.location %}
-                                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
                                                                 {% else %}
-                                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid" style="height: 150px">
+                                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
                                                                 {% endif %}
                                                         </div>
                                                 </div>
                                         {% endif %}
                                 {% endfor %}
+                                <div class="bigPhoto"></div>
                                 {% for video in trick.videos %}
                                         <div class="col-md-3">
                                                 <div class="card mb-2">

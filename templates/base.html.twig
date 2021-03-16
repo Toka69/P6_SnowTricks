@@ -6,7 +6,8 @@
         {% block stylesheets %}
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-            <link rel="stylesheet" href="/css/stylish.css">
+            <link rel="stylesheet" href="/assets/css/stylish.css">
+            <link rel="stylesheet" href="/assets/css/lightbox.css">
         {% endblock %}
     </head>
     <body>
@@ -24,6 +25,7 @@
             <script src="https://bootswatch.com/_vendor/jquery/dist/jquery.min.js"></script>
             <script src="https://bootswatch.com/_assets/js/custom.js"></script>
             <script src="https://bootswatch.com/_vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="{{ asset('assets/js/lightbox.js') }}"></script>
             <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
             <script>
                 $(document).ready(function () {

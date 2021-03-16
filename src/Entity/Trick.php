@@ -280,7 +280,7 @@ class Trick
             }
         }
         if($cover->getId() === null) {
-            $cover->setlocation("../img/cover.jpg");
+            $cover->setlocation("../assets/img/cover.jpg");
         }
         $cover = $cover->getLocation();
 

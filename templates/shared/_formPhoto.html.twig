@@ -4,15 +4,15 @@
                 <div id="photoCard" class="card mb-2">
                     {% if photo.vars.data is not null %}
                         {% if 'https://' in photo.vars.value.location %}
-                            <img id="previewImg-{{ photo.vars.id }}" src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                            <img id="previewImg-{{ photo.vars.id }}" src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
                         {% else %}
-                            <img id="previewImg-{{ photo.vars.id }}" src='{{ asset('/uploads/') }}{{ photo.vars.value.location }}' alt='photo' class='img-fluid' style='height: 150px'>
+                            <img id="previewImg-{{ photo.vars.id }}" src='{{ asset('/uploads/') }}{{ photo.vars.value.location }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
                         {% endif %}
                     {% endif %}
                     <div class="d-flex flex-row-reverse mr-1">
                         <div class="m-1 p-1 rounded bg-light d-flex flex-row">
                             <div class="hidden">
-                                {{ form_widget(photo.file) }}
+                                {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
                             </div>
 
                             {{ form_label(photo.file) }}
@@ -23,3 +23,5 @@
             </div>
     {% endif %}
 {% endfor %}
+
+<div class="bigPhoto"></div>
