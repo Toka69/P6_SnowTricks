@@ -35,7 +35,8 @@ body, html {
 
 .cover-buttons{
     position: absolute;
-
+    top: 0;
+    right: 10px;
 }
 
 .arrow-down {

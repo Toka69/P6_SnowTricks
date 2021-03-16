@@ -10,7 +10,7 @@
                                 <h1>{{ trick.name|capitalize }}</h1>
                         </div>
                         {% if is_granted("ROLE_USER") %}
-                                <div class="cover-buttons img-cover d-flex flex-row-reverse mr-4">
+                                <div class="cover-buttons d-flex flex-row-reverse mr-4">
                                         <div class="mt-3 p-3 rounded bg-light">
                                                 <a href="{{ path('trick_edit', {'id': trick.id})}}" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
                                                 <a href="{{ path('trick_delete', {'id': trick.id})}}"><i class="fas fa-trash-alt"></i></a>

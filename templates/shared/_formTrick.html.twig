@@ -4,12 +4,12 @@
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
         <div class="hero-trick-image mb-3">
-            <img id="previewImg-{{ photo.vars.id }}" src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid img-cover'>
+            <img id="previewImg-{{ photo.vars.id }}" src='{{ asset("/uploads/") ~ photo.vars.value.location }}' alt='photo' class='img-fluid img-cover'>
             <div class="hero-text">
                 <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
             </div>
             {% if is_granted("ROLE_USER") %}
-                <div class="cover-buttons img-cover d-flex flex-row-reverse mr-4">
+                <div class="cover-buttons d-flex flex-row-reverse mr-4">
                     <div class="mt-3 p-3 rounded bg-light">
                         <div class="hidden">
                             {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
