@@ -20,9 +20,9 @@ class Photo
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $location;
+    private ?string $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="photos")
@@ -58,7 +58,7 @@ class Photo
         return $this->location;
     }
 
-    public function setLocation(string $location): self
+    public function setLocation(?string $location): self
     {
         $this->location = $location;
 
