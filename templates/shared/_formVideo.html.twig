@@ -5,13 +5,19 @@
                 <div class="d-flex flex-row-reverse mr-1">
                     <div class="m-1 p-1 rounded bg-light d-flex flex-row">
                         <div class="videoInput hidden">
-                            {{ form_widget(video.location, {'attr': {'onchange': 'previewVideo(this)'}}) }}
+                            <div class="d-flex">
+                                {{ form_widget(video.location, {'attr': {'onchange': 'previewVideo(this)'}}) }}
+                                <button id="validUpdateVideo" type="button" class="btn btn-success">valid</button>
+                            </div>
                         </div>
-                        <div class="editVideo">
-                            {{ form_label(video.location) }}
+                        <div class="edit-buttons1">
+                            <div class="d-flex">
+                            <div class="editVideo">
+                                {{ form_label(video.location) }}
+                            </div>
+                            {{ form_widget(video.delete) }}
+                            </div>
                         </div>
-                        <button id="validUpdateVideo" type="button" class="hidden btn btn-success">valid</button>
-                        {{ form_widget(video.delete) }}
                     </div>
                 </div>
             </div>

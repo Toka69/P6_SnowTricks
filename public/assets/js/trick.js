@@ -99,9 +99,8 @@
     //Show input file video and valid button
     $(document).ready(function() {
         $('.editVideo').click(function () {
-            $(this).parent().find("div.videoInput").show();
-            $(this).hide();
-            $(this).parent().find("button").show();
+            $(this).parents().find("div.videoInput").show();
+            console.log($(this).parents().find("div.edit-buttons1").hide());
         });
     });
 
