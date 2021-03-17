@@ -107,14 +107,19 @@
         });
     });
 
-    $(document).ready(function() {
-        $('#validUpdateVideo').click(function () {
-            $(this).closest("div.selectors").find("div.videoInput").hide();
-            $(this).closest("div.selectors").find("div.edit-buttons1").show();
-        });
-    });
+    // $(document).ready(function() {
+    //     $('#validUpdateVideo').click(function () {
+    //         $(this).closest("div.selectors").find("div.videoInput").hide();
+    //         $(this).closest("div.selectors").find("div.edit-buttons1").show();
+    //     });
+    // });
 
     //previewVideo
     function previewVideo(input){
-        $("iframe").replaceWith(input.value);
+        var id = "collection-video " + input.id.replace("_location", "");
+        $('div[id="'+ id + '"] iframe').replaceWith(input.value);
+        console.log($(input).parent().parent().hide());
+        console.log($(input).parent().parent().parent().find("div.edit-buttons1").show());
+        // $(this).closest("div.selectors").find("div.videoInput").hide();
+        // $(this).closest("div.selectors").find("div.edit-buttons1").show();
     }
