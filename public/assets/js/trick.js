@@ -99,14 +99,18 @@
     //Show input file video and valid button
     $(document).ready(function() {
         $('.editVideo').click(function () {
-            $(this).parents().find("div.videoInput").show();
-            console.log($(this).parents().find("div.edit-buttons1").hide());
+            // $(this).parent().parent().parent().find("div.videoInput").show();
+            // console.log($(this).parents().find("div.edit-buttons1").hide());
+            $(this).closest("div.selectors").find("div.videoInput").show();
+            $(this).closest("div.selectors").find("div.edit-buttons1").hide();
+
         });
     });
 
     $(document).ready(function() {
         $('#validUpdateVideo').click(function () {
-            $(this).hide();
+            $(this).closest("div.selectors").find("div.videoInput").hide();
+            $(this).closest("div.selectors").find("div.edit-buttons1").show();
         });
     });
 
