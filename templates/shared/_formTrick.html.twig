@@ -13,9 +13,9 @@
                     <div class="mt-3 p-3 rounded bg-light">
                         <div class="hidden">
                             {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                            {{ form_widget(photo.delete) }}
                         </div>
                         {{ form_label(photo.file) }}
-                        {{ form_widget(photo.delete) }}
                     </div>
                 </div>
             {% endif %}

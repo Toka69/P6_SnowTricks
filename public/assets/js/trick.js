@@ -96,9 +96,18 @@
         }
     }
 
-    //Show input file video
+    //Show input file video and valid button
     $(document).ready(function() {
         $('.editVideo').click(function () {
-            console.log($(this).parent().find("div.videoInput").show());
+            $(this).parent().find("div.videoInput").show();
+            $(this).hide();
+            $(this).parent().find("button").show();
         });
     });
+
+    // On valid, replace src
+    // $(document).ready(function() {
+    //     $('#validUpdateVideo').click(function () {
+    //         $("iframe").attr("src", "blabla");
+    //     });
+    // });
