@@ -56,7 +56,7 @@ class TrickType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
             $form = $event->getForm();
             $trick = $event->getData();
-            if(!$this->photoRepository->findBy(['trick' => $trick->getId(), 'cover' => true])) {
+            if(is_bool(!$this->photoRepository->findBy(['trick' => $trick->getId(), 'cover' => true]))) {
                 $form->add('fileCover', FileType::class, [
                     'label' => '<i class="fas fa-pencil-alt"></i>',
                     'label_html' => true,
