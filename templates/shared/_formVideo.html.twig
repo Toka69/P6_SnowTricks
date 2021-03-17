@@ -5,7 +5,7 @@
                 <div class="d-flex flex-row-reverse mr-1">
                     <div class="m-1 p-1 rounded bg-light d-flex flex-row">
                         <div class="videoInput hidden">
-                            {{ form_widget(video.location) }}
+                            {{ form_widget(video.location, {'attr': {'onchange': 'previewVideo(this)'}}) }}
                         </div>
                         <div class="editVideo">
                             {{ form_label(video.location) }}

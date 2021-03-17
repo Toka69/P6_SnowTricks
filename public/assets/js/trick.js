@@ -105,9 +105,13 @@
         });
     });
 
-    // On valid, replace src
-    // $(document).ready(function() {
-    //     $('#validUpdateVideo').click(function () {
-    //         $("iframe").attr("src", "blabla");
-    //     });
-    // });
+    $(document).ready(function() {
+        $('#validUpdateVideo').click(function () {
+            $(this).hide();
+        });
+    });
+
+    //previewVideo
+    function previewVideo(input){
+        $("iframe").replaceWith(input.value);
+    }
