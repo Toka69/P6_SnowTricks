@@ -280,11 +280,11 @@ class Trick
             }
         }
         if($cover->getId() === null) {
-            $cover->setlocation("../assets/img/cover.jpg");
+            $cover->setlocation("cover.jpg");
         }
         $cover = $cover->getLocation();
 
-        if(str_contains($cover, 'https://') OR str_contains($cover, 'cover.jpg')){
+        if(str_contains($cover, 'https://')){
             return $cover;
         }
 
