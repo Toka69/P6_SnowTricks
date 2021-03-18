@@ -14,23 +14,27 @@ use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em){
+    public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em): Response
+    {
         $trick = new Trick;
 
         $form = $this->createForm(TrickType::class, $trick, [
@@ -59,6 +63,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="trick_edit")
+     * @IsGranted("ROLE_USER")
      * @param TrickRepository $trickRepository
      * @param Trick $trick
      * @param Request $request
@@ -68,8 +73,8 @@ class TrickController extends AbstractController
      * @return Response
      */
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
-                         EntityManagerInterface $em, SessionInterface $session){
-
+                         EntityManagerInterface $em, SessionInterface $session): Response
+    {
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "editTrick"]
         ]);
@@ -118,9 +123,21 @@ class TrickController extends AbstractController
 
     /**
      * @Route("{id}/delete", name="trick_delete")
+     * @param Trick $trick
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
-    public function delete(){
+    public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
+    {
 
+        $this->denyAccessUnlessGranted('DELETE', $trick);
+
+        $em->remove($trick);
+        $em->flush();
+
+        $this->addFlash('success', 'The trick has been deleted');
+
+        return $this->redirectToRoute('homepage');
     }
 
     /**
