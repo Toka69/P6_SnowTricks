@@ -64,17 +64,17 @@ class Trick
     private ?Category $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Photo::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      */
     private Collection $photos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      */
     private Collection $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
      */
     private Collection $comments;
 
