@@ -10,7 +10,7 @@ class TrickVoter extends Voter
 {
     protected function supports($attribute, $subject)
     {
-        return in_array($attribute, ['MANAGE'])
+        return in_array($attribute, ['DELETE'])
             && $subject instanceof \App\Entity\Trick;
     }
 
@@ -22,12 +22,8 @@ class TrickVoter extends Voter
             return false;
         }
 
-        switch ($attribute) {
-            case 'MANAGE':
-                if ($user->getRoles() == (["ROLE_USER"] OR ["ROLE_ADMIN"])){
-                    return true;
-                }
-                break;
+        if ($user === $subject->getUser()){
+            return true;
         }
 
         return false;

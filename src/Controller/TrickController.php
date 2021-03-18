@@ -21,11 +21,13 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 class TrickController extends AbstractController
 {
     /**
      * @Route("/trick/add", name="trick_add")
+     * @IsGranted("ROLE_USER")
      * @param Request $request
      * @param SluggerInterface $slugger
      * @param EntityManagerInterface $em
@@ -34,8 +36,6 @@ class TrickController extends AbstractController
     public function add(Request $request, SluggerInterface $slugger, EntityManagerInterface $em): Response
     {
         $trick = new Trick;
-
-        $this->denyAccessUnlessGranted('MANAGE', $trick);
 
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "addTrick"]
@@ -63,6 +63,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="trick_edit")
+     * @IsGranted("ROLE_USER")
      * @param TrickRepository $trickRepository
      * @param Trick $trick
      * @param Request $request
@@ -74,9 +75,6 @@ class TrickController extends AbstractController
     public function edit(TrickRepository $trickRepository, Trick $trick, Request $request, SluggerInterface $slugger,
                          EntityManagerInterface $em, SessionInterface $session): Response
     {
-
-        $this->denyAccessUnlessGranted('MANAGE', $trick);
-
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "editTrick"]
         ]);
@@ -132,7 +130,7 @@ class TrickController extends AbstractController
     public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
     {
 
-        $this->denyAccessUnlessGranted('MANAGE', $trick);
+        $this->denyAccessUnlessGranted('DELETE', $trick);
 
         $em->remove($trick);
         $em->flush();
