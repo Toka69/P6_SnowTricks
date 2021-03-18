@@ -16,15 +16,12 @@ class UserController extends AbstractController
     /**
      * @param EntityManagerInterface $em
      * @param Request $request
-     * @param User $user
      * @return Response
-     * @Route("/profile/{id}", name="profile", priority=10)
+     * @Route("/profile", name="profile", priority=10)
      */
-    public function profile(EntityManagerInterface $em, Request $request, User $user){
+    public function profile(EntityManagerInterface $em, Request $request){
 
-        $this->denyAccessUnlessGranted('USER_PROFILE', $user);
-
-        $form=$this->createForm(UserType::class, $user, [
+        $form=$this->createForm(UserType::class, $this->getUser(), [
             "validation_groups" => "profile"
         ]);
 
