@@ -117,9 +117,17 @@
     //previewVideo
     function previewVideo(input){
         var id = "collection-video " + input.id.replace("_location", "");
-        $('div[id="'+ id + '"] iframe').replaceWith(input.value);
-        console.log($(input).parent().parent().hide());
-        console.log($(input).parent().parent().parent().find("div.edit-buttons1").show());
+        var str = input.value;
+        if(~str.indexOf("youtu.be")){
+            var test = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
+        }
+        if(~str.indexOf("youtube.com/embed/")){
+
+            var test = $(str).attr("src");
+        }
+        $('div[id="'+ id + '"] iframe').attr("src", test);
+        $(input).parent().parent().hide();
+        $(input).parent().parent().parent().find("div.edit-buttons1").show();
         // $(this).closest("div.selectors").find("div.videoInput").hide();
         // $(this).closest("div.selectors").find("div.edit-buttons1").show();
     }
