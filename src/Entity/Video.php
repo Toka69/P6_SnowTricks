@@ -19,7 +19,7 @@ class Video
     private ?int $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=500)
      */
     private ?string $location;
 
@@ -35,23 +35,11 @@ class Video
 
     public function getLocation(): ?string
     {
-        return '<iframe src="'.$this->location.'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+        return $this->location;
     }
 
     public function setLocation(string $location): self
     {
-        $dom = new DOMDocument();
-        $dom->loadHTML($location);
-        $searchNode = $dom->getElementsByTagName("iframe");
-        foreach($searchNode as $searchNode){
-            $location = $searchNode->getAttribute("src");
-
-            //for dailymotion
-            if(str_contains($location, "autoplay")){
-                $location = str_replace("?autoplay=1", "", $location);
-            }
-
-        }
         $this->location = $location;
 
         return $this;

@@ -40,11 +40,13 @@
                                 {% endfor %}
                                 <div class="bigPhoto"></div>
                                 {% for video in trick.videos %}
-                                        <div class="col-md-3">
-                                                <div class="card mb-2">
-                                                        {{ video.location|raw }}
+                                        {% if video.location|videoFormat|raw == true %}
+                                                <div class="col-md-3">
+                                                        <div class="card mb-2">
+                                                                {{ video.location|videoFormat|raw }}
+                                                        </div>
                                                 </div>
-                                        </div>
+                                        {% endif %}
                                 {% endfor %}
                         </div>
                 </div>
