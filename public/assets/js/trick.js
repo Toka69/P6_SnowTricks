@@ -99,8 +99,6 @@
     //Show input file video and valid button
     $(document).ready(function() {
         $('.editVideo').click(function () {
-            // $(this).parent().parent().parent().find("div.videoInput").show();
-            // $(this).parents().find("div.edit-buttons1").hide());
             $(this).closest("div.selectors").find("div.videoInput").show();
             $(this).closest("div.selectors").find("div.edit-buttons1").hide();
 
@@ -114,25 +112,27 @@
 
         // Youtube
         if(~str.indexOf("youtu.be")){
-            var test = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
+            var tag = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
         }
         if(~str.indexOf("youtube.com/embed/")){
-            var test = $(str).attr("src");
+            var tag = $(str).attr("src");
         }
 
         // Dailymotion
         if(~str.indexOf("dai.ly")){
-            var test = str.replace("https://dai.ly/", "https://www.dailymotion.com/embed/video/");
+            var tag = str.replace("https://dai.ly/", "https://www.dailymotion.com/embed/video/");
         }
-        // if(~str.indexOf("dailymotion.com/emvideo/")){
-        //     var test = $(str).attr("src");
-        //     test = test.replace("dailymotion.com/video/", "dailymotion.com/embed/video/");
-        //     console.log(test);
-        // }
+        if(~str.indexOf("dailymotion.com/embed")){
+            var iframe = $(str).html();
+            var tag = $(iframe).attr("src");
+            if(~tag.indexOf("autoplay")){tag = tag.replace("?autoplay=1", "");}
+        }
+        if(~str.indexOf("dailymotion.com/video/")){
+            var tag = str.replace("dailymotion.com/video", "dailymotion.com/embed/video");
+        }
 
-        $('div[id="'+ id + '"] iframe').attr("src", test);
+        // result
+        $('div[id="'+ id + '"] iframe').attr("src", tag);
         $(input).parent().parent().hide();
         $(input).parent().parent().parent().find("div.edit-buttons1").show();
-        // $(this).closest("div.selectors").find("div.videoInput").hide();
-        // $(this).closest("div.selectors").find("div.edit-buttons1").show();
     }
