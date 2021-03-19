@@ -100,31 +100,36 @@
     $(document).ready(function() {
         $('.editVideo').click(function () {
             // $(this).parent().parent().parent().find("div.videoInput").show();
-            // console.log($(this).parents().find("div.edit-buttons1").hide());
+            // $(this).parents().find("div.edit-buttons1").hide());
             $(this).closest("div.selectors").find("div.videoInput").show();
             $(this).closest("div.selectors").find("div.edit-buttons1").hide();
 
         });
     });
 
-    // $(document).ready(function() {
-    //     $('#validUpdateVideo').click(function () {
-    //         $(this).closest("div.selectors").find("div.videoInput").hide();
-    //         $(this).closest("div.selectors").find("div.edit-buttons1").show();
-    //     });
-    // });
-
     //previewVideo
     function previewVideo(input){
         var id = "collection-video " + input.id.replace("_location", "");
         var str = input.value;
+
+        // Youtube
         if(~str.indexOf("youtu.be")){
             var test = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
         }
         if(~str.indexOf("youtube.com/embed/")){
-
             var test = $(str).attr("src");
         }
+
+        // Dailymotion
+        if(~str.indexOf("dai.ly")){
+            var test = str.replace("https://dai.ly/", "https://www.dailymotion.com/embed/video/");
+        }
+        // if(~str.indexOf("dailymotion.com/emvideo/")){
+        //     var test = $(str).attr("src");
+        //     test = test.replace("dailymotion.com/video/", "dailymotion.com/embed/video/");
+        //     console.log(test);
+        // }
+
         $('div[id="'+ id + '"] iframe').attr("src", test);
         $(input).parent().parent().hide();
         $(input).parent().parent().parent().find("div.edit-buttons1").show();
