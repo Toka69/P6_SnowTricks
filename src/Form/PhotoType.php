@@ -24,7 +24,6 @@ class PhotoType extends AbstractType
                 'label' => '<i class="fas fa-pencil-alt"></i>',
                 'label_html' => true,
                 'required' => false
-//                'attr' => ['onchange' => 'previewPhoto(this)']
             ])
             ;
 
