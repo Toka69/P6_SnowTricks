@@ -58,7 +58,7 @@
                 </div>
                 <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3">
                         <a href="{{ path('trick_category', {'slug': trick.category.slug}) }}"><span class="badge badge-primary p-2">{{ trick.category.name }}</span></a>
-                        <p>Author: {{ trick.user.firstName ~ trick.user.lastName }}</p>
+                        <p>Author: {{ trick.user.firstName ~ " " ~ trick.user.lastName }}</p>
                         <p>Created: {{ trick.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                         <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
                 </div>
@@ -80,7 +80,7 @@
                         <h6>Comments :</h6>
                         <ul id="myListMore">
                         {% set numberCommentInit = "" %}
-                        {% for comment in trick.comments %}
+                        {% for comment in commentsDescOrder %}
                                 {% if loop.index <= 10 %}
                                 <li class="card mt-1">
                                         <div class="card-body">
@@ -95,7 +95,7 @@
                                                                 <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
                                                         </div>
                                                         <div class="col">
-                                                                <div>Author : {{ comment.user.firstName ~ comment.user.lastName }}</div>
+                                                                <div>Author : {{ comment.user.firstName ~ " " ~ comment.user.lastName }}</div>
                                                                 <div>Created date : {{ comment.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</div>
                                                         </div>
                                                 </div>

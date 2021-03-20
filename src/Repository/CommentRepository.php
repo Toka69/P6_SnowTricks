@@ -34,7 +34,7 @@ class CommentRepository extends ServiceEntityRepository
             ;
         if ($limit){$query->setMaxResults($limit);}
         if ($offset){$query->setFirstResult($offset);}
-        if ($order){$query->orderBy('c.id',$order);}
+        if ($order){$query->orderBy('c.createdDate',$order);}
 
         $query = $query->getQuery();
         return $query->getResult();

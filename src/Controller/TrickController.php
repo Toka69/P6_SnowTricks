@@ -161,7 +161,7 @@ class TrickController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function show(Trick $trick, Request $request, EntityManagerInterface $em): Response
+    public function show(Trick $trick, Request $request, EntityManagerInterface $em, CommentRepository $commentRepository): Response
     {
         $comment = New Comment;
 
@@ -183,6 +183,7 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick/show.html.twig', [
+            'commentsDescOrder' => $commentRepository->findBy(['trick' => $trick->getId()], ['createdDate' => 'DESC']),
             'trick' => $trick,
             'formView' => $form->createView()
         ]);
@@ -198,10 +199,9 @@ class TrickController extends AbstractController
     public function load(Request $request, CommentRepository $commentRepository, Trick $trick): Response
     {
         $arrayJson = [];
-        $currentComment = $request->getSession()->get('currentComment', 0);
+        $currentComment = $request->getSession()->get('currentComment', 11);
         $numberComments = 10;
-        $currentComment = $currentComment + $numberComments;
-        $comments = $commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment);
+        $comments = $commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment, "DESC");
         foreach ($comments as $comment){
             $arrayComment = [
                 "content" => $comment->getContent(),
@@ -213,7 +213,7 @@ class TrickController extends AbstractController
             ];
             array_push($arrayJson, $arrayComment);
         }
-
+        $currentComment = $currentComment + $numberComments;
         $request->getSession()->set('currentComment', $currentComment);
 
         if ($currentComment + $numberComments >= count($commentRepository->getCommentsByTrickId($trick))){
