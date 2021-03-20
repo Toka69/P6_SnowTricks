@@ -29,9 +29,9 @@ class AppFixtures extends Fixture
         $this->encoder = $encoder;
     }
 
-    private function invertDateInterval($value): DateInterval
+    private function invertDateInterval($duration): DateInterval
     {
-        $dateInterval = new DateInterval($value);
+        $dateInterval = new DateInterval($duration);
         $dateInterval->invert = 1;
 
         return $this->invertDateInterval = $dateInterval;
@@ -109,8 +109,8 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick1->getName())))
             ->setCategory($category1)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick1->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P4DT6H12M10S')))
+            ->setModifiedDate($trick1->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
         $manager->persist($trick1);
 
         $trick2 = new Trick;
@@ -119,8 +119,8 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick2->getName())))
             ->setCategory($category1)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick2->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P10DT14H36M52S')))
+            ->setModifiedDate($trick2->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
         $manager->persist($trick2);
 
         $trick3 = new Trick;
@@ -129,7 +129,7 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick3->getName())))
             ->setCategory($category1)
             ->setUser($user3)
-            ->setCreatedDate(new DateTimeImmutable());
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P3DT6H12M10S')));
         $manager->persist($trick3);
 
         $trick4 = new Trick;
@@ -138,7 +138,7 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick4->getName())))
             ->setCategory($category1)
             ->setUser($user2)
-            ->setCreatedDate(new DateTimeImmutable());
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P1DT8H16M10S')));
         $manager->persist($trick4);
 
         $trick5 = new Trick;
@@ -147,8 +147,8 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick5->getName())))
             ->setCategory($category2)
             ->setUser($user2)
-            ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick5->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P8DT20H45M10S')))
+            ->setModifiedDate($trick5->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
         $manager->persist($trick5);
 
         $trick6 = new Trick;
@@ -157,7 +157,7 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick6->getName())))
             ->setCategory($category2)
             ->setUser($user3)
-            ->setCreatedDate(new DateTimeImmutable());
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P2DT13H52M47S')));
         $manager->persist($trick6);
 
         $trick7 = new Trick;
@@ -166,8 +166,8 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick7->getName())))
             ->setCategory($category2)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick7->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P7DT21H6M10S')))
+            ->setModifiedDate($trick7->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
         $manager->persist($trick7);
 
         $trick8 = new Trick;
@@ -176,8 +176,8 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick8->getName())))
             ->setCategory($category2)
             ->setUser($user2)
-            ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick8->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P9DT15H25M10S')))
+            ->setModifiedDate($trick8->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
         $manager->persist($trick8);
 
         $trick9 = new Trick;
@@ -186,7 +186,7 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick9->getName())))
             ->setCategory($category3)
             ->setUser($user1)
-            ->setCreatedDate(new DateTimeImmutable());
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P1DT5H34M26S')));
         $manager->persist($trick9);
 
         $trick10 = new Trick;
@@ -195,7 +195,7 @@ class AppFixtures extends Fixture
             ->setSlug(strtolower($this->slugger->slug($trick10->getName())))
             ->setCategory($category5)
             ->setUser($user3)
-            ->setCreatedDate(new DateTimeImmutable());
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P3DT22H46M52S')));
         $manager->persist($trick10);
 
         /**** Videos ****/
