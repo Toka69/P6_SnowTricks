@@ -22,9 +22,19 @@ class AppFixtures extends Fixture
 
     protected UserPasswordEncoderInterface $encoder;
 
+    protected DateInterval $invertDateInterval;
+
     public function __construct(SluggerInterface $slugger, UserPasswordEncoderInterface $encoder){
         $this->slugger = $slugger;
         $this->encoder = $encoder;
+    }
+
+    private function invertDateInterval($value): DateInterval
+    {
+        $dateInterval = new DateInterval($value);
+        $dateInterval->invert = 1;
+
+        return $this->invertDateInterval = $dateInterval;
     }
 
     public function load(ObjectManager $manager)
@@ -100,7 +110,7 @@ class AppFixtures extends Fixture
             ->setCategory($category1)
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick1->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
+            ->setModifiedDate($trick1->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
         $manager->persist($trick1);
 
         $trick2 = new Trick;
@@ -110,7 +120,7 @@ class AppFixtures extends Fixture
             ->setCategory($category1)
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick2->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
+            ->setModifiedDate($trick2->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
         $manager->persist($trick2);
 
         $trick3 = new Trick;
@@ -138,7 +148,7 @@ class AppFixtures extends Fixture
             ->setCategory($category2)
             ->setUser($user2)
             ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick5->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
+            ->setModifiedDate($trick5->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
         $manager->persist($trick5);
 
         $trick6 = new Trick;
@@ -157,7 +167,7 @@ class AppFixtures extends Fixture
             ->setCategory($category2)
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick7->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
+            ->setModifiedDate($trick7->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
         $manager->persist($trick7);
 
         $trick8 = new Trick;
@@ -167,7 +177,7 @@ class AppFixtures extends Fixture
             ->setCategory($category2)
             ->setUser($user2)
             ->setCreatedDate(new DateTimeImmutable())
-            ->setModifiedDate($trick8->getCreatedDate()->add(new DateInterval('P2DT4H8M25S')));
+            ->setModifiedDate($trick8->getCreatedDate()->add($this->invertDateInterval('P2DT4H8M25S')));
         $manager->persist($trick8);
 
         $trick9 = new Trick;
@@ -315,15 +325,15 @@ class AppFixtures extends Fixture
         $comment1 = new Comment;
         $comment1->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT4H8M35S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P0DT4H8M35S')))
             ->setContent("Hi, it's a wonderful trick!")
-            ->setModifiedDate($comment1->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment1->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment1);
 
         $comment2 = new Comment;
         $comment2->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT6H24M12S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P0DT6H24M12S')))
             ->setContent("Hello, great!!!");
         $manager->persist($comment2);
 
@@ -332,7 +342,7 @@ class AppFixtures extends Fixture
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Yeah man.")
-            ->setModifiedDate($comment3->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment3->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment3);
 
         $comment4 = new Comment;
@@ -347,7 +357,7 @@ class AppFixtures extends Fixture
             ->setUser($user2)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Too fun")
-            ->setModifiedDate($comment5->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment5->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment5);
 
         $comment6 = new Comment;
@@ -355,7 +365,7 @@ class AppFixtures extends Fixture
             ->setUser($user3)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Amazing")
-            ->setModifiedDate($comment6->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment6->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment6);
 
         $comment7 = new Comment;
@@ -370,7 +380,7 @@ class AppFixtures extends Fixture
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Why not")
-            ->setModifiedDate($comment8->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment8->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment8);
 
         $comment9 = new Comment;
@@ -378,7 +388,7 @@ class AppFixtures extends Fixture
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("It's a good trick")
-            ->setModifiedDate($comment9->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment9->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment9);
 
         $comment10 = new Comment;
@@ -386,7 +396,7 @@ class AppFixtures extends Fixture
             ->setUser($user2)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Sorry, i don't understand")
-            ->setModifiedDate($comment10->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment10->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment10);
 
         $comment11 = new Comment;
@@ -401,7 +411,7 @@ class AppFixtures extends Fixture
             ->setUser($user1)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("It's my favorite")
-            ->setModifiedDate($comment12->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment12->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment12);
 
         $comment13 = new Comment;
@@ -409,83 +419,83 @@ class AppFixtures extends Fixture
             ->setUser($user2)
             ->setCreatedDate(new DateTimeImmutable())
             ->setContent("Good luck")
-            ->setModifiedDate($comment13->getCreatedDate()->add(new DateInterval('P4DT6H8M37S')));
+            ->setModifiedDate($comment13->getCreatedDate()->add($this->invertDateInterval('P4DT6H8M37S')));
         $manager->persist($comment13);
 
         $comment14 = new Comment;
         $comment14->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT8H16M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P0DT8H16M37S')))
             ->setContent("Too much.");
         $manager->persist($comment14);
 
         $comment15 = new Comment;
         $comment15->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT12H12M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P0DT12H12M37S')))
             ->setContent("Enjoy!");
         $manager->persist($comment15);
 
         $comment16 = new Comment;
         $comment16->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P0DT23H12M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P0DT23H12M37S')))
             ->setContent("Great, great, great!");
         $manager->persist($comment16);
 
         $comment17 = new Comment;
         $comment17->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H6M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P1DT6H6M37S')))
             ->setContent("It's a Holdup!");
         $manager->persist($comment17);
 
         $comment18 = new Comment;
         $comment18->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT6H9M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P1DT6H9M37S')))
             ->setContent("So good.");
         $manager->persist($comment18);
 
         $comment19 = new Comment;
         $comment19->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P1DT10H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P1DT10H8M37S')))
             ->setContent("Youhou!");
         $manager->persist($comment19);
 
         $comment20 = new Comment;
         $comment20->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P2DT3H16M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P2DT3H16M37S')))
             ->setContent("It's my favorite.");
         $manager->persist($comment20);
 
         $comment21 = new Comment;
         $comment21->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P4DT6H24M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P4DT6H24M37S')))
             ->setContent("Like me!");
         $manager->persist($comment21);
 
         $comment22 = new Comment;
         $comment22->setTrick($trick1)
             ->setUser($user2)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P7DT5H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P7DT5H8M37S')))
             ->setContent("My first choice!");
         $manager->persist($comment22);
 
         $comment23 = new Comment;
         $comment23->setTrick($trick1)
             ->setUser($user3)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P9DT18H7M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P9DT18H7M37S')))
             ->setContent("Definitively the better");
         $manager->persist($comment23);
 
         $comment24 = new Comment;
         $comment24->setTrick($trick1)
             ->setUser($user1)
-            ->setCreatedDate((new DateTimeImmutable())->add(new DateInterval('P12DT9H8M37S')))
+            ->setCreatedDate((new DateTimeImmutable())->add($this->invertDateInterval('P12DT9H8M37S')))
             ->setContent("Incredible.");
         $manager->persist($comment24);
 
