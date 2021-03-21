@@ -199,8 +199,9 @@ class TrickController extends AbstractController
     public function load(Request $request, CommentRepository $commentRepository, Trick $trick): Response
     {
         $arrayJson = [];
-        $currentComment = $request->getSession()->get('currentComment', 11);
+        $currentComment = $request->getSession()->get('currentComment', 0);
         $numberComments = 10;
+        $currentComment = $currentComment + $numberComments;
         $comments = $commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment, "DESC");
         foreach ($comments as $comment){
             $arrayComment = [
@@ -213,7 +214,7 @@ class TrickController extends AbstractController
             ];
             array_push($arrayJson, $arrayComment);
         }
-        $currentComment = $currentComment + $numberComments;
+
         $request->getSession()->set('currentComment', $currentComment);
 
         if ($currentComment + $numberComments >= count($commentRepository->getCommentsByTrickId($trick))){
