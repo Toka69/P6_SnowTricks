@@ -63,7 +63,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="trick_edit")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_USER", message="You must been logged!")
      * @param TrickRepository $trickRepository
      * @param Trick $trick
      * @param Request $request
@@ -125,12 +125,12 @@ class TrickController extends AbstractController
      * @Route("{id}/delete", name="trick_delete")
      * @param Trick $trick
      * @param EntityManagerInterface $em
+     * @param SessionInterface $session
      * @return RedirectResponse
      */
-    public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
+    public function delete(Trick $trick, EntityManagerInterface $em, SessionInterface $session): RedirectResponse
     {
-
-        $this->denyAccessUnlessGranted('DELETE', $trick);
+        $this->denyAccessUnlessGranted('DELETE', $trick, "You are not the owner of this trick and you are not authorized to delete it.");
 
         $em->remove($trick);
         $em->flush();
