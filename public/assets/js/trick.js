@@ -1,35 +1,35 @@
     //Manage Add a photo
-    var $addphotoLink = $('<a href="#" class="btn btn-primary mt-1"><i class="far fa-file-image"></i> Add a Photo</a>');
-    var $newLinkLi = $('<li></li>').append($addphotoLink);
-
     jQuery(document).ready(function() {
+        var $newLinkLi = $('<li></li>');
         var $collectionHolder = $('ul.photos');
-        var $nbPhoto = $("[id=photoCard]").length;
         $collectionHolder.append($newLinkLi);
-        $collectionHolder.data('index', $nbPhoto+1);
-
-        $addphotoLink.on('click', function(e) {
-            e.preventDefault();
-            addphotoForm($collectionHolder, $newLinkLi);
-            bsCustomFileInput.init();
-        });
-    });
-
-    function addphotoForm($collectionHolder, $newLinkLi) {
         var prototype = $collectionHolder.data('prototype');
         var index = $collectionHolder.data('index');
         var newForm = prototype.replace(/__name__/g, index);
+        newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
+        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this)"');
         $collectionHolder.data('index', index + 1);
-        var $newFormLi = $('<li class="card mb-1"></li>').append(newForm);
-        $newFormLi.append('<a href="#" class="remove-photo mb-1 btn btn-danger">Delete</a>');
+        var $newFormLi = $('<li class="mb-1"></li>').append(newForm);
         $newLinkLi.before($newFormLi);
+    });
 
-        $('.remove-photo').click(function(e) {
-            e.preventDefault();
-            $(this).parent().remove();
+    function previewPhoto1(input){
+        var file = input.files[0];
 
-            return false;
-        });
+        // if(file){
+        //     var reader = new FileReader();
+        //
+        //     if(input.id === "trick_photos_undefined_file"){
+        //         reader.onload = function(){
+        //             console.log(reader.result);
+        //             // $("#previewImg-cover").attr("style", "background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('" + reader.result + "')");
+        //             var $result = 'toto';
+        //             $('<div>toto</div>').before($('<div class="bigPhoto"></div>'));
+        //         }
+        //     }
+        //
+        //     reader.readAsDataURL(file);
+        // }
     }
 
     //Manage Add a video
