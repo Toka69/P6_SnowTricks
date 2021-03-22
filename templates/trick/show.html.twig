@@ -32,7 +32,7 @@
                                                                 {% if 'https://' in photo.location %}
                                                                         <img src="{{ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
                                                                 {% else %}
-                                                                        <img src="{{ asset('/uploads/') }}{{ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
+                                                                        <img src="{{ asset('/uploads/') ~ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
                                                                 {% endif %}
                                                         </div>
                                                 </div>

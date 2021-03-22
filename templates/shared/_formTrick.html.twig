@@ -4,8 +4,12 @@
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
         <div class="hero-trick-image mb-3">
-            <img id="previewImg-{{ photo.vars.id }}" src='{{ asset("/uploads/" ~ photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
-            <div class="hero-text">
+            {% if 'https://' in photo.vars.value.location %}
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
+            {% else %}
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset("/uploads/" ~ photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
+            {% endif %}
+                <div class="hero-text">
                 <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
             </div>
             {% if is_granted("ROLE_USER") %}
