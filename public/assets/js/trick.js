@@ -16,20 +16,32 @@
     function previewPhoto1(input){
         var file = input.files[0];
 
-        // if(file){
-        //     var reader = new FileReader();
-        //
-        //     if(input.id === "trick_photos_undefined_file"){
-        //         reader.onload = function(){
-        //             console.log(reader.result);
-        //             // $("#previewImg-cover").attr("style", "background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('" + reader.result + "')");
-        //             var $result = 'toto';
-        //             $('<div>toto</div>').before($('<div class="bigPhoto"></div>'));
-        //         }
-        //     }
-        //
-        //     reader.readAsDataURL(file);
-        // }
+        if(file){
+            var reader = new FileReader();
+
+            reader.onload = function(){
+            var $html = $(
+                '<div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">' +
+                    '<div id="photoCard" class="card mb-2">' +
+                        '<img id="previewImg" src="' + reader.result + '" alt=\'photo\' class=\'img-fluid littlePhoto\' style=\'height: 150px\'>' +
+                        '<div class="d-flex flex-row-reverse mr-1">' +
+                            '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
+                                '<div class="hidden">' +
+
+                                '</div>' +
+                                '<button type="button" class="delete btn">' +
+                                    '<i class="fas fa-trash-alt"></i>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>'
+            );
+            ($('div.bigPhoto')).before($html);
+            }
+
+            reader.readAsDataURL(file);
+        }
     }
 
     //Manage Add a video
@@ -82,7 +94,6 @@
 
             if(input.id === "trick_fileCover"){
                 reader.onload = function(){
-                    console.log(reader.result);
                     $("#previewImg-cover").attr("style", "background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('" + reader.result + "')");
                 }
             }
