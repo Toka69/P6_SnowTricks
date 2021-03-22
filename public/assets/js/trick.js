@@ -1,48 +1,77 @@
     //Manage Add a photo
-    jQuery(document).ready(function() {
-        var $newLinkLi = $('<li></li>');
-        var $collectionHolder = $('ul.photos');
-        $collectionHolder.append($newLinkLi);
+
+    var $addphotoLink = $('<button type="button" class="btn btn-primary">Add a photo</button>');
+    var $collectionHolder = $('ul.photos');
+    var $nbPhoto = $("[id=photoCard]").length;
+    $collectionHolder.data('index', $nbPhoto+1);
+    $collectionHolder.append($addphotoLink);
+
+    $addphotoLink.on('click', function(e) {
+        e.preventDefault();
+        addphotoForm($collectionHolder);
+        bsCustomFileInput.init();
+    });
+
+    function addphotoForm($collectionHolder){
         var prototype = $collectionHolder.data('prototype');
         var index = $collectionHolder.data('index');
         var newForm = prototype.replace(/__name__/g, index);
-        newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
-        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this)"');
         $collectionHolder.data('index', index + 1);
-        var $newFormLi = $('<li class="mb-1"></li>').append(newForm);
-        $newLinkLi.before($newFormLi);
-    });
-
-    function previewPhoto1(input){
-        var file = input.files[0];
-
-        if(file){
-            var reader = new FileReader();
-
-            reader.onload = function(){
-            var $html = $(
-                '<div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">' +
-                    '<div id="photoCard" class="card mb-2">' +
-                        '<img id="previewImg" src="' + reader.result + '" alt=\'photo\' class=\'img-fluid littlePhoto\' style=\'height: 150px\'>' +
-                        '<div class="d-flex flex-row-reverse mr-1">' +
-                            '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
-                                '<div class="hidden">' +
-
-                                '</div>' +
-                                '<button type="button" class="delete btn">' +
-                                    '<i class="fas fa-trash-alt"></i>' +
-                                '</button>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>'
-            );
-            ($('div.bigPhoto')).before($html);
-            }
-
-            reader.readAsDataURL(file);
-        }
+        var $newFormLi = $('<div id="collection-photo trick_photos_'+ index +'" class="trick-media col-md-3">').append(newForm);
+        ($('div.bigPhoto')).before($newFormLi);
+        var $test = $('label[class="label-photo"][for="trick_photos_' + index + '_file"]');
+        $test.trigger("click");
     }
+
+    // jQuery(document).ready(function() {
+    //     var $newLinkLi = $('<li></li>');
+    //     var $collectionHolder = $('ul.photos');
+    //     var $nbPhoto = $("[id=photoCard]").length;
+    //     $collectionHolder.append($newLinkLi);
+    //     $collectionHolder.data('index', $nbPhoto+1);
+    //     var prototype = $collectionHolder.data('prototype');
+    //     var index = $collectionHolder.data('index');
+    //     var newForm = prototype.replace(/__name__/g, index);
+    //     newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
+    //     newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index +')"');
+    //     // $collectionHolder.data('index', index + 1);
+    //     var $newFormLi = $('<li class="mb-1"></li>').append(newForm);
+    //     $newLinkLi.before($newFormLi);
+    // });
+    //
+    // function previewPhoto1(input, index){
+    //     console.log(index);
+    //     var file = input.files[0];
+    //
+    //     if(file){
+    //         var reader = new FileReader();
+    //
+    //         reader.onload = function(){
+    //         var $html = $(
+    //             '<div id="collection-photo trick_photos_'+ index +'" class="trick-media col-md-3">' +
+    //                 '<div id="photoCard" class="card mb-2">' +
+    //                     '<img id="previewImg" src="' + reader.result + '" alt=\'photo\' class=\'img-fluid littlePhoto\' style=\'height: 150px\'>' +
+    //                     '<div class="d-flex flex-row-reverse mr-1">' +
+    //                         '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
+    //                             '<div class="hidden">' +
+    //
+    //                             '</div>' +
+    //                             '<button type="button" class="delete btn">' +
+    //                                 '<i class="fas fa-trash-alt"></i>' +
+    //                             '</button>' +
+    //                         '</div>' +
+    //                     '</div>' +
+    //                 '</div>' +
+    //             '</div>'
+    //         );
+    //         ($('div.bigPhoto')).before($html);
+    //         }
+    //
+    //         reader.readAsDataURL(file);
+    //
+    //         $collectionHolder.data('index', $nbPhoto+1);
+    //     }
+    // }
 
     //Manage Add a video
     var $addVideoLink = $('<a href="#" class="btn btn-primary mt-1"><i class="far fa-file-video"></i> Add a Video</a>');
