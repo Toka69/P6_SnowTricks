@@ -4,39 +4,24 @@
         var $collectionHolder = $('ul.photos');
         var $nbPhoto = $("[id=photoCard]").length;
         $collectionHolder.data('index', $nbPhoto+1);
-
         $collectionHolder.append($newLinkLi);
         var prototype = $collectionHolder.data('prototype');
         var index = $collectionHolder.data('index');
         var newForm = prototype.replace(/__name__/g, index);
         newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
-        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index +')"');
+        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, ' + index + ')"');
         var $newFormLi = $('<li class="mb-1 photo"></li>').append(newForm);
         $newLinkLi.before($newFormLi);
     });
 
     function previewPhoto1(input, index){
-        $('li.photo').remove();
-        var $newLinkLi = $('<li></li>');
-        var $collectionHolder = $('ul.photos');
-        $collectionHolder.data('index', index+1);
-        $collectionHolder.append($newLinkLi);
-        var prototype = $collectionHolder.data('prototype');
-        var index2 = $collectionHolder.data('index');
-        var newForm = prototype.replace(/__name__/g, index2);
-        newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
-        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index2 +')"');
-        $collectionHolder.data('index', index2 + 1);
-        var $newFormLi = $('<li class="mb-1 photo"></li>').append(newForm);
-        $newLinkLi.before($newFormLi);
-
         var file = input.files[0];
 
         if(file){
             var reader = new FileReader();
-            console.log(index);
+
             reader.onload = function(){
-            var $html = $(
+                var $html = $(
                 '<div id="collection-photo trick_photos_' + index +'" class="trick-media col-md-3">' +
                     '<div id="photoCard" class="card mb-2">' +
                         '<img id="previewImg" src="' + reader.result + '" alt=\'photo\' class=\'img-fluid littlePhoto\' style=\'height: 150px\'>' +
@@ -45,7 +30,7 @@
                                 '<div class="hidden">' +
                                     '<div class="custom-file">' +
                                         '<input type="file" id="trick_photos_' + index +'_file" name="trick[photos][' + index + '][file]" onchange="previewPhoto(this)" class="custom-file-input">' +
-                                            '<label for="trick_photos_' + index +'" class="custom-file-label"></label>' +
+                                            '<label for="trick_photos_' + index +'" class="custom-file-label">'+ file.name +'</label>' +
                                     '</div>' +
                                 '</div>' +
                                 '<button type="button" class="delete btn">' +
@@ -55,13 +40,26 @@
                         '</div>' +
                     '</div>' +
                 '</div>'
-            );
-            ($('div.bigPhoto')).before($html);
+                );
+
+                $('div.bigPhoto').before($html);
             }
 
             reader.readAsDataURL(file);
 
-
+            $('li.photo').hide();
+            var $newLinkLi2 = $('<li></li>');
+            var $collectionHolder2 = $('ul.photos');
+            $collectionHolder2.data('index', index+1);
+            $collectionHolder2.append($newLinkLi2);
+            var prototype2 = $collectionHolder2.data('prototype');
+            var index2 = $collectionHolder2.data('index');
+            var newForm2 = prototype2.replace(/__name__/g, index2);
+            newForm2 = newForm2.replace('class="custom-file"', 'class="custom-file hidden"');
+            newForm2 = newForm2.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index2 +')"');
+            $collectionHolder2.data('index', index2 + 1);
+            var $newFormLi2 = $('<li class="mb-1 photo"></li>').append(newForm2);
+            $newLinkLi2.before($newFormLi2);
         }
     }
 
