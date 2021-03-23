@@ -10,7 +10,7 @@
         var newForm = prototype.replace(/__name__/g, index);
         newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
         newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, ' + index + ')"');
-        var $newFormLi = $('<li class="mb-1 photo"></li>').append(newForm);
+        var $newFormLi = $('<li class="mb-1 photo nb-'+ index +'"></li>').append(newForm);
         $newLinkLi.before($newFormLi);
     });
 
@@ -33,7 +33,7 @@
                                             '<label for="trick_photos_' + index +'" class="custom-file-label">'+ file.name +'</label>' +
                                     '</div>' +
                                 '</div>' +
-                                '<button type="button" class="delete btn">' +
+                                '<button type="button" class="remove-photo delete btn">' +
                                     '<i class="fas fa-trash-alt"></i>' +
                                 '</button>' +
                             '</div>' +
@@ -43,22 +43,30 @@
                 );
 
                 $('div.bigPhoto').before($html);
+
+                $('.remove-photo').click(function(e) {
+                    e.preventDefault();
+                    $(this).closest("div.trick-media").remove();
+                    var nb = this.closest("div.trick-media").id.replace("collection-photo trick_photos_", "");
+                    console.log($('li.nb-' + nb + '').remove());
+                });
             }
 
             reader.readAsDataURL(file);
 
             $('li.photo').hide();
+
             var $newLinkLi2 = $('<li></li>');
             var $collectionHolder2 = $('ul.photos');
-            $collectionHolder2.data('index', index+1);
+            $collectionHolder2.data('index', index + 1);
             $collectionHolder2.append($newLinkLi2);
             var prototype2 = $collectionHolder2.data('prototype');
             var index2 = $collectionHolder2.data('index');
             var newForm2 = prototype2.replace(/__name__/g, index2);
             newForm2 = newForm2.replace('class="custom-file"', 'class="custom-file hidden"');
-            newForm2 = newForm2.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index2 +')"');
+            newForm2 = newForm2.replace('type="file"', 'type="file" onchange="previewPhoto1(this, ' + index2 + ')"');
             $collectionHolder2.data('index', index2 + 1);
-            var $newFormLi2 = $('<li class="mb-1 photo"></li>').append(newForm2);
+            var $newFormLi2 = $('<li class="mb-1 photo nb-' + index2 +'"></li>').append(newForm2);
             $newLinkLi2.before($newFormLi2);
         }
     }
@@ -100,7 +108,11 @@
     //Manage delete a media
     $(document).ready(function() {
         $('button[class="delete btn"]').click(function(){
-            console.log($(this).closest("div.trick-media").remove());
+            $(this).closest("div.trick-media").remove();
+        });
+
+        $('button[class="delete btn"]').on("click", "i", function(){
+            console.log('toto');
         });
     });
 
