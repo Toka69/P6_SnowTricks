@@ -2,32 +2,51 @@
     jQuery(document).ready(function() {
         var $newLinkLi = $('<li></li>');
         var $collectionHolder = $('ul.photos');
+        var $nbPhoto = $("[id=photoCard]").length;
+        $collectionHolder.data('index', $nbPhoto+1);
+
         $collectionHolder.append($newLinkLi);
         var prototype = $collectionHolder.data('prototype');
         var index = $collectionHolder.data('index');
         var newForm = prototype.replace(/__name__/g, index);
         newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
-        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this)"');
-        $collectionHolder.data('index', index + 1);
-        var $newFormLi = $('<li class="mb-1"></li>').append(newForm);
+        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index +')"');
+        var $newFormLi = $('<li class="mb-1 photo"></li>').append(newForm);
         $newLinkLi.before($newFormLi);
     });
 
-    function previewPhoto1(input){
+    function previewPhoto1(input, index){
+        $('li.photo').remove();
+        var $newLinkLi = $('<li></li>');
+        var $collectionHolder = $('ul.photos');
+        $collectionHolder.data('index', index+1);
+        $collectionHolder.append($newLinkLi);
+        var prototype = $collectionHolder.data('prototype');
+        var index2 = $collectionHolder.data('index');
+        var newForm = prototype.replace(/__name__/g, index2);
+        newForm = newForm.replace('class="custom-file"', 'class="custom-file hidden"');
+        newForm = newForm.replace('type="file"', 'type="file" onchange="previewPhoto1(this, '+ index2 +')"');
+        $collectionHolder.data('index', index2 + 1);
+        var $newFormLi = $('<li class="mb-1 photo"></li>').append(newForm);
+        $newLinkLi.before($newFormLi);
+
         var file = input.files[0];
 
         if(file){
             var reader = new FileReader();
-
+            console.log(index);
             reader.onload = function(){
             var $html = $(
-                '<div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">' +
+                '<div id="collection-photo trick_photos_' + index +'" class="trick-media col-md-3">' +
                     '<div id="photoCard" class="card mb-2">' +
                         '<img id="previewImg" src="' + reader.result + '" alt=\'photo\' class=\'img-fluid littlePhoto\' style=\'height: 150px\'>' +
                         '<div class="d-flex flex-row-reverse mr-1">' +
                             '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
                                 '<div class="hidden">' +
-
+                                    '<div class="custom-file">' +
+                                        '<input type="file" id="trick_photos_' + index +'_file" name="trick[photos][' + index + '][file]" onchange="previewPhoto(this)" class="custom-file-input">' +
+                                            '<label for="trick_photos_' + index +'" class="custom-file-label"></label>' +
+                                    '</div>' +
                                 '</div>' +
                                 '<button type="button" class="delete btn">' +
                                     '<i class="fas fa-trash-alt"></i>' +
@@ -41,6 +60,8 @@
             }
 
             reader.readAsDataURL(file);
+
+
         }
     }
 

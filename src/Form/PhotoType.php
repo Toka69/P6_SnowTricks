@@ -39,7 +39,8 @@ class PhotoType extends AbstractType
             else{
                 $form->add('file', FileType::class, [
                     'label' => 'Add a photo',
-                    'label_attr' => ['class' => 'btn btn-primary']
+                    'label_attr' => ['class' => 'btn btn-primary'],
+                    'required' => false
                 ]);
             }
         });
