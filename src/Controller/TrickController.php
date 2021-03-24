@@ -125,10 +125,9 @@ class TrickController extends AbstractController
      * @Route("{id}/delete", name="trick_delete")
      * @param Trick $trick
      * @param EntityManagerInterface $em
-     * @param SessionInterface $session
      * @return RedirectResponse
      */
-    public function delete(Trick $trick, EntityManagerInterface $em, SessionInterface $session): RedirectResponse
+    public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
     {
         $this->denyAccessUnlessGranted('DELETE', $trick, "You are not the owner of this trick and you are not authorized to delete it.");
 
