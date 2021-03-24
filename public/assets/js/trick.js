@@ -72,7 +72,7 @@
     }
 
     //Manage Add a video
-    var $addVideoLink = $('<a href="#" class="btn btn-primary mt-1"><i class="far fa-file-video"></i> Add a Video</a>');
+    var $addVideoLink = $('<a href="#" class="btn btn-primary">Add a Video</a>');
     var $newVideoLinkLi = $('<li></li>').append($addVideoLink);
 
     jQuery(document).ready(function() {
@@ -89,27 +89,35 @@
     });
 
     function addVideoForm($videoCollectionHolder, $newVideoLinkLi) {
+
         var prototype = $videoCollectionHolder.data('prototype');
         var index = $videoCollectionHolder.data('index');
         var newVideoForm = prototype.replace(/__name__/g, index);
         $videoCollectionHolder.data('index', index + 1);
         var $newVideoFormLi = $('<li class="card mb-1"></li>').append(newVideoForm);
         $newVideoFormLi.append('<a href="#" class="remove-video mb-1 btn btn-danger">Delete</a>');
-        // $newVideoLinkLi.before($newVideoFormLi);
+
         var $html = $(
             '<div id="collection-video trick_videos_' + index +'" class="trick-media col-md-3">' +
                 '<div id="videoCard" class="card mb-2">' +
-                    '<img id="previewImg" alt=\'video\' class=\'img-fluid littlevideo\' style=\'height: 150px\'>' +
-                    '<div class="d-flex flex-row-reverse border rounded">' +
+                    '<iframe src="" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>' +
+                    '<div class="d-flex flex-row-reverse">' +
                         '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
                             '<div class="videoInput">' +
                                 '<div class="d-flex">' +
-                                    '<input type="text" id="trick_videos_' + index +'_location" name="trick[videos][' + index + '][location]" onchange="previewvideo(this)" class="form-control">' +
+                                    '<input type="text" id="trick_videos_' + index +'_location" name="trick[videos][' + index + '][location]" onchange="previewVideo(this)" class="form-control">' +
+                                    '<button type="button" id="validUpdateVideo" class="btn btn-success">' +
+                                        'Valid' +
+                                    '</button>' +
                                 '</div>' +
                             '</div>' +
-                            '<button type="button" id="validUpdateVideo" class="btn btn-success">' +
-                                'Valid' +
-                            '</button>' +
+                            '<div class="edit-buttons1 hidden">' +
+                                '<div class="d-flex">' +
+                                        '<button type="button" class="remove-video delete btn">' +
+                                            '<i class="fas fa-trash-alt"></i>' +
+                                        '</button>' +
+                                '</div>' +
+                            '</div>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
@@ -119,9 +127,7 @@
 
         $('.remove-video').click(function(e) {
             e.preventDefault();
-            $(this).parent().remove();
-
-            return false;
+            $(this).closest("div.trick-media").remove();
         });
     }
 

@@ -16,12 +16,12 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string", length=500)
      */
-    private ?string $location;
+    private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")

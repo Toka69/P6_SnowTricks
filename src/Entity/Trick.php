@@ -302,6 +302,17 @@ class Trick
         return $trickPhotos;
     }
 
+    public function removeEmptyVideoField($trickVideos)
+    {
+        foreach ($trickVideos as $trickVideo){
+            if(is_null($trickVideo->getLocation())){
+                $trickVideos->removeElement($trickVideo);
+            }
+        }
+
+        return $trickVideos;
+    }
+
     public function getUser(): ?User
     {
         return $this->user;
