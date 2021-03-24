@@ -30,7 +30,7 @@
                                 '<div class="hidden">' +
                                     '<div class="custom-file">' +
                                         '<input type="file" id="trick_photos_' + index +'_file" name="trick[photos][' + index + '][file]" onchange="previewPhoto(this)" class="custom-file-input">' +
-                                            '<label for="trick_photos_' + index +'" class="custom-file-label">'+ file.name +'</label>' +
+                                        '<label for="trick_photos_' + index +'" class="custom-file-label">'+ file.name +'</label>' +
                                     '</div>' +
                                 '</div>' +
                                 '<button type="button" class="remove-photo delete btn">' +
@@ -95,7 +95,27 @@
         $videoCollectionHolder.data('index', index + 1);
         var $newVideoFormLi = $('<li class="card mb-1"></li>').append(newVideoForm);
         $newVideoFormLi.append('<a href="#" class="remove-video mb-1 btn btn-danger">Delete</a>');
-        $newVideoLinkLi.before($newVideoFormLi);
+        // $newVideoLinkLi.before($newVideoFormLi);
+        var $html = $(
+            '<div id="collection-video trick_videos_' + index +'" class="trick-media col-md-3">' +
+                '<div id="videoCard" class="card mb-2">' +
+                    '<img id="previewImg" alt=\'video\' class=\'img-fluid littlevideo\' style=\'height: 150px\'>' +
+                    '<div class="d-flex flex-row-reverse border rounded">' +
+                        '<div class="m-1 p-1 rounded bg-light d-flex flex-row">' +
+                            '<div class="videoInput">' +
+                                '<div class="d-flex">' +
+                                    '<input type="text" id="trick_videos_' + index +'_location" name="trick[videos][' + index + '][location]" onchange="previewvideo(this)" class="form-control">' +
+                                '</div>' +
+                            '</div>' +
+                            '<button type="button" id="validUpdateVideo" class="btn btn-success">' +
+                                'Valid' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>'
+        );
+        $('div.endVideo').before($html);
 
         $('.remove-video').click(function(e) {
             e.preventDefault();
@@ -109,10 +129,6 @@
     $(document).ready(function() {
         $('button[class="delete btn"]').click(function(){
             $(this).closest("div.trick-media").remove();
-        });
-
-        $('button[class="delete btn"]').on("click", "i", function(){
-            console.log('toto');
         });
     });
 
