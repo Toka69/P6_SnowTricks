@@ -47,6 +47,8 @@ class TrickController extends AbstractController
             $trick->setSlug($slugger->slug($trick->getName())->lower());
             $trick->setUser($this->getUser());
             $trick->setCreatedDate(new DateTimeImmutable());
+            $trick->removeEmptyPhotoField($trick->getPhotos());
+            $trick->removeEmptyVideoField($trick->getVideos());
 
             $em->persist($trick);
             $em->flush();
