@@ -28,6 +28,7 @@ class PhotoType extends AbstractType
                 $form->add('file', FileType::class, [
                     'label' => '<i class="fas fa-pencil-alt"></i>',
                     'label_html' => true,
+                    'attr' => ['accept' => 'image/*'],
                     'required' => false
                 ])
                     ->add('delete', ButtonType::class, [
@@ -40,6 +41,7 @@ class PhotoType extends AbstractType
                 $form->add('file', FileType::class, [
                     'label' => 'Add a photo',
                     'label_attr' => ['class' => 'btn btn-primary'],
+                    'attr' => ['accept' => 'image/*'],
                     'required' => false
                 ]);
             }

@@ -27,12 +27,12 @@ class Photo
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="photos")
      */
-    private ?Trick $trick;
+    private $trick;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $cover;
+    private $cover;
 
     private $file;
 
