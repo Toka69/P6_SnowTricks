@@ -17,6 +17,13 @@
     function previewPhoto1(input, index){
         var file = input.files[0];
 
+        if(file.size > 2000000){
+            alert("Your file is too large. 2MB max");
+
+            return;
+        }
+
+
         if(file){
             var reader = new FileReader();
 
@@ -70,6 +77,13 @@
             $newLinkLi2.before($newFormLi2);
         }
     }
+
+    //Remove empty photos
+    $('img').each(function(){
+        if($(this).attr("src") === '/uploads/'){
+            $(this).closest("div.trick-media").remove();
+        }
+    });
 
     //Manage Add a video
     var $addVideoLink = $('<a href="#" class="btn btn-primary">Add a Video</a>');
@@ -138,7 +152,7 @@
         });
     });
 
-    //PreviewFile
+    //PreviewPhoto
     function previewPhoto(input){
         var file = input.files[0];
 
@@ -169,7 +183,7 @@
         });
     });
 
-    //previewVideo
+    //PreviewVideo
     function previewVideo(input){
         var id = "collection-video " + input.id.replace("_location", "");
         var str = input.value;
@@ -200,3 +214,6 @@
         $(input).parent().parent().hide();
         $(input).parent().parent().parent().find("div.edit-buttons1").show();
     }
+
+    // Constraints add a photo
+
