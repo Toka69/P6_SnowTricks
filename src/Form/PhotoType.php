@@ -19,24 +19,28 @@ class PhotoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('file', FileType::class, [
-                'label' => '<i class="fas fa-pencil-alt"></i>',
-                'label_html' => true,
-                'required' => false
-            ])
-            ;
-
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $form = $event->getForm();
 
             $photo = $event->getData();
 
             if ($photo) {
-                $form->add('delete', ButtonType::class, [
+                $form->add('file', FileType::class, [
+                    'label' => '<i class="fas fa-pencil-alt"></i>',
+                    'label_html' => true,
+                    'required' => false
+                ])
+                    ->add('delete', ButtonType::class, [
                     'attr' => ['class' => 'delete'],
                     'label' => '<i class="fas fa-trash-alt"></i>',
                     'label_html' => true
+                ]);
+            }
+            else{
+                $form->add('file', FileType::class, [
+                    'label' => 'Add a photo',
+                    'label_attr' => ['class' => 'btn btn-primary'],
+                    'required' => false
                 ]);
             }
         });

@@ -280,11 +280,11 @@ class Trick
             }
         }
         if($cover->getId() === null) {
-            $cover->setlocation("../img/cover.jpg");
+            $cover->setlocation("cover.jpg");
         }
         $cover = $cover->getLocation();
 
-        if(str_contains($cover, 'https://') OR str_contains($cover, 'cover.jpg')){
+        if(str_contains($cover, 'https://')){
             return $cover;
         }
 
@@ -300,6 +300,17 @@ class Trick
         }
 
         return $trickPhotos;
+    }
+
+    public function removeEmptyVideoField($trickVideos)
+    {
+        foreach ($trickVideos as $trickVideo){
+            if(is_null($trickVideo->getLocation())){
+                $trickVideos->removeElement($trickVideo);
+            }
+        }
+
+        return $trickVideos;
     }
 
     public function getUser(): ?User

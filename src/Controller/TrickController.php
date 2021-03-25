@@ -63,7 +63,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="trick_edit")
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_USER", message="You must been logged!")
      * @param TrickRepository $trickRepository
      * @param Trick $trick
      * @param Request $request
@@ -97,6 +97,7 @@ class TrickController extends AbstractController
             }
 
             $trick->removeEmptyPhotoField($trick->getPhotos());
+            $trick->removeEmptyVideoField($trick->getVideos());
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();
@@ -129,8 +130,7 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick, EntityManagerInterface $em): RedirectResponse
     {
-
-        $this->denyAccessUnlessGranted('DELETE', $trick);
+        $this->denyAccessUnlessGranted('DELETE', $trick, "You are not the owner of this trick and you are not authorized to delete it.");
 
         $em->remove($trick);
         $em->flush();
@@ -161,7 +161,7 @@ class TrickController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function show(Trick $trick, Request $request, EntityManagerInterface $em): Response
+    public function show(Trick $trick, Request $request, EntityManagerInterface $em, CommentRepository $commentRepository): Response
     {
         $comment = New Comment;
 
@@ -183,6 +183,7 @@ class TrickController extends AbstractController
         }
 
         return $this->render('trick/show.html.twig', [
+            'commentsDescOrder' => $commentRepository->findBy(['trick' => $trick->getId()], ['createdDate' => 'DESC']),
             'trick' => $trick,
             'formView' => $form->createView()
         ]);
@@ -201,7 +202,7 @@ class TrickController extends AbstractController
         $currentComment = $request->getSession()->get('currentComment', 0);
         $numberComments = 10;
         $currentComment = $currentComment + $numberComments;
-        $comments = $commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment);
+        $comments = $commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment, "DESC");
         foreach ($comments as $comment){
             $arrayComment = [
                 "content" => $comment->getContent(),

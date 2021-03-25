@@ -10,4 +10,7 @@
 /migrations/
 ###< symfony/framework-bundle ###
 
-/public/uploads
+!public/uploads
+public/uploads/*
+!public/uploads/cover.jpg
+

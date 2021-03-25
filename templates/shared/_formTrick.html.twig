@@ -3,34 +3,47 @@
 
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
-        <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('{{ trick.cover }}')">
-        <div class="hero-text">
-            <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
-        </div>
-        {% if is_granted("ROLE_USER") %}
-            <div class="d-flex flex-row-reverse mr-4">
-                <div class="mt-3 p-3 rounded bg-light">
-                    {{ form_widget(photo.file) }}
-                    {{ form_label(photo.file) }}
-                    {{ form_widget(photo.delete) }}
-                </div>
+        <div class="hero-trick-image mb-3">
+            {% if 'https://' in photo.vars.value.location %}
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
+            {% else %}
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset("/uploads/" ~ photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
+            {% endif %}
+                <div class="hero-text">
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
             </div>
-        {% endif %}
+            {% if is_granted("ROLE_USER") %}
+                <div class="cover-buttons d-flex flex-row-reverse mr-4">
+                    <div class="mt-3 p-3 rounded bg-light">
+                        <div class="hidden">
+                            {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                            {{ form_widget(photo.delete) }}
+                        </div>
+                        {{ form_label(photo.file) }}
+                    </div>
+                </div>
+            {% endif %}
         </div>
         {% set coverExist = true %}
     {% endif %}
 {% endfor %}
 
 {% if coverExist == false %}
-    <div class="hero-trick-image mb-3" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
-        <div class="hero-text">
-            <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
-            <h3>You can choose a Cover</h3>
-        </div>
-        <div class="d-flex flex-row-reverse mr-4">
-            <div class="mt-3 p-3 rounded bg-light">
-                {{ form_widget(formView.fileCover) }}
-                {{ form_label(formView.fileCover) }}
+    <div class="hero-trick-image mb-3">
+        <div id="previewImg-cover" class="img-fluid img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
+            <div class="hero-text">
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+                <h3>You can choose a Cover</h3>
+            </div>
+            <div class="d-flex flex-row-reverse mr-4">
+                <div class="row mt-3 p-3 rounded bg-light">
+                    <div class="hidden">
+                        {{ form_widget(formView.fileCover, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(formView.fileCover) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DOMDocument;
 
 /**
  * @ORM\Entity(repositoryClass=VideoRepository::class)
@@ -15,12 +16,12 @@ class Video
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=500)
      */
-    private ?string $location;
+    private $location;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
