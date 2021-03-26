@@ -1,3 +1,4 @@
+{% set test = 1 %}
 {% for photo in form %}
         {%  if photo.vars.value.cover == false %}
             <div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">
@@ -8,6 +9,8 @@
                         {% else %}
                             <img id="previewImg-{{ photo.vars.id }}" src='{{ asset('/uploads/' ~ photo.vars.value.location) }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
                         {% endif %}
+                            {{ dump(test) }}
+                            <img id="previewImg-{{ photo.vars.id }}" src='{{ app.request.files.get('trick')['photos'][ test ]['file']|fileGetContent }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
                     {% endif %}
                     <div class="d-flex flex-row-reverse mr-1">
                         <div class="m-1 p-1 rounded bg-light d-flex flex-row">
@@ -23,6 +26,7 @@
                 </div>
             </div>
     {% endif %}
+    {% set test = test+1 %}
 {% endfor %}
 
 <div class="bigPhoto"></div>

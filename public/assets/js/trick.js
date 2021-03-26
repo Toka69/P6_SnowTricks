@@ -78,12 +78,16 @@
         }
     }
 
-    //Remove empty photos
-    $('img').each(function(){
-        if($(this).attr("src") === '/uploads/'){
-            $(this).closest("div.trick-media").remove();
-        }
+    //Remove last photo who is empty on form error
+    jQuery(document).ready(function() {
+        // console.log($('div.trick-media').last().children().children().attr("src"));
+        $($('div.trick-media').last().children().children()).each(function(){
+            if($(this).attr("src") === '/uploads/'){
+                $(this).closest("div.trick-media").remove();
+            }
+        });
     });
+
 
     //Manage Add a video
     var $addVideoLink = $('<a href="#" class="btn btn-primary">Add a Video</a>');
