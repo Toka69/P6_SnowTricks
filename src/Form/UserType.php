@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Email;
 
 class UserType extends AbstractType
 {
@@ -42,7 +43,9 @@ class UserType extends AbstractType
             {
                 $form->add('firstName', TextType::class)
                     ->add('lastName', TextType::class)
-                    ->add('email', EmailType::class)
+                    ->add('email', EmailType::class, [
+                        'constraints' => new Email()
+                    ])
                     ->add('plainPassword', RepeatedType::class, array(
                         'type' => PasswordType::class,
                         'first_options' => array('label' => 'Password'),
