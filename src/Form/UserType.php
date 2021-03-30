@@ -41,8 +41,12 @@ class UserType extends AbstractType
 
             if ((is_null($this->security->getUser())) && $this->request->getCurrentRequest()->getPathInfo() !== "/new-password")
             {
-                $form->add('firstName', TextType::class)
-                    ->add('lastName', TextType::class)
+                $form->add('firstName', TextType::class, [
+                            'required' => false
+                    ])
+                    ->add('lastName', TextType::class, [
+                        'required' => false
+                    ])
                     ->add('email', EmailType::class, [
                         'constraints' => new Email()
                     ])
@@ -66,8 +70,15 @@ class UserType extends AbstractType
                     'label' => 'Photo',
                     'required' => false
                 ])
-                    ->add('firstName', TextType::class)
-                    ->add('lastName', TextType::class)
+                    ->add('firstName', TextType::class, [
+                        'required' => false
+                    ])
+                    ->add('lastName', TextType::class, [
+                        'required' => false
+                    ])
+                    ->add('email', EmailType::class, [
+                        'disabled' => true
+                    ])
                     ;
             }
         });

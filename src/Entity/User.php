@@ -49,14 +49,14 @@ class User implements UserInterface, Serializable
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $firstName;
+    private ?string $firstName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $lastName;
+    private ?string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -196,7 +196,7 @@ class User implements UserInterface, Serializable
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -208,7 +208,7 @@ class User implements UserInterface, Serializable
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
