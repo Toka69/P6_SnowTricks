@@ -67,8 +67,8 @@
         {{ form_widget(formView._token) }}
     </fieldset>
     <fieldset>
-        <button type="button" class="btn btn-danger">
-            <i class="fas fa-trash"></i>
+        <button class="btn btn-danger" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
+            <i class="fas fa-trash-alt"></i>
             Delete
         </button>
         <button type="submit" class="btn btn-primary">

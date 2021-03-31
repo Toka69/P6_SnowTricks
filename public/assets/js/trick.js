@@ -219,5 +219,10 @@
         $(input).parent().parent().parent().find("div.edit-buttons1").show();
     }
 
-    // Constraints add a photo
+
+    $('#deleteModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var urlDelete = '/' + id + '/delete';
+        $(e.currentTarget).find('a[id="linkDelete"]').attr("href", urlDelete);
+    })
 
