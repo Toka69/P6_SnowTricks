@@ -67,10 +67,12 @@
         {{ form_widget(formView._token) }}
     </fieldset>
     <fieldset>
-        <button class="btn btn-danger" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
-            <i class="fas fa-trash-alt"></i>
-            Delete
-        </button>
+        {% if trick.id is defined %}
+            <button class="btn btn-danger" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
+                <i class="fas fa-trash-alt"></i>
+                Delete
+            </button>
+        {% endif %}
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-save"></i>
             Save
