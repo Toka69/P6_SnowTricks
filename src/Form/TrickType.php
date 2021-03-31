@@ -46,8 +46,12 @@ class TrickType extends AbstractType
                 'delete_empty' => true,
                 'by_reference' => false
             ])
-            ->add('name', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('name', TextType::class, [
+                "empty_data" => ""
+            ])
+            ->add('description', TextareaType::class, [
+                "empty_data" => ""
+            ])
             ->add('category', EntityType::class, [
                 'placeholder' => 'Select a category',
                 'class' => Category::class,
