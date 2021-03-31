@@ -78,10 +78,10 @@
         }
     }
 
-    //Remove last photo who is empty on form error
+    //Remove photos that are empty on form error
     jQuery(document).ready(function() {
-        // console.log($('div.trick-media').last().children().children().attr("src"));
-        $($('div.trick-media').last().children().children()).each(function(){
+        $($('div.trick-media').children().children()).each(function(){
+            console.log('toto');
             if($(this).attr("src") === '/uploads/'){
                 $(this).closest("div.trick-media").remove();
             }
