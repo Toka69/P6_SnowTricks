@@ -64,12 +64,7 @@
         {{ form_row(formView.name) }}
         {{ form_row(formView.description) }}
         {{ form_row(formView.category) }}
-        <div class="hidden">
-            {% if formView.photos.children is empty %}
-                {{ form_row(formView.photos) }}
-                {{ form_row(formView.videos) }}
-            {% endif %}
-        </div>
+        {{ form_widget(formView._token) }}
     </fieldset>
     <fieldset>
         <button type="button" class="btn btn-danger">
@@ -82,4 +77,4 @@
         </button>
     </fieldset>
 </div>
-{{ form_end(formView) }}
+{{ form_end(formView, {'render_rest': false}) }}
