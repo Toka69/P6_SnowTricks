@@ -291,26 +291,26 @@ class Trick
         return '/uploads/'.$cover;
     }
 
-    public function removeEmptyPhotoField($trickPhotos)
+    public function removeEmptyPhotoField()
     {
-        foreach ($trickPhotos as $trickPhoto){
+        foreach ($this->getPhotos() as $trickPhoto){
             if(is_null($trickPhoto->getLocation())){
-                $trickPhotos->removeElement($trickPhoto);
+                $this->getPhotos()->removeElement($trickPhoto);
             }
         }
 
-        return $trickPhotos;
+        return $this->getPhotos();
     }
 
-    public function removeEmptyVideoField($trickVideos)
+    public function removeEmptyVideoField()
     {
-        foreach ($trickVideos as $trickVideo){
+        foreach ($this->getVideos() as $trickVideo){
             if(is_null($trickVideo->getLocation())){
-                $trickVideos->removeElement($trickVideo);
+                $this->getVideos()->removeElement($trickVideo);
             }
         }
 
-        return $trickVideos;
+        return $this->getVideos();
     }
 
     public function getUser(): ?User
