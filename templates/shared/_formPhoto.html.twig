@@ -14,9 +14,10 @@
                             <div class="hidden">
                                 {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
                             </div>
-
                             {{ form_label(photo.file) }}
-                            {{ form_widget(photo.delete) }}
+                            {%  if photo.vars.value.location is not null  %}
+                                {{ form_widget(photo.delete) }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Email;
 
 class UserType extends AbstractType
 {
@@ -42,11 +43,14 @@ class UserType extends AbstractType
             {
                 $form->add('firstName', TextType::class)
                     ->add('lastName', TextType::class)
-                    ->add('email', EmailType::class)
+                    ->add('email', EmailType::class, [
+                        'constraints' => new Email()
+                    ])
                     ->add('plainPassword', RepeatedType::class, array(
                         'type' => PasswordType::class,
                         'first_options' => array('label' => 'Password'),
-                        'second_options' => array('label' => 'Repeat Password')
+                        'second_options' => array('label' => 'Repeat Password'),
+                        'invalid_message' => 'Passwords must be the same!'
                     ));
             }
             elseif ($this->request->getCurrentRequest()->getPathInfo() == "/new-password")
@@ -60,11 +64,16 @@ class UserType extends AbstractType
             else
             {
                 $form->add('file', FileType::class, [
-                    'label' => 'Photo',
+                    'label' => 'Add or Edit a photo',
+                    'label_attr' => ['class' => 'btn btn-primary'],
+                    'attr' => ['accept' => 'image/*'],
                     'required' => false
                 ])
                     ->add('firstName', TextType::class)
                     ->add('lastName', TextType::class)
+                    ->add('email', EmailType::class, [
+                        'disabled' => true
+                    ])
                     ;
             }
         });

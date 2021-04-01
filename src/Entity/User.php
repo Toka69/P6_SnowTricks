@@ -27,7 +27,6 @@ class User implements UserInterface, Serializable
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid email.")
      */
     private string $email;
 
@@ -46,23 +45,29 @@ class User implements UserInterface, Serializable
      * @Assert\NotBlank()
      * @Assert\Blank(groups="profile")
      * @Assert\Length(max=4096)
+     * @Assert\Regex(
+     *     pattern="/.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/",
+     *     message="The password must contain between 8 and 20 characters, at least 1 number, at least one letter, at least one uppercase!"
+     * )
      */
     private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private string $lastName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $photo;
+    private ?string $photo='default-profile.png';
 
     /**
      * @ORM\Column(type="string", length=1000, nullable=true)
@@ -192,7 +197,7 @@ class User implements UserInterface, Serializable
         // $this->plainPassword = null;
     }
 
-    public function getFirstName(): ?string
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
@@ -204,7 +209,7 @@ class User implements UserInterface, Serializable
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getLastName(): string
     {
         return $this->lastName;
     }

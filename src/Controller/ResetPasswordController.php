@@ -76,6 +76,10 @@ class ResetPasswordController extends AbstractController
         {
             $user = $userRepository->findOneBy(['email' => $request->get('email')]);
 
+            if (is_null($user)){
+                return $this->redirectToRoute('security_login');
+            }
+
             if ($user->getToken() === $request->get('token'))
             {
                 $form = $this->createForm(UserType::class, $user);

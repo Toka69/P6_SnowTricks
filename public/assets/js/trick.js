@@ -17,6 +17,13 @@
     function previewPhoto1(input, index){
         var file = input.files[0];
 
+        if(file.size > 2000000){
+            alert("Your file is too large. 2MB max");
+
+            return;
+        }
+
+
         if(file){
             var reader = new FileReader();
 
@@ -70,6 +77,16 @@
             $newLinkLi2.before($newFormLi2);
         }
     }
+
+    //Remove photos that are empty on form error
+    jQuery(document).ready(function() {
+        $($('div.trick-media').children().children()).each(function(){
+            if($(this).attr("src") === '/uploads/'){
+                $(this).closest("div.trick-media").remove();
+            }
+        });
+    });
+
 
     //Manage Add a video
     var $addVideoLink = $('<a href="#" class="btn btn-primary">Add a Video</a>');
@@ -129,6 +146,13 @@
             e.preventDefault();
             $(this).closest("div.trick-media").remove();
         });
+
+        $('form input').keydown(function (e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
     }
 
     //Manage delete a media
@@ -138,7 +162,7 @@
         });
     });
 
-    //PreviewFile
+    //PreviewPhoto
     function previewPhoto(input){
         var file = input.files[0];
 
@@ -165,38 +189,58 @@
         $('.editVideo').click(function () {
             $(this).closest("div.selectors").find("div.videoInput").show();
             $(this).closest("div.selectors").find("div.edit-buttons1").hide();
-
         });
     });
 
-    //previewVideo
+    //PreviewVideo
     function previewVideo(input){
-        var id = "collection-video " + input.id.replace("_location", "");
         var str = input.value;
+        if(~str.indexOf('you') || ~str.indexOf('dai'))
+        {
+            var id = "collection-video " + input.id.replace("_location", "");
+            var str = input.value;
 
-        // Youtube
-        if(~str.indexOf("youtu.be")){
-            var tag = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
-        }
-        if(~str.indexOf("youtube.com/embed/")){
-            var tag = $(str).attr("src");
-        }
+            // Youtube
+            if (~str.indexOf("youtu.be")) {
+                var tag = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
+            }
+            if (~str.indexOf("youtube.com/embed/")) {
+                var tag = $(str).attr("src");
+            }
 
-        // Dailymotion
-        if(~str.indexOf("dai.ly")){
-            var tag = str.replace("https://dai.ly/", "https://www.dailymotion.com/embed/video/");
-        }
-        if(~str.indexOf("dailymotion.com/embed")){
-            var iframe = $(str).html();
-            var tag = $(iframe).attr("src");
-            if(~tag.indexOf("autoplay")){tag = tag.replace("?autoplay=1", "");}
-        }
-        if(~str.indexOf("dailymotion.com/video/")){
-            var tag = str.replace("dailymotion.com/video", "dailymotion.com/embed/video");
-        }
+            // Dailymotion
+            if (~str.indexOf("dai.ly")) {
+                var tag = str.replace("https://dai.ly/", "https://www.dailymotion.com/embed/video/");
+            }
+            if (~str.indexOf("dailymotion.com/embed")) {
+                var iframe = $(str).html();
+                var tag = $(iframe).attr("src");
+                if (~tag.indexOf("autoplay")) {
+                    tag = tag.replace("?autoplay=1", "");
+                }
+            }
+            if (~str.indexOf("dailymotion.com/video/")) {
+                var tag = str.replace("dailymotion.com/video", "dailymotion.com/embed/video");
+            }
 
-        // result
-        $('div[id="'+ id + '"] iframe').attr("src", tag);
-        $(input).parent().parent().hide();
-        $(input).parent().parent().parent().find("div.edit-buttons1").show();
+            // result
+            $('div[id="' + id + '"] iframe').attr("src", tag);
+            $(input).parent().parent().hide();
+            $(input).parent().parent().parent().find("div.edit-buttons1").show();
+        }
+        else{
+            alert('Only youtubes and dailymotion links are accepted.');
+        }
     }
+
+    $('#cancelUpdateVideo').click(function(){
+        $(this).closest("div.videoInput").hide();
+        $(this).closest("div.selectors").find("div.edit-buttons1").show();
+    });
+
+
+    $('#deleteModal').on('show.bs.modal', function (e) {
+        var id = $(e.relatedTarget).data('id');
+        var urlDelete = '/' + id + '/delete';
+        $(e.currentTarget).find('a[id="linkDelete"]').attr("href", urlDelete);
+    })

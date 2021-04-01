@@ -9,14 +9,17 @@
                             <div class="d-flex">
                                 {{ form_widget(video.location, {'attr': {'onchange': 'previewVideo(this)'}}) }}
                                 <button id="validUpdateVideo" type="button" class="btn btn-success">valid</button>
+                                <button id="cancelUpdateVideo" type="button" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
                         <div class="edit-buttons1">
                             <div class="d-flex">
-                            <div class="editVideo">
-                                {{ form_label(video.location) }}
-                            </div>
-                            {{ form_widget(video.delete) }}
+                                <div class="editVideo">
+                                    {{ form_label(video.location) }}
+                                </div>
+                                {%  if video.vars.value.location is not null  %}
+                                    {{ form_widget(video.delete) }}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

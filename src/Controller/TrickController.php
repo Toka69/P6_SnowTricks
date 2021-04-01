@@ -47,6 +47,8 @@ class TrickController extends AbstractController
             $trick->setSlug($slugger->slug($trick->getName())->lower());
             $trick->setUser($this->getUser());
             $trick->setCreatedDate(new DateTimeImmutable());
+            $trick->removeEmptyPhotoField();
+            $trick->removeEmptyVideoField();
 
             $em->persist($trick);
             $em->flush();
@@ -96,8 +98,8 @@ class TrickController extends AbstractController
                 ->setFile($form->getData()->getFileCover()));
             }
 
-            $trick->removeEmptyPhotoField($trick->getPhotos());
-            $trick->removeEmptyVideoField($trick->getVideos());
+            $trick->removeEmptyPhotoField();
+            $trick->removeEmptyVideoField();
             $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
             $trick->setModifiedDate(new DateTimeImmutable());
             $em->flush();

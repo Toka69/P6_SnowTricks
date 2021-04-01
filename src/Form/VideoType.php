@@ -25,21 +25,12 @@ class VideoType extends AbstractType
                 'label_html' => true,
                 'required' => true
             ])
+            ->add('delete', ButtonType::class, [
+                'attr' => ['class' => 'delete'],
+                'label' => '<i class="fas fa-trash-alt"></i>',
+                'label_html' => true
+            ])
         ;
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $form = $event->getForm();
-
-            $video = $event->getData();
-
-            if ($video) {
-                $form->add('delete', ButtonType::class, [
-                    'attr' => ['class' => 'delete'],
-                    'label' => '<i class="fas fa-trash-alt"></i>',
-                    'label_html' => true
-                ]);
-            }
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver)

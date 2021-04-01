@@ -4,12 +4,24 @@
 
 {% block body %}
     <div class="container">
+        <h1 class="h3 mt-5">Profile</h1>
         {{ form_start(formView) }}
 
+        {{ form_row(formView.email) }}
         {{ form_row(formView.firstName) }}
         {{ form_row(formView.lastName) }}
-        {{ form_row(formView.file) }}
-
+        {{ form_label(formView.file) }}
+        {% if formView.vars.value.photo is not empty %}
+            <img class="rounded-circle profile" src="{{ asset('uploads/' ~ formView.vars.value.photo) }}" alt="photo"/>
+        {% endif %}
+        <div class="photo"></div>
+        <div class="hidden">
+            {{ form_widget(formView.file) }}
+        </div>
         {{ form_end(formView) }}
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/account.js') }}"></script>
 {% endblock %}

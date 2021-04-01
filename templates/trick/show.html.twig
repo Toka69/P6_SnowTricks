@@ -13,7 +13,9 @@
                                 <div class="cover-buttons d-flex flex-row-reverse mr-4">
                                         <div class="mt-3 p-3 rounded bg-light">
                                                 <a href="{{ path('trick_edit', {'id': trick.id})}}" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
-                                                <a href="{{ path('trick_delete', {'id': trick.id})}}"><i class="fas fa-trash-alt"></i></a>
+                                                <button class="button-trash" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                </button>
                                         </div>
                                 </div>
                         {% endif %}
@@ -92,7 +94,7 @@
                                         <div class="card-footer text-muted">
                                                 <div class="row">
                                                         <div class="col">
-                                                                <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
+                                                                <img class="rounded-circle profile" src="{{ asset('uploads/' ~ comment.user.photo) }}" alt="photo"/>
                                                         </div>
                                                         <div class="col">
                                                                 <div>Author : {{ comment.user.firstName ~ " " ~ comment.user.lastName }}</div>
@@ -114,10 +116,32 @@
                         {% endif %}
                 </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Delete a trick </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                        Are you sure?
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a class="btn btn-danger" id="linkDelete">Delete</a>
+                                </div>
+                        </div>
+                </div>
+        </div>
 {% endblock %}
 
 {% block javascripts %}
         {{ parent() }}
+        <script src="{{ asset('assets/js/trick.js') }}"></script>
         <script type="text/javascript">
                 $(document).ready(function(){
                         $('#loadMore').click(function(){
