@@ -1,5 +1,6 @@
-.littlePhoto, .bigPhoto {
-    cursor: pointer
+.littlePhoto,
+.bigPhoto {
+    cursor: pointer;
 }
 
 .bigPhoto {
@@ -8,7 +9,12 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(
+            0,
+            0,
+            0,
+            0.4
+        );
     z-index: 10;
     display: none;
     align-items: center;
