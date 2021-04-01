@@ -13,4 +13,5 @@
 !public/uploads
 public/uploads/*
 !public/uploads/cover.jpg
+!public/uploads/default-profile.png
 

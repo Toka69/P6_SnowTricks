@@ -63,7 +63,7 @@ class User implements UserInterface, Serializable
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $photo;
+    private ?string $photo='default-profile.png';
 
     /**
      * @ORM\Column(type="string", length=1000, nullable=true)
