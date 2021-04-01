@@ -22,7 +22,6 @@
                 if ($("img.profile").length !== 0) {
                     $("img.profile").remove();
                 }
-
                 $("div.photo").before($html);
             }
             reader.readAsDataURL(file);
