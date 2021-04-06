@@ -3,7 +3,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,8 @@ class UserController extends AbstractController
      * @return Response
      * @Route("/profile", name="profile", priority=10)
      */
-    public function profile(EntityManagerInterface $em, Request $request){
+    public function profile(EntityManagerInterface $em, Request $request): Response
+    {
 
         $form=$this->createForm(UserType::class, $this->getUser(), [
             "validation_groups" => "profile"
@@ -27,7 +27,8 @@ class UserController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid())
+        {
             $em->flush();
             $this->addFlash('success', 'Your profile has been changed');
         }
