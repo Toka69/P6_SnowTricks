@@ -33,4 +33,15 @@ class Mailer
         ;
         $this->mailer->send($email);
     }
+
+    public function resetPasswordSendEmailSuccess($form, $url)
+    {
+        $email = new TemplatedEmail();
+        $email->from(new Address('dev.tokashi@gail.com', 'SnowTricks'))
+            ->to($form->getData()['email'])
+            ->subject('Reset your Password')
+            ->text('click here '.$url.'')
+        ;
+        $this->mailer->send($email);
+    }
 }
