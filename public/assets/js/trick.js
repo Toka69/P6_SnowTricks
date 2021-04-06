@@ -185,11 +185,15 @@
     }
 
     //Show input file video and valid button
-    $(document).ready(function() {
-        $(".editVideo").click(function () {
-            $(this).closest("div.selectors").find("div.videoInput").show();
-            $(this).closest("div.selectors").find("div.edit-buttons1").hide();
-        });
+    $(".editVideo").click(function () {
+        $(this).closest("div.selectors").find("div.videoInput").show();
+        $(this).closest("div.selectors").find("div.edit-buttons1").hide();
+    });
+
+    //Or cancel
+    $("#cancelUpdateVideo.btn-danger").click(function(){
+        $(this).closest("div.videoInput").hide();
+        $(this).closest("div.selectors").find("div.edit-buttons1").show();
     });
 
     //PreviewVideo
@@ -232,12 +236,6 @@
             alert("Only Youtube and Dailymotion links are accepted.");
         }
     }
-
-    $("#cancelUpdateVideo").click(function(){
-        $(this).closest("div.videoInput").hide();
-        $(this).closest("div.selectors").find("div.edit-buttons1").show();
-    });
-
 
     $("#deleteModal").on("show.bs.modal", function (e) {
         var id = $(e.relatedTarget).data("id");
