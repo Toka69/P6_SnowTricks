@@ -5,11 +5,12 @@ html {
 }
 
 .hero-image {
-        background-image: linear-gradient(
-            rgba(0,0,0,.5),
-            rgba(0,0,0,.5)),
-            url("../../uploads/cover.jpg"
-        );
+        background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+        ),
+            url("../../uploads/cover.jpg");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -29,7 +30,8 @@ html {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(
+        transform:
+        translate(
                 -50%,
                 -50%
         );
@@ -63,10 +65,10 @@ html {
         bottom: 0;
         left: 0;
         right: 0;
-        border-top: 1px solid hsla(0,0%,100%,.2);
-        box-shadow: 0 0 6px rgba(0,0,0,.7);
+        border-top: 1px solid hsla(0, 0%, 100%, 0.2);
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
         z-index: 9999;
-        background-color: #ffffff;
+        background-color: #fff;
 }
 
 .handheld-footer-bar ul {
@@ -96,12 +98,14 @@ html {
         display: none;
 }
 
-#trick_photos .fas, .card-footer .fas {
+#trick_photos .fas,
+.card-footer .fas {
         cursor: pointer;
         color: #158cba;
 }
 
-.photos, .videos {
+.photos,
+.videos {
         list-style: none;
 }
 
