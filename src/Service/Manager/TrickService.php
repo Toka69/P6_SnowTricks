@@ -5,9 +5,11 @@ namespace App\Service\Manager;
 
 
 use App\Entity\Photo;
+use App\Entity\Trick;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
@@ -71,10 +73,15 @@ class TrickService
         }
     }
 
-    public function trickNameBeforeChanged($trick, $session)
+    public function trickNameBeforeChanged(Trick $trick, SessionInterface $session)
     {
-        $trickUnchanged = $this->trickRepository->findOneBy(['id' => $trick->getId()]);
-        $session->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
+        if ($trick->getId() !== null) {
+            $trickUnchanged = $this->trickRepository->findOneBy(['id' => $trick->getId()]);
+            $session->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
+        }
+        else {
+            $session->remove('slugTrickNameBeforeChanged');
+        }
     }
 
     public function removeTrick($trick)

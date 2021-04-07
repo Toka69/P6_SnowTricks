@@ -34,11 +34,14 @@ class TrickController extends AbstractController
      * @Route("/trick/add", name="trick_add")
      * @IsGranted("ROLE_USER")
      * @param Request $request
+     * @param SessionInterface $session
      * @return Response
      */
-    public function add(Request $request): Response
+    public function add(Request $request, SessionInterface $session): Response
     {
         $trick = new Trick;
+
+        $this->trickService->trickNameBeforeChanged($trick, $session);
 
         $form = $this->createForm(TrickType::class, $trick, [
             "validation_groups" => ["Default", "addTrick"]
