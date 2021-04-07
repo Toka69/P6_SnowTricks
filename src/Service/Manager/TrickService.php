@@ -32,7 +32,7 @@ class TrickService
         $this->trickRepository = $trickRepository;
     }
 
-    public function persistAddNewTrick($trick)
+    public function persistAddNewTrick($trick): void
     {
         $trick->setSlug($this->slugger->slug($trick->getName())->lower());
         $trick->setUser($this->security->getUser());
@@ -44,7 +44,7 @@ class TrickService
         $this->em->flush();
     }
 
-    public function updateTrick($trick)
+    public function updateTrick($trick):void
     {
         $trick->removeEmptyPhotoField();
         $trick->removeEmptyVideoField();
@@ -53,7 +53,7 @@ class TrickService
         $this->em->flush();
     }
 
-    public function addCover($form, $trick)
+    public function addCover($form, $trick): void
     {
         if ($form->getData()->getFileCover()){
             $this->em->persist((new Photo)
@@ -63,7 +63,7 @@ class TrickService
         }
     }
 
-    public function addNewPhotos($form)
+    public function addNewPhotos($form): void
     {
         foreach ($form['photos']->getData() as $photo){
             if($photo->getFile() && ($photo->getId() === null))
@@ -73,7 +73,7 @@ class TrickService
         }
     }
 
-    public function trickNameBeforeChanged(Trick $trick, SessionInterface $session)
+    public function trickNameBeforeChanged(Trick $trick, SessionInterface $session): void
     {
         if ($trick->getId() !== null) {
             $trickUnchanged = $this->trickRepository->findOneBy(['id' => $trick->getId()]);
@@ -84,13 +84,13 @@ class TrickService
         }
     }
 
-    public function removeTrick($trick)
+    public function removeTrick($trick): void
     {
         $this->em->remove($trick);
         $this->em->flush();
     }
 
-    public function addNewComment($comment, $trick)
+    public function addNewComment($comment, $trick): void
     {
         $comment->setCreatedDate(new DateTimeImmutable());
         $comment->setUser($this->security->getUser());
