@@ -24,7 +24,7 @@ class FileUploader
 
     public function upload(UploadedFile $file)
     {
-        $originalFilename = $file->getPathInfo();
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
         $file->move($this->targetDirectory, $newFilename);
