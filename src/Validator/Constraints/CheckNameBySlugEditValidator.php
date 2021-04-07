@@ -38,14 +38,14 @@ class CheckNameBySlugEditValidator extends ConstraintValidator
     {
         $violation = false;
         $slug = u($this->slugger->slug($value)->lower());
-        if (!is_null($this->trickRepository->findOneBy(['slug' => $slug])) && $slug != $this->request->getSession()->get('slugTrickNameBeforeChanged')){
+        if ($this->trickRepository->findOneBy(['slug' => $slug]) !== null && $slug != $this->request->getSession()->get('slugTrickNameBeforeChanged')){
             $violation = true;
         }
         return $violation;
     }
 
     public function validate($value, Constraint $constraint){
-        if (!is_null($value) && $this->CheckNameBySlugEdit($value)){
+        if ($value !== null && $this->CheckNameBySlugEdit($value)){
             $this->context->addViolation($constraint->message);
         }
     }
