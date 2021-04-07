@@ -5,24 +5,24 @@ namespace App\Service\Loader;
 
 
 use App\Repository\TrickRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class TrickLoader
 {
-    private $request;
-
     private TrickRepository $trickRepository;
 
-    public function __construct(RequestStack $requestStack, TrickRepository $trickRepository)
+    private SessionInterface $session;
+
+    public function __construct(SessionInterface $session, TrickRepository $trickRepository)
     {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->session = $session;
         $this->trickRepository = $trickRepository;
     }
 
     public function arrayJson(): array
     {
         $arrayJson = [];
-        $currentTrick = $this->request->getSession()->get('currentTrick', 0);
+        $currentTrick = $this->session->get('currentTrick', 0);
         $numberTricks = 8;
         $currentTrick = $currentTrick + $numberTricks;
         $tricks = $this->trickRepository->findBy([], [], $numberTricks, $currentTrick);
@@ -39,11 +39,11 @@ class TrickLoader
             array_push($arrayJson, $arrayTrick);
         }
 
-        $this->request->getSession()->set('currentTrick', $currentTrick);
+        $this->session->set('currentTrick', $currentTrick);
 
         if ($currentTrick + $numberTricks >= $this->trickRepository->count([])) {
             array_push($arrayJson, ['end' => 1]);
-            $this->request->getSession()->remove('currentTrick');
+            $this->session->remove('currentTrick');
         }
 
         return $arrayJson;

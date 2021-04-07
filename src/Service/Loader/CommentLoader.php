@@ -5,24 +5,25 @@ namespace App\Service\Loader;
 
 
 use App\Repository\CommentRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CommentLoader
 {
-    private $request;
 
     private CommentRepository $commentRepository;
 
-    public function __construct(RequestStack $requestStack, CommentRepository $commentRepository)
+    private SessionInterface $session;
+
+    public function __construct(SessionInterface $session, CommentRepository $commentRepository)
     {
-        $this->request = $requestStack->getCurrentRequest();
+        $this->session = $session;
         $this->commentRepository = $commentRepository;
     }
 
     public function arrayJson($trick): array
     {
         $arrayJson = [];
-        $currentComment = $this->request->getSession()->get('currentComment', 0);
+        $currentComment = $this->session->get('currentComment', 0);
         $numberComments = 10;
         $currentComment = $currentComment + $numberComments;
         $comments = $this->commentRepository->getCommentsByTrickId($trick, $numberComments, $currentComment, "DESC");
@@ -38,11 +39,11 @@ class CommentLoader
             array_push($arrayJson, $arrayComment);
         }
 
-        $this->request->getSession()->set('currentComment', $currentComment);
+        $this->session->set('currentComment', $currentComment);
 
         if ($currentComment + $numberComments >= count($this->commentRepository->getCommentsByTrickId($trick))){
             array_push($arrayJson, ['end' => 1]);
-            $this->request->getSession()->remove('currentComment');
+            $this->session->remove('currentComment');
         }
 
         return $arrayJson;

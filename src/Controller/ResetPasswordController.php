@@ -76,7 +76,7 @@ class ResetPasswordController extends AbstractController
 
             if ($user->getToken() === $request->get('token'))
             {
-                $form = $this->createForm(UserType::class, $user);
+                $form = $this->createForm(UserType::class, $user, ['newPassword' => true]);
 
                 $form->handleRequest($request);
 

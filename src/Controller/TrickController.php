@@ -91,7 +91,7 @@ class TrickController extends AbstractController
             ]);
         }
 
-        $this->trickService->trickNameBeforeChanged($trick);
+        $this->trickService->trickNameBeforeChanged($trick, $session);
 
         return $this->render('trick/edit.html.twig', [
                 'trick' => $trick,

@@ -4,7 +4,7 @@
 namespace App\Validator\Constraints;
 
 use App\Repository\TrickRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -20,25 +20,25 @@ class CheckNameBySlugEditValidator extends ConstraintValidator
 
     private SluggerInterface $slugger;
 
-    private $request;
+    private SessionInterface $session;
 
     /**
      * CheckNameBySlugEditValidator constructor.
      * @param TrickRepository $trickRepository
      * @param SluggerInterface $slugger
-     * @param RequestStack $requestStack
+     * @param SessionInterface $session
      */
-    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, RequestStack $requestStack){
+    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, SessionInterface $session){
         $this->trickRepository = $trickRepository;
         $this->slugger = $slugger;
-        $this->request = $requestStack->getCurrentRequest();
+        $this->session = $session;
     }
 
     public function CheckNameBySlugEdit($value): bool
     {
         $violation = false;
         $slug = u($this->slugger->slug($value)->lower());
-        if ($this->trickRepository->findOneBy(['slug' => $slug]) !== null && $slug != $this->request->getSession()->get('slugTrickNameBeforeChanged')){
+        if ($this->trickRepository->findOneBy(['slug' => $slug]) !== null && $slug != $this->session->get('slugTrickNameBeforeChanged')){
             $violation = true;
         }
         return $violation;

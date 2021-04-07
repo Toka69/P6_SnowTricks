@@ -8,8 +8,6 @@ use App\Entity\Photo;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use function Symfony\Component\String\u;
@@ -24,15 +22,12 @@ class TrickService
 
     private TrickRepository $trickRepository;
 
-    private $request;
-
-    public function __construct(SluggerInterface $slugger, EntityManagerInterface $em, Security $security, TrickRepository $trickRepository, RequestStack $requestStack)
+    public function __construct(SluggerInterface $slugger, EntityManagerInterface $em, Security $security, TrickRepository $trickRepository)
     {
         $this->slugger = $slugger;
         $this->em = $em;
         $this->security = $security;
         $this->trickRepository = $trickRepository;
-        $this->request = $requestStack->getCurrentRequest();
     }
 
     public function persistAddNewTrick($trick)
@@ -76,10 +71,10 @@ class TrickService
         }
     }
 
-    public function trickNameBeforeChanged($trick)
+    public function trickNameBeforeChanged($trick, $session)
     {
         $trickUnchanged = $this->trickRepository->findOneBy(['id' => $trick->getId()]);
-        $this->request->getSession()->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
+        $session->set('slugTrickNameBeforeChanged', $trickUnchanged->getSlug());
     }
 
     public function removeTrick($trick)
