@@ -20,7 +20,7 @@
                 );
 
                 if ($("img.profile").length !== 0) {
-                    $("img.profile").remove();
+                    $(this).remove();
                 }
                 $("div.photo").before($html);
             };
