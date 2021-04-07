@@ -7,8 +7,8 @@ html {
 .hero-image {
   background-image:
     linear-gradient(
-            rgba(0, 0, 0, 0.5),
-            rgba(0, 0, 0, 0.5)
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
     ),
     url("../../uploads/cover.jpg");
   background-position: center;
@@ -98,8 +98,8 @@ html {
   display: none;
 }
 
-#trick_photos .fas,
-.card-footer .fas {
+.card-footer .fas,
+#trick_photos .fas {
   cursor: pointer;
   color: #158cba;
 }
