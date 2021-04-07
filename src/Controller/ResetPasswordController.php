@@ -8,7 +8,7 @@ use App\Form\ResetPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
-use App\Service\ResetPasswordService;
+use App\Service\Manager\ResetPasswordService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

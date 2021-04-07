@@ -1,22 +1,17 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Loader;
 
 
 use App\Repository\TrickRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class TrickLoader
 {
     private $request;
 
-    private $trickRepository;
+    private TrickRepository $trickRepository;
 
     public function __construct(RequestStack $requestStack, TrickRepository $trickRepository)
     {
@@ -24,7 +19,7 @@ class TrickLoader
         $this->trickRepository = $trickRepository;
     }
 
-    public function arrayJson()
+    public function arrayJson(): array
     {
         $arrayJson = [];
         $currentTrick = $this->request->getSession()->get('currentTrick', 0);

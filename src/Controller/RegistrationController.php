@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Form\UserType;
 use App\Entity\User;
 use App\Service\Mailer;
-use App\Service\RegistrationService;
+use App\Service\Manager\RegistrationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;

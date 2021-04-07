@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Loader;
 
 
 use App\Repository\CommentRepository;
@@ -11,7 +11,7 @@ class CommentLoader
 {
     private $request;
 
-    private $commentRepository;
+    private CommentRepository $commentRepository;
 
     public function __construct(RequestStack $requestStack, CommentRepository $commentRepository)
     {

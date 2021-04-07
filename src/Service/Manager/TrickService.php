@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service;
+namespace App\Service\Manager;
 
 
 use App\Entity\Photo;
