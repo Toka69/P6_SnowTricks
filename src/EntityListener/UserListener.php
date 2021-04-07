@@ -20,7 +20,7 @@ class UserListener
     }
 
     public function preFlush(User $user){
-        if (!is_null($user->getFile())) {
+        if ($user->getFile() !== null) {
             $this->upload($user);
         }
     }

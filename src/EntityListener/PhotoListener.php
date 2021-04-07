@@ -28,7 +28,7 @@ class PhotoListener
 
     //when update photo collection
     public function preFlush(Photo $photo){
-        if (!is_null($photo->getId())) {
+        if ($photo->getId() !== null) {
             $this->upload($photo);
         }
     }
