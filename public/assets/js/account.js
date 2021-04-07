@@ -23,7 +23,7 @@
                     $("img.profile").remove();
                 }
                 $("div.photo").before($html);
-            }
+            };
             reader.readAsDataURL(file);
         }
     }
