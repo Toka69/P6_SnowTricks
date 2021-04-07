@@ -57,7 +57,7 @@
                     var nb = this.closest("div.trick-media").id.replace("collection-photo trick_photos_", "");
                     $("li.nb-" + nb + "").remove();
                 });
-            }
+            };
 
             reader.readAsDataURL(file);
 
@@ -101,7 +101,6 @@
         $addVideoLink.on("click", function(e) {
             e.preventDefault();
             addVideoForm($videoCollectionHolder, $newVideoLinkLi);
-            bsCustomFileInput.init();
         });
     });
 
@@ -241,4 +240,4 @@
         var id = $(e.relatedTarget).data("id");
         var urlDelete = "/" + id + "/delete";
         $(e.currentTarget).find("a[id=\"linkDelete\"]").attr("href", urlDelete);
-    })
+    });
