@@ -171,7 +171,7 @@
             if(input.id === "trick_fileCover"){
                 reader.onload = function(){
                     $("#previewImg-cover").attr("style", "background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url(\"" + reader.result + "\")");
-                }
+                };
             }
             else {
                 reader.onload = function () {
