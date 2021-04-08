@@ -22,7 +22,7 @@ abstract class AbstractLoader
 
     abstract public function getData(array $options): array;
 
-    abstract public function count(array $options): int;
+    abstract public function count(?array $options): int;
 
     abstract public function current(): int;
 
@@ -37,21 +37,22 @@ abstract class AbstractLoader
 
     }
 
-    public function arrayCommentsByOffset(array $options): array
+    public function arrayByOffset(?array $options = null): array
     {
-        $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
-        $options = $resolver->resolve($options);
-
-        $arrayCommentsByOffset = $this->getData($options);
+        if ($options !== null) {
+            $resolver = new OptionsResolver();
+            $this->configureOptions($resolver);
+            $options = $resolver->resolve($options);
+        }
+        $arrayByOffset = $this->getData($options);
 
         $this->session->set($this->getKey(), $this->offset());
 
         if ($this->offset() >= $this->count($options)){
-            array_push($arrayCommentsByOffset, ['end' => 1]);
+            array_push($arrayByOffset, ['end' => 1]);
             $this->session->remove($this->getKey());
         }
 
-        return $arrayCommentsByOffset;
+        return $arrayByOffset;
     }
 }

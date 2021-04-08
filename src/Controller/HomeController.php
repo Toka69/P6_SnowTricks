@@ -32,6 +32,6 @@ class HomeController extends AbstractController
      */
     public function load(TrickLoader $trickLoader): Response
     {
-        return $this->json($trickLoader->arrayJson());
+        return $this->json($trickLoader->arrayByOffset());
     }
 }

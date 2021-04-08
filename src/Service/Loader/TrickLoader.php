@@ -4,10 +4,12 @@
 namespace App\Service\Loader;
 
 
+use App\Entity\Trick;
 use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TrickLoader
+class TrickLoader extends AbstractLoader
 {
     private TrickRepository $trickRepository;
 
@@ -19,33 +21,41 @@ class TrickLoader
         $this->trickRepository = $trickRepository;
     }
 
-    public function arrayJson(): array
+    public function count(?array $options): int
     {
-        $arrayJson = [];
-        $currentTrick = $this->session->get('currentTrick', 0);
-        $numberTricks = 8;
-        $currentTrick = $currentTrick + $numberTricks;
-        $tricks = $this->trickRepository->findBy([], [], $numberTricks, $currentTrick);
+        return $this->trickRepository->count([]);
+    }
 
-        foreach ($tricks as $trick) {
-            $arrayTrick = [
-                'id' => $trick->getId(),
-                'name' => $trick->getName(),
-                'cover' => $trick->getCover(),
-                'slug' => $trick->getSlug(),
-                'categorySlug' => $trick->getCategory()->getSlug(),
-                'end' => 0
-            ];
-            array_push($arrayJson, $arrayTrick);
-        }
+    public function number(): int
+    {
+        return 8;
+    }
 
-        $this->session->set('currentTrick', $currentTrick);
+    public function current(): int
+    {
+        return $this->session->get('currentTrick', 0);
+    }
 
-        if ($currentTrick + $numberTricks >= $this->trickRepository->count([])) {
-            array_push($arrayJson, ['end' => 1]);
-            $this->session->remove('currentTrick');
-        }
+    public function offset(): int
+    {
+        return $this->current()+$this->number();
+    }
 
-        return $arrayJson;
+    public function getData(?array $options): array
+    {
+        $query = $this->trickRepository->findBy([], [], $this->number(), $this->offset());
+
+        return $this->trickRepository->dataTransform($query);
+    }
+
+    public function getKey(): string
+    {
+        return 'currentTrick';
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setRequired("trick");
+        $resolver->setAllowedTypes("trick", trick::class);
     }
 }

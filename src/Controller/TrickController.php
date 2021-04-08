@@ -169,6 +169,6 @@ class TrickController extends AbstractController
      */
     public function load(Trick $trick, CommentLoader $commentLoader): Response
     {
-        return $this->json($commentLoader->arrayCommentsByOffset(["trick" => $trick]));
+        return $this->json($commentLoader->arrayByOffset(["trick" => $trick]));
     }
 }
