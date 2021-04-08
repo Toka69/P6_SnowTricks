@@ -146,7 +146,7 @@
                 $(document).ready(function(){
                         $('#loadMore').click(function(){
                                 event.preventDefault();
-                                $.getJSON('{{ path('trick_loadMore', {category_slug: trick.category.slug, slug: trick.slug, id: trick.id}) }}',
+                                $.getJSON('{{ path('comment_loadMore', {category_slug: trick.category.slug, slug: trick.slug, id: trick.id}) }}',
                                         function(response){
                                                 console.log(response);
                                                 $.each(response, function (index, comment){

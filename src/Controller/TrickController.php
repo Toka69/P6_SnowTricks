@@ -162,14 +162,13 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/{category_slug}/{slug}/more/{id}", name="trick_loadMore")
+     * @Route("/{category_slug}/{slug}/more/{id}", name="comment_loadMore")
      * @param Trick $trick
      * @param CommentLoader $commentLoader
      * @return JsonResponse
      */
     public function load(Trick $trick, CommentLoader $commentLoader): Response
     {
-        return $this->json($commentLoader->arrayJson($trick));
-
+        return $this->json($commentLoader->arrayCommentsByOffset(["trick" => $trick]));
     }
 }

@@ -22,12 +22,13 @@ class CommentRepository extends ServiceEntityRepository
 
     /**
      * @param Trick $trick
-     * @param string|null $order
      * @param int|null $limit
      * @param int|null $offset
-     * @return int|mixed|string
+     * @param string|null $order
+     * @return mixed
      */
-    public function getCommentsByTrickId(Trick $trick, ?int $limit = null, ?int $offset = null, ?string $order = null){
+    public function getCommentsByTrickId(Trick $trick, ?int $limit = null, ?int $offset = null, ?string $order = null): mixed
+    {
         $query = $this->createQueryBuilder('c')
             ->andWhere('c.trick = :trickId')
             ->setParameter('trickId', $trick->getId())
@@ -38,5 +39,22 @@ class CommentRepository extends ServiceEntityRepository
 
         $query = $query->getQuery();
         return $query->getResult();
+    }
+
+    public function dataTransform($comments): array
+    {
+        $arrayComments = [];
+        foreach ($comments as $comment){
+            $arrayComment = [
+                "content" => $comment->getContent(),
+                "photo" => $comment->getUser()->getPhoto(),
+                "firstName" => $comment->getUser()->getFirstName(),
+                "lastName" => $comment->getUser()->getLastName(),
+                "createdDate" => $comment->getCreatedDate(),
+                "end" => 0
+            ];
+            array_push($arrayComments, $arrayComment);
+        }
+         return $arrayComments;
     }
 }
