@@ -11,13 +11,6 @@ use App\Service\Loader\TrickLoader;
 
 class HomeController extends AbstractController
 {
-    protected $trickLoader;
-
-    public function __construct(TrickLoader $trickLoader)
-    {
-        $this->trickLoader = $trickLoader;
-    }
-
     /**
      * @Route("/", name="homepage")
      * @param TrickRepository $trickRepository
@@ -34,11 +27,11 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/more/", name="home_loadMore")
+     * @param TrickLoader $trickLoader
      * @return JsonResponse
      */
-    public function load(): Response
+    public function load(TrickLoader $trickLoader): Response
     {
-        return $this->json($this->trickLoader->arrayJson());
+        return $this->json($trickLoader->arrayJson());
     }
 }
-

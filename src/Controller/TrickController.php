@@ -23,11 +23,8 @@ class TrickController extends AbstractController
 {
     private TrickService $trickService;
 
-    protected CommentLoader $commentLoader;
-
-    public function __construct(TrickService $trickService, CommentLoader $commentLoader){
+    public function __construct(TrickService $trickService){
         $this->trickService = $trickService;
-        $this->commentLoader = $commentLoader;
     }
 
     /**
@@ -167,11 +164,12 @@ class TrickController extends AbstractController
     /**
      * @Route("/{category_slug}/{slug}/more/{id}", name="trick_loadMore")
      * @param Trick $trick
+     * @param CommentLoader $commentLoader
      * @return JsonResponse
      */
-    public function load(Trick $trick): Response
+    public function load(Trick $trick, CommentLoader $commentLoader): Response
     {
-        return $this->json($this->commentLoader->arrayJson($trick));
+        return $this->json($commentLoader->arrayJson($trick));
 
     }
 }
