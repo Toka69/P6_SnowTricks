@@ -94,7 +94,11 @@
                                         <div class="card-footer text-muted">
                                                 <div class="row">
                                                         <div class="col">
-                                                                <img class="rounded-circle profile" src="{{ asset('uploads/' ~ comment.user.photo) }}" alt="photo"/>
+                                                                {% if 'https://' in comment.user.photo %}
+                                                                        <img class="rounded-circle profile" src="{{ comment.user.photo }}" alt="photo"/>
+                                                                {% else %}
+                                                                        <img class="rounded-circle profile" src="{{ asset('uploads/' ~ comment.user.photo) }}" alt="photo"/>
+                                                                {% endif %}
                                                         </div>
                                                         <div class="col">
                                                                 <div>Author : {{ comment.user.firstName ~ " " ~ comment.user.lastName }}</div>
