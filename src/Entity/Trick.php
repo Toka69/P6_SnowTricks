@@ -294,7 +294,7 @@ class Trick
     public function removeEmptyPhotoField()
     {
         foreach ($this->getPhotos() as $trickPhoto){
-            if(is_null($trickPhoto->getLocation())){
+            if($trickPhoto->getLocation() === null){
                 $this->getPhotos()->removeElement($trickPhoto);
             }
         }
@@ -305,7 +305,7 @@ class Trick
     public function removeEmptyVideoField()
     {
         foreach ($this->getVideos() as $trickVideo){
-            if(is_null($trickVideo->getLocation())){
+            if($trickVideo->getLocation() === null){
                 $this->getVideos()->removeElement($trickVideo);
             }
         }

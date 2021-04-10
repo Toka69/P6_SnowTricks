@@ -84,7 +84,7 @@
                                                                 $html.append('<div class="card mb-2">' +
                                                                         '<img src="' + trick.cover + '" alt="trick" class="img-fluid" style="height: 150px">' +
                                                                         '<div class="card-body d-flex justify-content-between">' +
-                                                                                '<a href="' + trick.categorySlug + '/' + trick.slug + '" class="btn btn-primary btn-sm">' + trick.slug + '</a>' +
+                                                                                '<a href="' + trick.categorySlug + '/' + trick.slug + '" class="btn btn-primary btn-sm">' + trick.name + '</a>' +
                                                                                 '{% if is_granted("ROLE_USER") %}' +
                                                                                 '<div>' +
                                                                                         '<a href="' + trick.id + '/edit" class="mr-3"><i class="fas fa-pencil-alt"></i></a>' +

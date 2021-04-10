@@ -1,5 +1,5 @@
     jQuery(document).ready(function() {
-        $('input#user_file').attr('onchange', 'previewPhoto(this)');
+        $("input#user_file").attr("onchange", "previewPhoto(this)");
     });
 
     function previewPhoto(input) {
@@ -16,15 +16,14 @@
 
             reader.onload = function () {
                 var $html = $(
-                    '<img class="rounded-circle profile" src="' + reader.result + '" alt="photo"/>'
+                    "<img class=\"rounded-circle profile\" src=\"" + reader.result + "\" alt=\"photo\"/>"
                 );
 
-                if ($('img.profile').length !== 0) {
-                    $('img.profile').remove();
+                if ($("img.profile").length !== 0) {
+                    $("img.profile").remove();
                 }
-
-                $('div.photo').before($html);
-            }
+                $("div.photo").before($html);
+            };
             reader.readAsDataURL(file);
         }
     }

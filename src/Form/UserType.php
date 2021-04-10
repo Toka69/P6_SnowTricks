@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -14,32 +13,28 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints\Email;
 
 class UserType extends AbstractType
 {
-    protected $security;
+    protected Security $security;
 
-    protected $request;
-
-    public function __construct(Security $security, RequestStack $requestStack)
+    public function __construct(Security $security)
     {
         $this->security = $security;
-        $this->request = $requestStack;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $newPassword = $options['newPassword'];
         $builder->add('Save', SubmitType::class);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($newPassword) {
             $form = $event->getForm();
 
-            if ((is_null($this->security->getUser())) && $this->request->getCurrentRequest()->getPathInfo() !== "/new-password")
+            if ($this->security->getUser() === null && $newPassword === false)
             {
                 $form->add('firstName', TextType::class)
                     ->add('lastName', TextType::class)
@@ -53,7 +48,7 @@ class UserType extends AbstractType
                         'invalid_message' => 'Passwords must be the same!'
                     ));
             }
-            elseif ($this->request->getCurrentRequest()->getPathInfo() == "/new-password")
+            elseif ($newPassword === true)
             {
                 $form->add('plainPassword', RepeatedType::class, array(
                     'type' => PasswordType::class,
@@ -83,6 +78,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'newPassword' => false
         ]);
     }
 }
