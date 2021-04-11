@@ -25,8 +25,8 @@
 {% endfor %}
 
 {% if coverExist == false %}
-    <div class="hero-trick-image mb-3">
-        <div id="previewImg-cover" class="img-fluid img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
+    <div class="mb-3">
+        <div id="previewImg-cover" class="img-fluid hero-trick-image img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
             <div class="hero-text">
                 <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
                 <h3>You can choose a Cover</h3>
