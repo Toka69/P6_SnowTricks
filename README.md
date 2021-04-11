@@ -12,15 +12,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-  - PHP 8.0.1
-  - Symfony 5.2
-  - Symfony CLI
-  - Composer
+-  PHP 8.0.1
+-  Symfony 5.2
+-  Symfony CLI
+-  Composer
 
 Developed and tested with MariaDB, in this case the following PHP extensions are necessary:
 
-  - pdo_mysql extension
-  - mysqli extension
+-  pdo_mysql extension
+-  mysqli extension
 
 ### Installing
 
@@ -71,9 +71,9 @@ To build it:
 
 ### Accounts existing
 
-  - admin@gmail.com
-  - jgoldman@gmail.com
-  - edurand@gmail.com
-  - edupont@gmail.com
+-  admin@gmail.com
+-  jgoldman@gmail.com
+-  edurand@gmail.com
+-  edupont@gmail.com
 
 All accounts have the same password: Administrateur8!
