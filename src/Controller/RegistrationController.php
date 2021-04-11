@@ -8,6 +8,7 @@ use App\Form\UserType;
 use App\Entity\User;
 use App\Service\Mailer;
 use App\Service\Manager\RegistrationService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,12 +38,15 @@ class RegistrationController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $this->registrationService->persist($user);
-            $loginLink = $this->registrationService->createLoginLink($user);
-            $this->mailer->registrationSendEmailSuccess($user, $loginLink);
+            try {
+                $this->registrationService->persist($user);
+                $loginLink = $this->registrationService->createLoginLink($user);
+                $this->mailer->registrationSendEmailSuccess($user, $loginLink);
 
-            $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
-
+                $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
+            } catch (Exception) {
+                $this->addFlash('error', 'An error occurred. Please retry and contact support if need help.');
+            }
             return $this->redirectToRoute('homepage');
         }
 
