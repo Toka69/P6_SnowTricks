@@ -66,8 +66,9 @@ To build it:
 
 ### Accounts existing
 
--
--
--
+- admin@gmail.com
+- jgoldman@gmail.com
+- edurand@gmail.com
+- edupont@gmail.com
 
 All accounts have the same password: Administrateur8!
