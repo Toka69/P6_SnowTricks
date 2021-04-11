@@ -25,9 +25,8 @@ class CommentRepository extends ServiceEntityRepository
      * @param int|null $limit
      * @param int|null $offset
      * @param string|null $order
-     * @return mixed
      */
-    public function getCommentsByTrickId(Trick $trick, ?int $limit = null, ?int $offset = null, ?string $order = null): mixed
+    public function getCommentsByTrickId(Trick $trick, ?int $limit = null, ?int $offset = null, ?string $order = null)
     {
         $query = $this->createQueryBuilder('c')
             ->andWhere('c.trick = :trickId')
