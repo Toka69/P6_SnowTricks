@@ -125,3 +125,7 @@ form .fa-pencil-alt {
 .hidden {
   display: none;
 }
+
+#myListMore {
+  padding-inline-start: 0;
+}
