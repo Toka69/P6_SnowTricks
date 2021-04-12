@@ -20,6 +20,11 @@ abstract class AbstractLoader
         $this->session = $session;
     }
 
+    public function getSession()
+    {
+        return $this->session;
+    }
+
     abstract public function getData(array $options): array;
 
     abstract public function count(?array $options): int;

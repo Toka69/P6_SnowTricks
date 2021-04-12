@@ -6,7 +6,6 @@ namespace App\Service\Loader;
 
 use App\Entity\Trick;
 use App\Repository\CommentRepository;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CommentLoader extends AbstractLoader
@@ -14,11 +13,8 @@ class CommentLoader extends AbstractLoader
 
     private CommentRepository $commentRepository;
 
-    private SessionInterface $session;
-
-    public function __construct(SessionInterface $session, CommentRepository $commentRepository)
+    public function __construct(CommentRepository $commentRepository)
     {
-        $this->session = $session;
         $this->commentRepository = $commentRepository;
     }
 
@@ -34,7 +30,7 @@ class CommentLoader extends AbstractLoader
 
     public function current(): int
     {
-        return $this->session->get('currentComment', 0);
+        return $this->getSession()->get('currentComment', 0);
     }
 
     public function offset(): int
