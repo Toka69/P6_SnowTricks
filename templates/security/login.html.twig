@@ -8,6 +8,12 @@
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+
+                {% if error.message == "Your account is not yet been verified!" %}
+                    <div class="text-center">
+                        Do you want <a href="{{ path('resend_activation_link') }}">resend link validation email</a>?
+                    </div>
+                {% endif %}
             {% endif %}
 
             {% if app.user %}
