@@ -47,7 +47,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $this->trickService->persistAddNewTrick($trick);
+            $this->trickService->persistAddNewTrick($trick, $form);
 
             $this->addFlash('success', 'Your trick has been created !');
 
@@ -77,9 +77,7 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $this->trickService->addNewPhotos($form);
-            $this->trickService->addCover($form, $trick);
-            $this->trickService->updateTrick($trick);
+            $this->trickService->updateTrick($trick, $form);
 
             $session->remove('slugTrickNameBeforeChanged');
 
