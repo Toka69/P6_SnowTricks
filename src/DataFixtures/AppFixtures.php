@@ -46,7 +46,8 @@ class AppFixtures extends Fixture
             ->setLastName("Dupont")
             ->setPhoto("https://randomuser.me/api/portraits/men/7.jpg")
             ->setEmail("edupont@gmail.com")
-            ->setPassword($hash);
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user1);
 
         $user2 = new User;
@@ -55,7 +56,8 @@ class AppFixtures extends Fixture
             ->setLastName("Durand")
             ->setPhoto("https://randomuser.me/api/portraits/women/45.jpg")
             ->setEmail("edurand@gmail.com")
-            ->setPassword($hash);
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user2);
 
         $user3 = new User;
@@ -64,7 +66,8 @@ class AppFixtures extends Fixture
             ->setLastName("Goldman")
             ->setPhoto("https://randomuser.me/api/portraits/men/10.jpg")
             ->setEmail("jgoldman@gmail.com")
-            ->setPassword($hash);
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user3);
 
         $user4 = new User;
@@ -73,7 +76,8 @@ class AppFixtures extends Fixture
             ->setLastName("Admin")
             ->setEmail("admin@gmail.com")
             ->setPassword($hash)
-            ->setRoles(["ROLE_ADMIN"]);
+            ->setRoles(["ROLE_ADMIN"])
+            ->setIsVerified(true);
         $manager->persist($user4);
 
         /**** Categories ****/
