@@ -28,10 +28,9 @@ class RegistrationController extends AbstractController
 
     /**
      * @param Request $request
-     * @return RedirectResponse|Response
      * @Route("register", name="register", priority=1)
      */
-    public function register(Request $request): RedirectResponse|Response
+    public function register(Request $request)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
