@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
                 $this->mailer->registrationSendEmailSuccess($user, $loginLink);
 
                 $this->addFlash('success', 'Your account has been created! Check your emails to valid it');
-            } catch (Exception) {
+            } catch (Exception $e) {
                 $this->addFlash('error', 'An error occurred. Please retry and contact support if need help.');
             }
             return $this->redirectToRoute('homepage');

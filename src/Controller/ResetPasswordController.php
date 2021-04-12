@@ -50,7 +50,7 @@ class ResetPasswordController extends AbstractController
                     $this->mailer->resetPasswordSendEmailSuccess($form, $url);
                 }
                 $this->addFlash('success', "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.");
-            } catch (Exception) {
+            } catch (Exception $e) {
                 $this->addFlash('error', 'An error occurred. Please retry and contact support if need help.');
             }
             return $this->redirectToRoute('homepage');
