@@ -37,28 +37,24 @@ class TrickService
         $this->flashBag = $flashBag;
     }
 
-    public function persistAddNewTrick($trick, $form): void
+    public function persistAddNewTrick($trick): void
     {
-        $trick->removeEmptyPhotoField();
-        $trick->removeEmptyVideoField();
-        $this->addCover($form, $trick);
         $trick->setSlug($this->slugger->slug($trick->getName())->lower());
         $trick->setUser($this->security->getUser());
         $trick->setCreatedDate(new DateTimeImmutable());
+        $trick->removeEmptyPhotoField();
+        $trick->removeEmptyVideoField();
 
         $this->em->persist($trick);
         $this->em->flush();
     }
 
-    public function updateTrick($trick, $form):void
+    public function updateTrick($trick):void
     {
         $trick->removeEmptyPhotoField();
         $trick->removeEmptyVideoField();
-        $this->addNewPhotos($form);
-        $this->addCover($form, $trick);
         $trick->setSlug(u($this->slugger->slug($trick->getName()))->lower());
         $trick->setModifiedDate(new DateTimeImmutable());
-
         $this->em->flush();
     }
 
