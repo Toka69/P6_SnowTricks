@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Class PhotoType
@@ -29,6 +30,13 @@ class PhotoType extends AbstractType
                     'label' => '<i class="fas fa-pencil-alt"></i>',
                     'label_html' => true,
                     'attr' => ['accept' => 'image/jpeg, image/png'],
+                    'constraints' => [new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ]
+                        ])
+                    ],
                     'required' => false
                 ])
                     ->add('delete', ButtonType::class, [
@@ -42,6 +50,13 @@ class PhotoType extends AbstractType
                     'label' => 'Add a photo',
                     'label_attr' => ['class' => 'btn btn-primary'],
                     'attr' => ['accept' => 'image/jpeg, image/png'],
+                    'constraints' => [new File([
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ]
+                    ])
+                    ],
                     'required' => false
                 ]);
             }

@@ -90,6 +90,8 @@ class TrickController extends AbstractController
             ]);
         }
 
+        $this->trickService->errorsPhotoUploadFile($form);
+
         $this->trickService->trickNameBeforeChanged($trick, $session);
 
         return $this->render('trick/edit.html.twig', [
