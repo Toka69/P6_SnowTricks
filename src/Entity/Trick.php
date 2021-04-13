@@ -308,7 +308,7 @@ class Trick
     public function removeEmptyPhotoField()
     {
         foreach ($this->getPhotos() as $trickPhoto){
-            if($trickPhoto->getFile() === null){
+            if($trickPhoto->getLocation() === null){
                 $this->getPhotos()->removeElement($trickPhoto);
             }
         }
