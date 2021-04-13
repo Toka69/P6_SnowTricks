@@ -48,6 +48,12 @@ class Trick
      */
     private string $slug;
 
+    /**
+     * @Assert\File(
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Jpeg or Png Only"
+     * )
+     */
     private $fileCover;
 
     public function getFileCover()
@@ -55,6 +61,10 @@ class Trick
         return $this->fileCover;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return $this
+     */
     public function setFileCover(UploadedFile $file = null)
     {
         $this->fileCover = $file;
