@@ -55,6 +55,8 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
+        $this->trickService->errorsPhotoUploadFile($form);
+
         return $this->render('trick/add.html.twig', [
             'formView' => $form->createView()
         ]);
