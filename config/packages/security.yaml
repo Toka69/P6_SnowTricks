@@ -21,6 +21,7 @@ security:
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+            user_checker: App\Security\UserChecker
             logout:
                 path: security_logout
             login_link:
@@ -30,5 +31,5 @@ security:
                 max_uses: 1
     access_control:
 #        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
-#         - { path: ^/profile, roles: ROLE_USER }
+#        - { path: ^/profile, roles: ROLE_USER }
 #        - { path: ^/admin, roles: ROLE_ADMIN }

@@ -9,6 +9,7 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
 use App\Service\Manager\ResetPasswordService;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,16 +41,18 @@ class ResetPasswordController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            if ($userRepository->findOneBy(['email' => $form->getData()['email']]))
-            {
-                $token = $tokenGenerator->generateToken();
-                $url = $this->generateUrl('new_password', array('email' => $form->getData()['email'], 'token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
+            try {
+                if ($userRepository->findOneBy(['email' => $form->getData()['email']])) {
+                    $token = $tokenGenerator->generateToken();
+                    $url = $this->generateUrl('new_password', array('email' => $form->getData()['email'], 'token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
-                $this->resetPasswordService->persistTokenResetPassword($form, $token);
-                $this->mailer->resetPasswordSendEmailSuccess($form, $url);
+                    $this->resetPasswordService->persistTokenResetPassword($form, $token);
+                    $this->mailer->resetPasswordSendEmailSuccess($form, $url);
+                }
+                $this->addFlash('success', "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.");
+            } catch (Exception $e) {
+                $this->addFlash('error', 'An error occurred. Please retry and contact support if need help.');
             }
-            $this->addFlash('success', "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.");
-
             return $this->redirectToRoute('homepage');
         }
 

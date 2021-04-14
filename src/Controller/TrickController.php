@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -54,6 +55,8 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
+        $this->trickService->errorsPhotoUploadFile($form);
+
         return $this->render('trick/add.html.twig', [
             'formView' => $form->createView()
         ]);
@@ -90,6 +93,8 @@ class TrickController extends AbstractController
                 'slug' => $trick->getSlug()
             ]);
         }
+
+        $this->trickService->errorsPhotoUploadFile($form);
 
         $this->trickService->trickNameBeforeChanged($trick, $session);
 
@@ -135,9 +140,10 @@ class TrickController extends AbstractController
      * @param Trick $trick
      * @param Request $request
      * @param CommentRepository $commentRepository
+     * @param Session $session
      * @return Response
      */
-    public function show(Trick $trick, Request $request, CommentRepository $commentRepository): Response
+    public function show(Trick $trick, Request $request, CommentRepository $commentRepository, Session $session): Response
     {
         $comment = New Comment;
 
@@ -153,6 +159,8 @@ class TrickController extends AbstractController
                 'slug' => $trick->getSlug()
             ]);
         }
+        //init the session variable needed to the ajax commentLoader
+        $session->remove('currentComment');
 
         return $this->render('trick/show.html.twig', [
             'commentsDescOrder' => $commentRepository->findBy(['trick' => $trick->getId()], ['createdDate' => 'DESC']),

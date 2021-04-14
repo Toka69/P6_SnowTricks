@@ -40,7 +40,12 @@ html {
 
 .img-cover {
   width: 100%;
+  object-fit: cover;
   height: 500px;
+}
+
+.card img {
+  object-fit: cover;
 }
 
 .cover-buttons {
@@ -124,4 +129,8 @@ form .fa-pencil-alt {
 
 .hidden {
   display: none;
+}
+
+#myListMore {
+  padding-inline-start: 0;
 }

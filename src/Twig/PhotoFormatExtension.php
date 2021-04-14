@@ -18,7 +18,7 @@ class PhotoFormatExtension extends AbstractExtension
 
     public function photoFormat($value): string
     {
-        if (str_contains($value, "https://")){
+        if ($value !== null && str_contains($value, "https://")){
             return $value;
         }
 

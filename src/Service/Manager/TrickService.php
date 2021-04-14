@@ -9,6 +9,7 @@ use App\Entity\Trick;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -24,12 +25,16 @@ class TrickService
 
     private TrickRepository $trickRepository;
 
-    public function __construct(SluggerInterface $slugger, EntityManagerInterface $em, Security $security, TrickRepository $trickRepository)
+    private FlashBagInterface $flashBag;
+
+    public function __construct(SluggerInterface $slugger, EntityManagerInterface $em, Security $security, TrickRepository $trickRepository,
+    FlashBagInterface $flashBag)
     {
         $this->slugger = $slugger;
         $this->em = $em;
         $this->security = $security;
         $this->trickRepository = $trickRepository;
+        $this->flashBag = $flashBag;
     }
 
     public function persistAddNewTrick($trick): void
@@ -97,5 +102,13 @@ class TrickService
         $comment->setTrick($trick);
         $this->em->persist($comment);
         $this->em->flush();
+    }
+
+    public function errorsPhotoUploadFile($form)
+    {
+        $errors = $form['photos']->getErrors(true, false);
+        foreach ($errors as $error){
+            $this->flashBag->add('error', $error->getChildren()->getChildren()->getMessage());
+        }
     }
 }

@@ -27,6 +27,10 @@ class Trick
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="The trick name is required !")
      * @Assert\Length(min=3, max=255, minMessage="Trick name must be at least three characters long !")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9 ]*$/",
+     *     message="Special characters are not allowed!"
+     * )
      * @CustomAssert\CheckNameBySlugAdd(groups={"addTrick"})
      * @CustomAssert\CheckNameBySlugEdit(groups={"editTrick"})
      */
@@ -44,6 +48,12 @@ class Trick
      */
     private string $slug;
 
+    /**
+     * @Assert\File(
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Jpeg or Png Only"
+     * )
+     */
     private $fileCover;
 
     public function getFileCover()
@@ -51,6 +61,10 @@ class Trick
         return $this->fileCover;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return $this
+     */
     public function setFileCover(UploadedFile $file = null)
     {
         $this->fileCover = $file;

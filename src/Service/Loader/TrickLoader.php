@@ -6,18 +6,14 @@ namespace App\Service\Loader;
 
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TrickLoader extends AbstractLoader
 {
     private TrickRepository $trickRepository;
 
-    private SessionInterface $session;
-
-    public function __construct(SessionInterface $session, TrickRepository $trickRepository)
+    public function __construct(TrickRepository $trickRepository)
     {
-        $this->session = $session;
         $this->trickRepository = $trickRepository;
     }
 
@@ -33,7 +29,7 @@ class TrickLoader extends AbstractLoader
 
     public function current(): int
     {
-        return $this->session->get('currentTrick', 0);
+        return $this->getSession()->get('currentTrick', 0);
     }
 
     public function offset(): int
