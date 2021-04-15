@@ -41,39 +41,43 @@ class AppFixtures extends Fixture
     {
         /**** Users ****/
         $user1 = new User;
-        $hash = $this->encoder->encodePassword($user1, "1234");
+        $hash = $this->encoder->encodePassword($user1, "Administrateur8!");
         $user1->setFirstName("Eric")
             ->setLastName("Dupont")
             ->setPhoto("https://randomuser.me/api/portraits/men/7.jpg")
-            ->setEmail("edupont@gmial.com")
-            ->setPassword($hash);
+            ->setEmail("edupont@gmail.com")
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user1);
 
         $user2 = new User;
-        $hash = $this->encoder->encodePassword($user2, "1234");
+        $hash = $this->encoder->encodePassword($user2, "Administrateur8!");
         $user2->setFirstName("Elodie")
             ->setLastName("Durand")
             ->setPhoto("https://randomuser.me/api/portraits/women/45.jpg")
-            ->setEmail("edurand@gmial.com")
-            ->setPassword($hash);
+            ->setEmail("edurand@gmail.com")
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user2);
 
         $user3 = new User;
-        $hash = $this->encoder->encodePassword($user3, "1234");
+        $hash = $this->encoder->encodePassword($user3, "Administrateur8!");
         $user3->setFirstName("Jean")
             ->setLastName("Goldman")
             ->setPhoto("https://randomuser.me/api/portraits/men/10.jpg")
-            ->setEmail("jgoldman@gmial.com")
-            ->setPassword($hash);
+            ->setEmail("jgoldman@gmail.com")
+            ->setPassword($hash)
+            ->setIsVerified(true);
         $manager->persist($user3);
 
         $user4 = new User;
-        $hash = $this->encoder->encodePassword($user4, "admin");
+        $hash = $this->encoder->encodePassword($user4, "Administrateur8!");
         $user4->setFirstName("Admin")
             ->setLastName("Admin")
             ->setEmail("admin@gmail.com")
             ->setPassword($hash)
-            ->setRoles(["ROLE_ADMIN"]);
+            ->setRoles(["ROLE_ADMIN"])
+            ->setIsVerified(true);
         $manager->persist($user4);
 
         /**** Categories ****/

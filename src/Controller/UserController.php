@@ -22,7 +22,7 @@ class UserController extends AbstractController
     {
 
         $form=$this->createForm(UserType::class, $this->getUser(), [
-            "validation_groups" => "profile"
+            "validation_groups" => ["profile"]
         ]);
 
         $form->handleRequest($request);

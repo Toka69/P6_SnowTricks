@@ -88,7 +88,9 @@
                                                                                 '{% if is_granted("ROLE_USER") %}' +
                                                                                 '<div>' +
                                                                                         '<a href="' + trick.id + '/edit" class="mr-3"><i class="fas fa-pencil-alt"></i></a>' +
-                                                                                        '<a href="' + trick.id + '/delete"><i class="fas fa-trash-alt"></i></a>' +
+                                                                                        '<button class="button-trash" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="' + trick.id + '">' +
+                                                                                                '<i class="fas fa-trash-alt"></i>' +
+                                                                                        '</button>' +
                                                                                 '</div>' +
                                                                                 '{% endif %}'
                                                                 );

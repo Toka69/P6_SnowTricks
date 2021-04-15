@@ -61,7 +61,7 @@ class UserType extends AbstractType
                 $form->add('file', FileType::class, [
                     'label' => 'Add or Edit a photo',
                     'label_attr' => ['class' => 'btn btn-primary'],
-                    'attr' => ['accept' => 'image/*'],
+                    'attr' => ['accept' => 'image/jpeg, image/png'],
                     'required' => false
                 ])
                     ->add('firstName', TextType::class)

@@ -66,6 +66,7 @@ class TrickType extends AbstractType
                 $form->add('fileCover', FileType::class, [
                     'label' => '<i class="fas fa-pencil-alt"></i>',
                     'label_html' => true,
+                    'attr' => ['accept' => 'image/jpeg, image/png'],
                     'required' => false
                 ]);
             }

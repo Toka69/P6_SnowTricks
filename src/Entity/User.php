@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -74,6 +75,13 @@ class User implements UserInterface, Serializable
      */
     private string $token;
 
+    /**
+     * @Assert\File(
+     *     groups="profile",
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Jpeg or Png only"
+     * )
+     */
     private $file;
 
     /**
@@ -102,11 +110,13 @@ class User implements UserInterface, Serializable
         return $this->file;
     }
 
-    public function setFile($file): self
+    /**
+     * @param UploadedFile $file
+     * @return $this
+     */
+    public function setFile(UploadedFile $file)
     {
         $this->file = $file;
-
-        return $this;
     }
 
     public function getId(): ?int

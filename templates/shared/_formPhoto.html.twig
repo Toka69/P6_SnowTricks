@@ -2,13 +2,7 @@
         {%  if photo.vars.value.cover == false %}
             <div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">
                 <div id="photoCard" class="card mb-2">
-                    {% if photo.vars.data is not null %}
-                        {% if 'https://' in photo.vars.value.location %}
-                            <img id="previewImg-{{ photo.vars.id }}" src='{{ photo.vars.value.location }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
-                        {% else %}
-                            <img id="previewImg-{{ photo.vars.id }}" src='{{ asset('/uploads/' ~ photo.vars.value.location) }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
-                        {% endif %}
-                    {% endif %}
+                    <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location|photoFormat) }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
                     <div class="d-flex flex-row-reverse mr-1">
                         <div class="m-1 p-1 rounded bg-light d-flex flex-row">
                             <div class="hidden">

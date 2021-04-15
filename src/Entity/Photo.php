@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PhotoRepository::class)
@@ -34,6 +35,12 @@ class Photo
      */
     private $cover;
 
+    /**
+     * @Assert\File(
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Jpeg or Png Only"
+     * )
+     */
     private $file;
 
     public function getFile()
@@ -41,6 +48,10 @@ class Photo
         return $this->file;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     * @return $this
+     */
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;

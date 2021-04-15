@@ -4,11 +4,7 @@
 {% for photo in formView.photos %}
     {%  if photo.vars.value.cover == true %}
         <div class="hero-trick-image mb-3">
-            {% if 'https://' in photo.vars.value.location %}
-                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
-            {% else %}
-                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset("/uploads/" ~ photo.vars.value.location) }}' alt='photo' class='img-fluid img-cover'>
-            {% endif %}
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location|photoFormat) }}' alt='photo' class='img-fluid img-cover'>
                 <div class="hero-text">
                 <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
             </div>
@@ -29,8 +25,8 @@
 {% endfor %}
 
 {% if coverExist == false %}
-    <div class="hero-trick-image mb-3">
-        <div id="previewImg-cover" class="img-fluid img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
+    <div class="mb-3">
+        <div id="previewImg-cover" class="img-fluid hero-trick-image img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
             <div class="hero-text">
                 <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
                 <h3>You can choose a Cover</h3>

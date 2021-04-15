@@ -31,11 +31,7 @@
                                         {%  if photo.cover == false %}
                                                 <div class="col-md-3">
                                                         <div class="card mb-2">
-                                                                {% if 'https://' in photo.location %}
-                                                                        <img src="{{ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
-                                                                {% else %}
-                                                                        <img src="{{ asset('/uploads/') ~ photo.location }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
-                                                                {% endif %}
+                                                                <img src="{{ asset(photo.location|photoFormat) }}" alt="trick" class="img-fluid littlePhoto" style="height: 150px">
                                                         </div>
                                                 </div>
                                         {% endif %}
@@ -78,7 +74,7 @@
                 </div>
                 <hr/>
                 {% endif %}
-                <div class="container col-md-8 mt-5">
+                <div class="container col-md-10 mt-5">
                         <h6>Comments :</h6>
                         <ul id="myListMore">
                         {% set numberCommentInit = "" %}

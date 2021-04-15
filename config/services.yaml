@@ -2,6 +2,8 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $adminEmail: "%env(MAILER_ADMIN_EMAIL)%"
 
     App\:
         resource: '../src/'
