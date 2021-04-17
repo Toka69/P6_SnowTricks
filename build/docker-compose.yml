@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  webapp:
+  webapp_p6:
     build: .
     container_name: P6_SnowTricks
     ports:
