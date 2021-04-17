@@ -69,7 +69,7 @@ To build it:
    /build/docker-compose up -d
    ```
 
-### Accounts existing
+### Existing Accounts
 
 -  admin@gmail.com
 -  jgoldman@gmail.com
@@ -77,3 +77,10 @@ To build it:
 -  edupont@gmail.com
 
 All accounts have the same password: Administrateur8!
+
+### Test online
+
+The project is hosted online. It works as a demo and the content is refresh everyday. Fixtures are reloaded and uploaded files are erased.
+So you can try it!
+
+https://p6.matthias-leroux.fr
