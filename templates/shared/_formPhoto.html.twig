@@ -1,0 +1,22 @@
+{% for photo in form %}
+        {%  if photo.vars.value.cover == false %}
+            <div id="collection-photo {{ photo.vars.id }}" class="trick-media col-md-3">
+                <div id="photoCard" class="card mb-2">
+                    <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location|photoFormat) }}' alt='photo' class='img-fluid littlePhoto' style='height: 150px'>
+                    <div class="d-flex flex-row-reverse mr-1">
+                        <div class="m-1 p-1 rounded bg-light d-flex flex-row">
+                            <div class="hidden">
+                                {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                            </div>
+                            {{ form_label(photo.file) }}
+                            {%  if photo.vars.value.location is not null  %}
+                                {{ form_widget(photo.delete) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {% endif %}
+{% endfor %}
+
+<div class="bigPhoto"></div>

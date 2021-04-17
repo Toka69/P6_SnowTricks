@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick edit{% endblock %}
+
+{% block body %}
+    <div class="container mt-5 pt-3 border rounded">
+
+        {% include '/shared/_formTrick.html.twig' %}
+
+        <div class="row justify-content-around border rounded pt-3 pb-3 ml-3 mr-3 mb-3">
+            <span class="badge badge-primary p-2">{{ trick.category.name }}</span>
+            <p>Author: {{ trick.user.firstName ~ trick.user.lastName }}</p>
+            <p>Created: {{ trick.createdDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
+            <p>Modified: {{ trick.modifiedDate|format_datetime(pattern="MMMM d, yyyy, hh:mm") }}</p>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete a trick </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a class="btn btn-danger" id="linkDelete">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/trick.js') }}"></script>
+{% endblock %}

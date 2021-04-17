@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Snow Tricks{% endblock %}
+
+{% block body %}
+        <div class="hero-image">
+                <div class="hero-text">
+                        <h1 style="font-size:80px">Snow Tricks</h1>
+                        <h3>The community</h3>
+                </div>
+                <a href="#tricks"><i class="fas fa-arrow-circle-down fa-3x arrow-down"></i></a>
+        </div>
+        {% if is_granted("ROLE_USER") %}
+                <div class="container mt-5 d-flex justify-content-center">
+                        <a href="{{ path('trick_add') }}" class="btn btn-primary">Add a trick</a>
+                </div>
+        {% endif %}
+        <div class="container mt-5 mb-5" id="tricks">
+                <ul class="row myList">
+                {%  for trick in tricks %}
+                        <li class="col-md-3">
+                                <div class="card mb-2">
+                                        <img src="{{ trick.cover }}" alt="trick" class="img-fluid" style="height: 150px">
+                                        <div class="card-body d-flex justify-content-between">
+                                                <a href="{{ path('trick_show', {'category_slug': trick.category.slug, 'slug': trick.slug})}}" class="btn btn-primary btn-sm">{{ trick.name }}</a>
+                                                {% if is_granted("ROLE_USER") %}
+                                                <div>
+                                                        <a href="{{ path('trick_edit', {'id': trick.id})}}" class="mr-3"><i class="fas fa-pencil-alt"></i></a>
+                                                        <button class="button-trash" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                </div>
+                                                {% endif %}
+                                        </div>
+                                </div>
+                        </li>
+                {% endfor %}
+                </ul>
+                <div>
+                        <ul id="myListMore" class="row myList">
+                        </ul>
+                </div>
+                <div class="row arrow-up">
+                        <a href="#tricks"><i class="fas fa-arrow-circle-up fa-3x"></i></a>
+                </div>
+                <div class="text-center mb-5">
+                        <button class="btn btn-primary" id="loadMore">Load More</button>
+                </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Delete a trick </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                        </button>
+                                </div>
+                                <div class="modal-body">
+                                        Are you sure?
+                                </div>
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a class="btn btn-danger" id="linkDelete">Delete</a>
+                                </div>
+                        </div>
+                </div>
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+                $(document).ready(function(){
+                        $('#loadMore').click(function(){
+                                event.preventDefault();
+                                $.getJSON('{{ path('home_loadMore') }}',
+                                        function(response){
+                                                $.each(response, function (index, trick) {
+                                                        if (trick.end == 0) {
+                                                                var $html = $('<li class="col-md-3">');
+                                                                $html.append('<div class="card mb-2">' +
+                                                                        '<img src="' + trick.cover + '" alt="trick" class="img-fluid" style="height: 150px">' +
+                                                                        '<div class="card-body d-flex justify-content-between">' +
+                                                                                '<a href="' + trick.categorySlug + '/' + trick.slug + '" class="btn btn-primary btn-sm">' + trick.name + '</a>' +
+                                                                                '{% if is_granted("ROLE_USER") %}' +
+                                                                                '<div>' +
+                                                                                        '<a href="' + trick.id + '/edit" class="mr-3"><i class="fas fa-pencil-alt"></i></a>' +
+                                                                                        '<button class="button-trash" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="' + trick.id + '">' +
+                                                                                                '<i class="fas fa-trash-alt"></i>' +
+                                                                                        '</button>' +
+                                                                                '</div>' +
+                                                                                '{% endif %}'
+                                                                );
+                                                                $('#myListMore').append($html);
+                                                        } else {
+                                                                $('#loadMore').hide();
+                                                        }
+                                                });
+                                        },
+                                );
+                        });
+                });
+        </script>
+        <script>
+                $('#deleteModal').on('show.bs.modal', function (e) {
+                        var id = $(e.relatedTarget).data('id');
+                        var urlDelete = '/' + id + '/delete';
+                        $(e.currentTarget).find('a[id="linkDelete"]').attr("href", urlDelete);
+                })
+        </script>
+{% endblock %}

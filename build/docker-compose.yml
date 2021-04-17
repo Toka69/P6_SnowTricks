@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  webapp_p6:
+    build: .
+    container_name: P6_SnowTricks
+    ports:
+      - '4020:8000'
+    volumes:
+      - ../:/workspaces/p6/
+    command: sleep infinity
+
+networks:
+  default:
+    external:
+      name: my-network
+
+     

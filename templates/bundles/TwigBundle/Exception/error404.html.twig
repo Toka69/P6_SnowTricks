@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center font-weight-normal mt-5">
+            <h1 class="h3">Page not found</h1>
+        </div>
+        <div class="row justify-content-center">
+            <div class="bg-secondary p-3 rounded border" style="width: 340px">
+                The requested page couldn't be located. Checkout for any URL
+                misspelling or <a href="{{ path('homepage') }}">return to the homepage</a>.
+            </div>
+        </div>
+    </div>
+{% endblock %}

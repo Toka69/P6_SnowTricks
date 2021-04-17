@@ -1,0 +1,78 @@
+{{ form_start(formView) }}
+{% set coverExist = false %}
+
+{% for photo in formView.photos %}
+    {%  if photo.vars.value.cover == true %}
+        <div class="hero-trick-image mb-3">
+                <img id="previewImg-{{ photo.vars.id }}" src='{{ asset(photo.vars.value.location|photoFormat) }}' alt='photo' class='img-fluid img-cover'>
+                <div class="hero-text">
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+            </div>
+            {% if is_granted("ROLE_USER") %}
+                <div class="cover-buttons d-flex flex-row-reverse mr-4">
+                    <div class="mt-3 p-3 rounded bg-light">
+                        <div class="hidden">
+                            {{ form_widget(photo.file, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                            {{ form_widget(photo.delete) }}
+                        </div>
+                        {{ form_label(photo.file) }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {% set coverExist = true %}
+    {% endif %}
+{% endfor %}
+
+{% if coverExist == false %}
+    <div class="mb-3">
+        <div id="previewImg-cover" class="img-fluid hero-trick-image img-cover" style="background-image: linear-gradient(rgba(0,0,0,.5), rgba(0,0,0,.5)), url('')">
+            <div class="hero-text">
+                <h1>{{ app.session.get('slugTrickNameBeforeChanged')|capitalize }}</h1>
+                <h3>You can choose a Cover</h3>
+            </div>
+            <div class="d-flex flex-row-reverse mr-4">
+                <div class="row mt-3 p-3 rounded bg-light">
+                    <div class="hidden">
+                        {{ form_widget(formView.fileCover, {'attr': {'onchange': 'previewPhoto(this)'}}) }}
+                    </div>
+                    <div>
+                        {{ form_label(formView.fileCover) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="row">
+    {{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
+    {{ include("/shared/_formVideo.html.twig", {form: formView.videos}) }}
+</div>
+
+<div class="card-footer d-flex justify-content-center">
+    <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
+    <ul class="videos" data-prototype="{{ form_widget(formView.videos.vars.prototype)|e('html_attr') }}"></ul>
+</div>
+
+<div class="container col-md-8 mt-5 mb-5">
+    <fieldset class="mb-4">
+        {{ form_errors(formView) }}
+        {{ form_row(formView.name) }}
+        {{ form_row(formView.description) }}
+        {{ form_row(formView.category) }}
+        {{ form_widget(formView._token) }}
+    </fieldset>
+    <fieldset>
+        {% if trick.id is defined %}
+            <button class="btn btn-danger" type="button" class="mr-3" data-toggle="modal" data-target="#deleteModal" data-id="{{ trick.id }}">
+                <i class="fas fa-trash-alt"></i>
+                Delete
+            </button>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            Save
+        </button>
+    </fieldset>
+</div>
+{{ form_end(formView, {'render_rest': false}) }}

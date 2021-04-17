@@ -7,4 +7,11 @@
 /public/bundles/
 /var/
 /vendor/
+/migrations/
 ###< symfony/framework-bundle ###
+
+!public/uploads
+public/uploads/*
+!public/uploads/cover.jpg
+!public/uploads/default-profile.png
+
