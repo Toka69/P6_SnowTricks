@@ -207,6 +207,9 @@
             if (~str.indexOf("youtu.be")) {
                 var tag = str.replace("https://youtu.be/", "https://www.youtube.com/embed/");
             }
+            if (~str.indexOf("youtube.com/watch")) {
+                var tag = str.replace("watch?v=", "embed/")
+            }
             if (~str.indexOf("youtube.com/embed/")) {
                 var tag = $(str).attr("src");
             }
