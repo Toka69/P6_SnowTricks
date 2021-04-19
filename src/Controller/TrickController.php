@@ -48,6 +48,8 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $this->trickService->addNewPhotos($form);
+            $this->trickService->addCover($form, $trick);
             $this->trickService->persistAddNewTrick($trick);
 
             $this->addFlash('success', 'Your trick has been created !');
