@@ -44,14 +44,20 @@
         </div>
     </div>
 {% endif %}
-<div class="row">
-    {{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
-    {{ include("/shared/_formVideo.html.twig", {form: formView.videos}) }}
-</div>
-
-<div class="card-footer d-flex justify-content-center">
-    <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
-    <ul class="videos" data-prototype="{{ form_widget(formView.videos.vars.prototype)|e('html_attr') }}"></ul>
+<p class="d-flex justify-content-center d-lg-none">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseMedia" aria-expanded="false" aria-controls="collapseMedia">
+        Medias
+    </button>
+</p>
+<div class="collapse d-lg-block" id="collapseMedia">
+    <div class="row">
+        {{ include("/shared/_formPhoto.html.twig", {form: formView.photos}) }}
+        {{ include("/shared/_formVideo.html.twig", {form: formView.videos}) }}
+    </div>
+    <div class="card-footer d-flex justify-content-center">
+        <ul class="photos" data-prototype="{{ form_widget(formView.photos.vars.prototype)|e('html_attr') }}"></ul>
+        <ul class="videos" data-prototype="{{ form_widget(formView.videos.vars.prototype)|e('html_attr') }}"></ul>
+    </div>
 </div>
 
 <div class="container col-md-8 mt-5 mb-5">
